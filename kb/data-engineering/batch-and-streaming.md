@@ -12,6 +12,31 @@ This file covers the three ingest modes (batch, micro-batch, streaming), what a 
 
 The parenthetical definitions are _(added)_. Sensors appear under both streaming and micro-batch: the same source can be ingested either way.
 
+### Example: one sensor fleet, three ingest modes _(added)_
+
+A company runs 10,000 smart thermostats. Each takes a temperature reading every 10 seconds. The same readings can be ingested in all three modes, and each mode serves a different need:
+
+- **Streaming:** every reading is sent the moment it's taken, as one small record (`{"device":"t-0042","temp":71.3,"ts":"08:00:10"}`). An alert fires within seconds when a device reports overheating.
+- **Micro-batch:** each building's gateway buffers its readings and sends them as one small batch every minute. An operations dashboard refreshes every minute; nobody needs it faster.
+- **Batch:** once a night, at 02:00, the whole previous day's readings are exported as one large file and loaded in one job. The next morning's energy-usage and billing reports run on it.
+
+```
+            08:00:00   08:00:10   08:00:20  ...  08:01:00
+Streaming     r          r          r     ...      r      (1 per read)
+Micro-batch   [-------- 6 readings, sent at 08:01 -------]
+Batch         [---- all of yesterday, loaded at 02:00 ---]
+```
+
+| | Streaming | Micro-batch | Batch |
+| --- | --- | --- | --- |
+| Unit sent | One record per event | A small group of records | One large file or load |
+| Trigger | Each event, as it happens | A short interval or a size limit (seconds to minutes) | A schedule (hourly, nightly) or a manual run |
+| Delay until usable | Seconds or less | Seconds to minutes | Hours to a day |
+| Use in the example | Overheating alerts | Operations dashboard | Daily energy and billing reports |
+| Trade-off | Lowest latency; always-on and most complex to run | Near-real-time at a lower cost per record | Simplest and cheapest per record; the data is the oldest |
+
+The rule of thumb: pick the mode from **how soon the data must be acted on**, not from the source. The same thermostat feeds all three.
+
 ## What a stream is _(added)_
 
 A **stream** is a **continuous, never-ending, ordered sequence of small records** (events), appended as things happen. It's like a log that only grows at the end: every click, sensor reading or transaction becomes one record.
