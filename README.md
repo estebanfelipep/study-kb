@@ -6,7 +6,8 @@ It is plain markdown in a git repo, organized so an AI agent can navigate it. Th
 
 ## Principles
 
-- **Progressive disclosure, by topic.** [kb/index.md](kb/index.md) is a map of topics, the subjects I ask about. Each topic links to the files that cover it, across folders. Each folder's index note lists that folder's files, with what each covers and *when to read it*.
+- **Progressive disclosure, by topic.** [kb/index.md](kb/index.md) is a map of topics, the subjects I ask about. Each topic links to the files that cover it, across folders. Each folder's index note lists that folder's files, with what each covers and *when to read it*. It is also a reading guide: what to read first, the order to read the files in, how they relate, and where to go next.
+- **One file per topic.** A topic gets its own file as soon as it comes up, even if it's small. When a file grows too big, it becomes a folder whose index guides you through the split-out files.
 - **Filed by subject.** Each top-level folder in `kb/` is a subject (`aws/`, `data-engineering/`, …), created when its first note arrives.
 - **One place per fact.** Vendor-neutral concepts (`data-engineering/`) live apart from vendor-specific facts (`aws/`), and link to each other. Each AWS service has one file, whichever track or certification it came up in.
 - **Current facts only.** Files state what is true now. Git history is the changelog, including the history of study progress.
@@ -23,9 +24,11 @@ kb/                       ← all the knowledge, and nothing else
   context.md              ← glossary of terms and abbreviations
   links.md                ← every external link, in one place
   aws/
-    aws-services/         ← one file (or folder) per AWS service
-    aws-data-engineering/ ← DE track and the DEA-C01 exam
-  data-engineering/       ← vendor-neutral concepts (on first use)
+    aws-services/         ← one file per AWS service, by category
+      aws-analytics/      ← (and aws-databases/, aws-security/, ...)
+      aws-general-services/ ← services in two or more categories
+    aws-data-engineering/ ← DE track, DEA-C01 exam, choosing-* rules
+  data-engineering/       ← vendor-neutral concepts
   <subject>/              ← ai-engineering, python, css, ... (on first use)
 
 AGENTS.md                 ← rules every agent follows here

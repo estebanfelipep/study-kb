@@ -16,7 +16,7 @@ Work through intake in order:
 2. **Route to a folder.** Split mixed information along these lines rather than filing it all in one place.
    - **A subject:** information goes in its top-level subject folder (`aws/`, `data-engineering/`, `ai-engineering/`, `javascript/`, `python/`, `css/`, `software-architecture/`, …). If the folder doesn't exist, create it with its index (`<subject>/<subject>.md`) and add it to the Subjects section of `kb/index.md`.
    - **Concept vs vendor:** a concept that holds regardless of vendor (ETL vs ELT, CDC, columnar formats, partitioning) goes in the vendor-neutral folder, such as `data-engineering/`. How a vendor implements it goes in the vendor's folder and links back to the concept file. If one note mixes both, split it.
-   - **An AWS service:** facts about one service go in `aws/aws-services/<service>.md`, whichever track they came up in.
+   - **An AWS service:** facts about one service go in `aws/aws-services/<category>/<service>.md`, whichever track they came up in. Pick the category folder from `aws/aws-services/aws-services.md`; a service that belongs to two or more categories goes in `aws-general-services/`. Create the file, with the shape `AGENTS.md` sets for service files (What it is, Characteristics, Example, Related), when the service first comes up. Comparisons and pick-rules go in the track's `choosing-*` files, not the service file.
    - **A certification or track:** exam facts, domains, study progress, how services combine, and exam traps go in the track's folder, such as `aws/aws-data-engineering/`. Link to service and concept files instead of repeating their facts.
    - **A term or abbreviation:** goes in `context.md`, following `references/glossary-format.md`. Link the entry to the topic file that explains it.
    - **A link:** goes in `links.md` under the right heading, pointing to the topic file that explains it. The durable facts behind it go in that topic file.
@@ -24,23 +24,25 @@ Work through intake in order:
 
    Folder names must be unique across the KB, because each folder's index is named after it. Prefix a subfolder with its parent when the bare name could collide (`aws-data-engineering/`).
 
-3. **Route to a file.** Within the folder, pick the existing topic file closest to the information. If nothing fits, create a new kebab-case file named for the subject (`batch-vs-streaming.md`, `glue.md`, not `notes-oct.md`). Don't force the information into a poor fit, and never create a file with no content. Files start broad. Split a topic into its own file only once a shared file has grown slow to search. Promote related files into a subfolder, with its own index (`<folder>/<folder>.md`), once a topic has several of them.
+3. **Route to a file.** Every topic gets its own file. If an existing file is about exactly this topic, add to it. Otherwise create a new kebab-case file named for the subject (`batch-vs-streaming.md`, `glue.md`, not `notes-oct.md`), even if the topic only came up briefly. Don't fold a distinct topic into a broader file, and never create a file with no content. When a file grows too big to read in one sitting, or holds several distinct subtopics, promote it to a folder named after the topic. Split its content into topic files inside that folder, make the folder index (`<topic>/<topic>.md`) the reading guide to them, and update every link to the old file.
 
 4. **Sanity-check what's checkable.** If a claim looks wrong or outdated against what you know of the official documentation (a service limit, a default, a feature that was renamed), say so and ask before saving it. Don't silently correct it. If the user asks you to verify against official docs, cite what you checked.
 
 5. **Reconcile before writing.** Check whether the new information contradicts anything already in the target file, or in a related file the index points to. If it does, stop: quote the existing text, name the difference, and get confirmation before touching anything. Never overwrite silently. If there's no conflict, write it in without asking.
 
 6. **Write current state only.** State the fact as it is now. Never note what it used to say, when it changed, or why. No "(previously X)", no dated session entries: `git log -p <file>` and the commit message are the changelog (`docs/adr/0001-git-history-as-changelog.md`). Study progress is a current snapshot, such as which domains are covered and what still needs review.
-   - Tag an inline source when the information traces to a specific resource (`_(source: Udemy DEA-C01 course, section 4, 2026-10-25)_`), or to your own check (`_(verified against AWS Glue docs, 2026-10-25)_`).
+   - When the information comes with external resources (a YouTube video, an AWS doc, an article), list them in a `## Sources` section right after the file's one-line statement (`- [Title](url): what it is.`) and add them to `links.md`. Notes the user shares directly need no source tag, and a file with no external resources gets no Sources section.
+   - Mark content that isn't from the user's notes (general knowledge, Q&A, your additions) with `_(added)_`, or `_(added; verify)_` for facts likely to change.
    - For an external resource, extract the durable facts in your own words and link back rather than pasting in a copy.
    - Put images in the folder's `images/`, named `<topic>-<yyyy-mm-dd>.<ext>`, and link them from the topic file.
-   - Cross-reference related KB files with relative markdown links, never backticked paths or `[[wikilinks]]`.
+   - Cross-reference related KB files with relative markdown links, never backticked paths or `[[wikilinks]]`. Every link says how the two things relate (direction and mechanism), per `AGENTS.md`'s "Every link explains the relationship" rule. When you add a relationship, add the matching explained link on the other file's side too.
    - Keep ASCII diagrams within 72 columns.
    - Match the style already in the file.
    - Open a new file with a one-line statement of what it covers.
 
 7. **Update the indexes.** Do this in the same change, whenever you add, rename, split, or move anything:
    - Update the parent folder's index entry, in the form `- [file.md](file.md): what it covers. Read when: <the kind of question it answers>.`
+   - **Keep the index a reading guide.** Place the file at its spot in the index's reading order, under the right group label. Touch the `## How to read this folder` lines (Before, Order, After) only if the new file changes them. Don't repeat the file list or relationships already in Related sections (`AGENTS.md`, "Indexes are reading guides"). A new folder's index gets this section from the start.
    - **Update the topic map in `kb/index.md`.** List the file under every top-level topic it covers. If no topic fits, add one. Name it for the subject people ask about ("Streaming ingestion", "Data warehousing"), never for a folder. Keep topics top-level: a new aspect of an existing subject joins that topic rather than becoming a new one. When a topic's scope grows, refresh its description and "Read when".
    - When a file's scope grows, refresh its entry: a stale "Read when" sends the next agent to the wrong file.
    - Replace a folder's `_None yet_` placeholder once it has its first file.
@@ -51,6 +53,6 @@ Intake is done when all of these are true:
 
 - The information sits in exactly one place, with pointers elsewhere at most.
 - Vendor-neutral concepts and vendor-specific facts are in their own folders, linked.
-- It is source-tagged where it traces to a specific resource.
+- External resources it came with are linked in the file's Sources section and in `links.md`.
 - No conflict is left unresolved.
-- The file's folder index lists it, every topic it covers in `kb/index.md` links to it, and new terms and links are in `context.md` and `links.md`.
+- The file's folder index lists it in reading order, every topic it covers in `kb/index.md` links to it, and new terms and links are in `context.md` and `links.md`.
