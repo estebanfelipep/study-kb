@@ -1,0 +1,12 @@
+scratch/
+.env
+.DS_Store
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.obsidian/workspace*.json
+.obsidian/cache
+.trash/
+# Community plugin code stays local; commit only the enabled list
+# (community-plugins.json) and each plugin's settings (data.json).
+.obsidian/plugins/*/*
+!.obsidian/plugins/*/data.json

@@ -1,0 +1,16 @@
+{
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "./images",
+  "userIgnoreFilters": [
+    "scratch/",
+    ".claude/"
+  ],
+  "showLineNumber": false,
+  "showInlineTitle": true,
+  "readableLineLength": true,
+  "strictLineBreaks": false,
+  "foldIndent": true,
+  "rightToLeft": false
+}
