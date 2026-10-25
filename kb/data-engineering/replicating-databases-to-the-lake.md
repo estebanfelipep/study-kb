@@ -8,6 +8,9 @@ All content here is _(added)_: general knowledge from Q&A, not the course notes.
 
 The operational database stays where it is and keeps running its app. **A copy of its tables is written to the lake as files.** The lake never contains the live database, only files that represent its tables. Reasons to copy rather than query the database directly are in [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md): analytical queries would compete with the app, row storage is slow for aggregates, and in the lake the data sits next to every other source.
 
+Important concept: 
+- **CDC (change data capture):** It's a way of copying a database by sending only its changes: each insert, update and delete as it happens, instead of reloading every table each time.
+
 ## Full load, then CDC
 
 **1. Full load: a snapshot of every table.** Each table is written as files, one folder per table:

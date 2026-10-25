@@ -1,6 +1,6 @@
 # Data security, governance and monitoring
 
-This file covers security vs governance, the CIA triad, the five security areas of a data analytics system, security best practices, and what and how to monitor.
+This file covers security vs governance, the CIA triad (Confidentiality, integrity and availability), the five security areas of a data analytics system, security best practices, and what and how to monitor.
 
 ## Why security matters
 
@@ -16,7 +16,7 @@ Security in data analytics workflows **cannot be overstated**. A breach or compr
 
 The **entire data analytics system depends on data being secured** and accessible only by authorized users.
 
-### The CIA triad _(added)_
+### The CIA triad
 
 |  | Meaning | Example control |
 | --- | --- | --- |
