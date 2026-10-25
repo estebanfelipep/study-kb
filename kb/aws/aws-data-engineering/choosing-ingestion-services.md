@@ -80,3 +80,15 @@ The vendor-neutral version is in [batch-and-streaming.md](../../data-engineering
 | Transformation | None in flight (model later in Redshift) | Light (mappings, filters) | Full (any Spark logic) |
 | Sources and targets | Specific supported pairs (Aurora/RDS/DynamoDB → Redshift and others) | Many databases → many targets | Anything Glue can connect to |
 | Pick it when | Supported source, near real-time analytics, least effort | Migrations or unsupported source/target pairs | Data needs heavy cleaning or joining first |
+
+## Getting RDS data into S3 _(added)_
+
+The concept, including why the CDC files need a merge step, is in [replicating-databases-to-the-lake.md](../../data-engineering/replicating-databases-to-the-lake.md). Loading Redshift directly with zero-ETL is covered in the section above.
+
+| Way | AWS service | Pick it when |
+| --- | --- | --- |
+| Full load + CDC | [DMS](../aws-services/aws-databases/dms.md) | The lake must stay close to current |
+| Scheduled snapshot over JDBC | [Glue](../aws-services/aws-analytics/glue.md) job | Daily snapshots are enough, or data needs heavy transformation on the way |
+| Snapshot export | [RDS](../aws-services/aws-databases/rds.md) snapshot export to S3 (Parquet) | Occasional bulk copies, with no load on the live database |
+| No copy | [Athena](../aws-services/aws-analytics/athena.md) federated query | Occasional queries only; it loads production |
+

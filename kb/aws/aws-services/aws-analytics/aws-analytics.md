@@ -21,6 +21,7 @@ Streaming, ETL, big data processing, warehousing, querying, BI, and data lake go
 - [glue.md](glue.md): AWS Glue: jobs, DPUs, job bookmarks, crawlers, Data Catalog, workflows, Glue Studio, Data Quality, sensitive data detection and KMS encryption. Read when: you need any part of Glue, how data gets cataloged, or how Glue protects PII.
 - [emr.md](emr.md): Amazon EMR on EC2, EKS and Outposts, and EMR Serverless: frameworks, control, pricing. Read when: you need how EMR runs Spark/Hadoop workloads or what EMR Serverless removes.
 - [managed-service-for-apache-flink.md](managed-service-for-apache-flink.md): Amazon Managed Service for Apache Flink: real-time stream processing (SQL, Java, Scala, Python) for filtering, aggregating, joining and windowing. Read when: you need real-time analytics on a stream.
+- [entity-resolution.md](entity-resolution.md): AWS Entity Resolution: rule-based, ML-based or provider-based matching of records for the same entity, with match IDs written to S3. Read when: you need to match one customer's records across systems.
 
 **Deliver**
 

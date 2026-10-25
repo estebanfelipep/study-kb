@@ -15,6 +15,7 @@ Orchestrating workflows and connecting services through events, topics and queue
 - [sqs.md](sqs.md): Amazon SQS: pull-based message queue, visibility timeout, DLQ, 14-day retention, Standard vs FIFO queues. Read when: you need to decouple or buffer work, or retry failed messages.
 - [sns.md](sns.md): Amazon SNS: pub/sub push fan-out to many subscribers, subscriber types, and the SNS + SQS fan-out pattern. Read when: you need to notify several systems or people at once.
 - [eventbridge.md](eventbridge.md): Amazon EventBridge: serverless event bus with content-based rules, input transformers, Scheduler, and archive and replay. Read when: you need to react to events, route AWS or SaaS events, or run a pipeline on a schedule.
+- [appflow.md](appflow.md): Amazon AppFlow: no-code flows between SaaS apps and AWS services, on a schedule, an event or on demand. Read when: you need to move data in or out of a SaaS app such as Salesforce.
 
 **Orchestrate**
 

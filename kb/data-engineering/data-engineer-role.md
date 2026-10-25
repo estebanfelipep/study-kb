@@ -68,6 +68,7 @@ Data analysts, data scientists and other **data consumers** ([data-personas.md](
 - **Personalization and pricing:** customer segments built by pipelines drive marketing emails, in-app offers or dynamic prices.
 - **Operational features:** "your order is out for delivery", or a video service lowering playback quality when streaming metrics show buffering. These are streams driving live behavior.
 - **Reverse ETL:** cleaned data is pushed back into operational tools, such as a customer's lifetime value sent to the CRM so support agents see it.
+- **Worked example:** [unified-customer-data.md](unified-customer-data.md) follows one customer update through the whole pipeline, including when reverse ETL is the right path and when a direct sync is.
 
 This is why **data scientists** are a persona next to analysts: their models often end up as product features.
 
@@ -103,3 +104,4 @@ The AWS services for each function are in [aws-data-pipeline.md](../aws/aws-data
 - [data-personas.md](data-personas.md): the data engineer is one of six personas. The CDO and the data architect set the vision and design that the engineer builds. Scientists and analysts are the data consumers the engineer serves, and the data security officer sets the rules for function 6.
 - [data-discovery.md](data-discovery.md): discovery comes before the functions. Its five steps find the business value, consumers, sources, storage needs and processing needs that functions 1 to 6 then build for. Its step 1 answers the three business questions at the top of this file.
 - [modern-data-architecture.md](modern-data-architecture.md): the six functions build the five pipeline stages. Ingest builds stage 1, infrastructure stage 2, catalog stage 3 and prepare stage 4. Automate and quality and security span all of them. That file also covers the data silos behind the management challenges listed here.
+- [unified-customer-data.md](unified-customer-data.md): a worked example of this job: one customer update from the sales CRM is captured, matched, merged and served to every department, and pushed to marketing's tool through reverse ETL.

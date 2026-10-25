@@ -8,7 +8,7 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
-**CDC**: Change data capture. Replicating a database's ongoing inserts, updates and deletes rather than reloading it. See [dms.md](aws/aws-services/aws-databases/dms.md).
+**CDC**: Change data capture. Replicating a database's ongoing inserts, updates and deletes rather than reloading it. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **CDO**: Chief data officer. The executive who builds a data-driven culture and owns data and AI strategy. See [data-personas.md](data-engineering/data-personas.md).
 
@@ -36,6 +36,9 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **DPU**: Data processing unit. The capacity and billing unit of Glue jobs. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Entity resolution**: Matching records that refer to the same real-world entity, such as one customer under different IDs in different systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
+_Avoid:_ record linkage, identity resolution
+
 **Envelope encryption**: KMS encrypts a small data key, and the data key encrypts the data. See [kms.md](aws/aws-services/aws-security/kms.md).
 
 **ETL**: Extract, transform, load. Get data from sources, make it useful, and serve it to stakeholders. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
@@ -44,11 +47,18 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
 
+**Full load**: Copying every row of a database's tables once, usually before CDC takes over. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+
+**Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
+_Avoid:_ customer 360, single customer view
+
 **Job bookmark**: Glue's record of data a job already processed, so each run handles only new data. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Lake house**: A lake and a warehouse used together: the lake holds everything, and the warehouse serves the curated, high-performance part and can query the lake in place. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
+
+**MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
@@ -59,6 +69,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **OLAP**: Online analytical processing. Large scans and aggregations for analytics, on columnar storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **OLTP**: Online transaction processing. Many small reads and writes for an application, on row-based storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
+
+**Open table format**: A table layer over lake files, such as Apache Iceberg, that adds updates, deletes and merges. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Orchestration**: Coordinating multiple services and their dependencies through a series of steps. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -85,6 +97,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **Stream**: A continuous, ordered sequence of small records, appended as events happen and kept for a retention period. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
+
+**Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
 **Visibility timeout**: How long an SQS message stays hidden from other consumers while one processes it. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 

@@ -23,13 +23,13 @@ Every service file has the same shape: **What it is**, **Characteristics**, **Ex
 - [aws-migration-and-transfer/](aws-migration-and-transfer/aws-migration-and-transfer.md): DataSync, Transfer Family and Snow Family. Read when: you need to move files or bulk data into AWS.
 - [aws-iot/](aws-iot/aws-iot.md): IoT Core. Read when: you need to ingest data from devices.
 - [aws-databases/](aws-databases/aws-databases.md): RDS and Aurora, DMS, DynamoDB and OpenSearch Service. Read when: you need an operational database, search, or database migration.
-- [aws-analytics/](aws-analytics/aws-analytics.md): Kinesis Data Streams, Data Firehose, MSK, Glue, EMR, Managed Service for Apache Flink, Athena, Redshift, QuickSight, Lake Formation and DataZone. Read when: you need streaming, ETL, warehousing, querying, BI, or data lake governance.
+- [aws-analytics/](aws-analytics/aws-analytics.md): Kinesis Data Streams, Data Firehose, MSK, Glue, EMR, Managed Service for Apache Flink, Entity Resolution, Athena, Redshift, QuickSight, Lake Formation and DataZone. Read when: you need streaming, ETL, warehousing, querying, BI, or data lake governance.
 - [aws-ai/](aws-ai/aws-ai.md): SageMaker. Read when: you need machine learning.
 
 **Glue between steps**
 
 - [aws-compute/](aws-compute/aws-compute.md): Lambda. Read when: you need to run code, especially on an event.
-- [aws-application-coordination/](aws-application-coordination/aws-application-coordination.md): SQS, SNS, EventBridge, Step Functions and MWAA. Read when: you need to orchestrate, trigger or decouple pipeline steps.
+- [aws-application-coordination/](aws-application-coordination/aws-application-coordination.md): SQS, SNS, EventBridge, AppFlow, Step Functions and MWAA. Read when: you need to orchestrate, trigger or decouple pipeline steps.
 - [aws-apis/](aws-apis/aws-apis.md): API Gateway and ACM. Read when: you need to expose an API or serve HTTPS.
 
 **Wrapping everything**

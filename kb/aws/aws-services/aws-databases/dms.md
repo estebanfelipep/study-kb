@@ -13,6 +13,7 @@ AWS DMS (Database Migration Service) ingests data from relational and non-relati
 - Latency: seconds to minutes for CDC. _(added)_
 - Light transformation only: mappings and filters. _(added)_
 - You configure tasks and replication instances. _(added)_
+- **S3 output** _(added)_: one folder per table. The full load is written as `LOAD…` files. CDC then writes change files whose `Op` column marks each row as `I` (insert), `U` (update) or `D` (delete). Output can be CSV or Parquet. The files are a log of changes, not a current table, so a merge step builds one ([replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md)).
 - Supports many database sources and many targets, so it covers migrations and source/target pairs that zero-ETL doesn't support. _(added)_
 - Usual exam triggers: "migrate or replicate a database", "change data capture". _(added)_
 
@@ -22,6 +23,8 @@ AWS DMS (Database Migration Service) ingests data from relational and non-relati
 
 ## Related
 
+- [replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md): DMS implements full load + CDC from that concept. Its `Op`-column change files in S3 are the pile of files that file's merge step turns into a current table.
+- [unified-customer-data-on-aws.md](../../aws-data-engineering/unified-customer-data-on-aws.md): DMS captures the sales CRM's changes (CDC) in that example.
 - [rds.md](rds.md): RDS is the typical source DMS reads from. DMS copies the app's database to S3 by full load or CDC, so analytics never touches production.
 - [s3.md](../aws-general-services/s3.md): DMS loads database data into the S3 data lake, where it lands next to every other source.
 - [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md): DMS covers two ingest modes defined here: batch (full load) and ongoing replication (change data capture).

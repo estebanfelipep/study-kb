@@ -17,6 +17,7 @@ Amazon RDS (Relational Database Service) runs managed relational databases for a
 - **Not for BI:** large analytical queries compete with application traffic, row storage is wasteful for aggregates, and a single node can't parallelize a scan of billions of rows.
 - **Usually one database per application**, a silo by design.
 - **Getting data out:** [Glue](../aws-analytics/glue.md), [DMS](dms.md) or zero-ETL integration copies it to S3 and/or [Redshift](../aws-analytics/redshift.md). Redshift federated query and Athena federated query can also read it in place.
+- **Snapshot export to S3** _(added)_: an RDS or Aurora snapshot can be exported to S3 as Parquet, for occasional bulk copies with no load on the live database.
 - Encryption at rest with [KMS](../aws-security/kms.md); Multi-AZ for availability.
 
 ### Aurora zero-ETL integration with Redshift
@@ -33,6 +34,7 @@ Amazon RDS (Relational Database Service) runs managed relational databases for a
 
 ## Related
 
+- [replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md): RDS is the typical operational database that file copies into the lake, by full load + CDC, scheduled snapshots or snapshot export.
 - [redshift.md](../aws-analytics/redshift.md): RDS runs the app (OLTP) and Redshift analyzes the data (OLAP). Aurora zero-ETL replicates Aurora data into Redshift within seconds, and Redshift federated query can read RDS in place.
 - [dms.md](dms.md): DMS copies RDS data to S3 or Redshift by full load or ongoing CDC.
 - [glue.md](../aws-analytics/glue.md): a Glue job can copy RDS tables to S3 or Redshift in batch. The example's nightly Glue job is what zero-ETL replaces.
