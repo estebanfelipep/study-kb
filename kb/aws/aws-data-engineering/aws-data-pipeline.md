@@ -108,18 +108,18 @@ Glue appears across the whole flow: jobs for ingestion, crawlers and the Data Ca
 
 ### Purpose-built databases
 
-AWS offers **more than 14** databases to store, query and analyze large datasets. Example service per type _(added)_:
+AWS offers **more than 14** databases to store, query and analyze large datasets. What each type is for is in [modern-data-architecture.md](../../data-engineering/modern-data-architecture.md). Example AWS service per type _(added)_:
 
-| Type | AWS service | Use it for |
-| --- | --- | --- |
-| Relational | [RDS, Aurora](../aws-services/aws-databases/rds.md) | Transactions, structured app data |
-| Key-value | [DynamoDB](../aws-services/aws-databases/dynamodb.md) | Massive scale, single-digit-millisecond lookups |
-| Document | DocumentDB | JSON documents (MongoDB-compatible) |
-| In-memory | ElastiCache, MemoryDB | Caching, microsecond reads |
-| Graph | Neptune | Relationships: social networks, fraud rings, recommendations |
-| Time series | Timestream | IoT and metrics data over time |
-| Wide column | Keyspaces | Apache Cassandra workloads |
-| Ledger | QLDB | Immutable, verifiable history. QLDB is discontinued; AWS points to Aurora PostgreSQL instead |
+| Type | AWS service |
+| --- | --- |
+| Relational | [RDS, Aurora](../aws-services/aws-databases/rds.md) |
+| Key-value | [DynamoDB](../aws-services/aws-databases/dynamodb.md) |
+| Document | DocumentDB (MongoDB-compatible) |
+| In-memory | ElastiCache, MemoryDB |
+| Graph | Neptune |
+| Time series | Timestream |
+| Wide column | Keyspaces (Apache Cassandra-compatible) |
+| Ledger | QLDB, which is discontinued; AWS points to Aurora PostgreSQL instead |
 
 ### How earlier stages pay off here _(added)_
 

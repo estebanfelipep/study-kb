@@ -39,7 +39,9 @@ Data analysts, data scientists and other **data consumers** ([data-personas.md](
 
 ### The one-line summary
 
-> **Get data from sources → make it useful → serve it to stakeholders.**
+1. Get data from sources →
+2. make it useful →
+3. serve it to stakeholders.
 
 | Step | ETL stage | What happens |
 | --- | --- | --- |

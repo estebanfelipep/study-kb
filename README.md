@@ -6,7 +6,7 @@ It is plain markdown in a git repo, organized so an AI agent can navigate it. Th
 
 ## Principles
 
-- **Progressive disclosure, by topic.** [kb/index.md](kb/index.md) is a map of topics, the subjects I ask about. Each topic links to the files that cover it, across folders. Each folder's index note lists that folder's files, with what each covers and *when to read it*. It is also a reading guide: what to read first, the order to read the files in, how they relate, and where to go next.
+- **Progressive disclosure, layer by layer.** [kb/index.md](kb/index.md) lists only the first layer: the subject folders and the reference files. Each folder's index note lists that folder's files, with what each covers and *when to read it*. It is also a reading guide: what to read first, the order to read the files in, how they relate, and where to go next.
 - **One file per topic.** A topic gets its own file as soon as it comes up, even if it's small. When a file grows too big, it becomes a folder whose index guides you through the split-out files.
 - **Filed by subject.** Each top-level folder in `kb/` is a subject (`aws/`, `data-engineering/`, …), created when its first note arrives.
 - **One place per fact.** Vendor-neutral concepts (`data-engineering/`) live apart from vendor-specific facts (`aws/`), and link to each other. Each AWS service has one file, whichever track or certification it came up in.
@@ -20,7 +20,7 @@ The reasoning behind these is recorded in [docs/adr/](docs/adr/adr.md).
 
 ```
 kb/                       ← all the knowledge, and nothing else
-  index.md                ← the topic map: start here
+  index.md                ← start here: subjects and reference
   context.md              ← glossary of terms and abbreviations
   links.md                ← every external link, in one place
   aws/

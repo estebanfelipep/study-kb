@@ -11,7 +11,7 @@ Paths to KB content in this skill (`index.md`, `context.md`, `links.md`, and sub
 
 Work through intake in order:
 
-1. **Orient.** Read `kb/index.md` to see the existing topics and subjects, then the index of the folder the information most likely belongs to. Don't read the whole KB; the indexes tell you which files exist and what each covers.
+1. **Orient.** Read `kb/index.md` to see the subjects, then follow the indexes down to the folder the information most likely belongs to. Don't read the whole KB; the indexes tell you which files exist and what each covers.
 
 2. **Route to a folder.** Split mixed information along these lines rather than filing it all in one place.
    - **A subject:** information goes in its top-level subject folder (`aws/`, `data-engineering/`, `ai-engineering/`, `javascript/`, `python/`, `css/`, `software-architecture/`, …). If the folder doesn't exist, create it with its index (`<subject>/<subject>.md`) and add it to the Subjects section of `kb/index.md`.
@@ -43,7 +43,7 @@ Work through intake in order:
 7. **Update the indexes.** Do this in the same change, whenever you add, rename, split, or move anything:
    - Update the parent folder's index entry, in the form `- [file.md](file.md): what it covers. Read when: <the kind of question it answers>.`
    - **Keep the index a reading guide.** Place the file at its spot in the index's reading order, under the right group label. Touch the `## How to read this folder` lines (Before, Order, After) only if the new file changes them. Don't repeat the file list or relationships already in Related sections (`AGENTS.md`, "Indexes are reading guides"). A new folder's index gets this section from the start.
-   - **Update the topic map in `kb/index.md`.** List the file under every top-level topic it covers. If no topic fits, add one. Name it for the subject people ask about ("Streaming ingestion", "Data warehousing"), never for a folder. Keep topics top-level: a new aspect of an existing subject joins that topic rather than becoming a new one. When a topic's scope grows, refresh its description and "Read when".
+   - **`kb/index.md` lists only subject folders and reference files.** Touch it only when a subject folder is created or renamed.
    - When a file's scope grows, refresh its entry: a stale "Read when" sends the next agent to the wrong file.
    - Replace a folder's `_None yet_` placeholder once it has its first file.
 
@@ -55,4 +55,4 @@ Intake is done when all of these are true:
 - Vendor-neutral concepts and vendor-specific facts are in their own folders, linked.
 - External resources it came with are linked in the file's Sources section and in `links.md`.
 - No conflict is left unresolved.
-- The file's folder index lists it in reading order, every topic it covers in `kb/index.md` links to it, and new terms and links are in `context.md` and `links.md`.
+- The file's folder index lists it in reading order, and new terms and links are in `context.md` and `links.md`.

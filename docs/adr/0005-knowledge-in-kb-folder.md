@@ -1,6 +1,6 @@
 # All knowledge lives in `kb/`; tooling stays at the repo root
 
-Every piece of KB content lives under `kb/`: the map (`kb/index.md`), the glossary, the links file, and every subject folder. The repo root holds only what *operates* the KB: [AGENTS.md](../../AGENTS.md), `docs/` (the rules and decisions about how the KB is run, including these ADRs), the skills, the Obsidian config, and `scratch/`.
+Every piece of KB content lives under `kb/`: the root index (`kb/index.md`), the glossary, the links file, and every subject folder. The repo root holds only what *operates* the KB: [AGENTS.md](../../AGENTS.md), `docs/` (the rules and decisions about how the KB is run, including these ADRs), the skills, the Obsidian config, and `scratch/`.
 
 That keeps two kinds of file from mixing. An agent or a reader looking for knowledge goes to `kb/` and finds nothing but knowledge. Someone changing how the KB works goes to the root. A grep across `kb/` searches only content.
 

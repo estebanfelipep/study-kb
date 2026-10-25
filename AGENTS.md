@@ -2,17 +2,17 @@
 
 This repo is a personal study knowledge base (KB) covering software development: cloud (AWS), data engineering, AI engineering, languages such as JavaScript and Python, CSS, software architecture, and anything else studied along the way. It also tracks progress toward certifications, such as the AWS Certified Data Engineer – Associate.
 
-All of the knowledge lives in `kb/`, and its map is [kb/index.md](kb/index.md). Everything outside `kb/` is tooling: these rules, `docs/` (decisions about how the KB is run), the skills, and the Obsidian config.
+All of the knowledge lives in `kb/`, and it starts at [kb/index.md](kb/index.md). Everything outside `kb/` is tooling: these rules, `docs/` (decisions about how the KB is run), the skills, and the Obsidian config.
 
 ## Navigating: start at `kb/index.md`
 
 The KB uses progressive disclosure. Load only what the question needs:
 
-1. Read `kb/index.md` and pick the topic, or topics, the question is about.
-2. Open only the files those topics list. They may sit in different folders.
-3. If you need neighbors, read the index of the folder a file sits in (`<folder>/<folder>.md`).
+1. Read `kb/index.md` and pick the subject the question is about.
+2. Read that subject's index (`<folder>/<folder>.md`) and follow the indexes down to the files you need.
+3. Follow a file's Related links when the answer spans folders, such as a concept in `data-engineering/` and its AWS service in `aws/`.
 
-Don't glob or read the whole KB up front. Each entry says what it covers and when to read it, so choose from the entries.
+Don't glob or read the whole KB up front. Each index entry says what it covers and when to read it, so choose from the entries.
 
 ## Organizing: folders and indexes
 
@@ -26,28 +26,21 @@ Folder and file paths in this section are relative to `kb/`, except `docs/`, whi
   - `aws/aws-data-engineering/` holds the data engineering track and the AWS Certified Data Engineer – Associate (DEA-C01) exam: exam facts, domains, study progress, how services combine into pipelines, and exam traps. It links to service files rather than repeating them.
 - **Files at the top of `kb/`:** [context.md](kb/context.md) is the glossary, and [links.md](kb/links.md) collects every external link in one place.
 - **Every content folder has an index note named after the folder:** `aws/aws.md`, `aws/aws-services/aws-services.md`, `docs/adr/adr.md`. The top of `kb/` is the one exception. Its index is `kb/index.md`, the single place navigation starts. A folder-named index has a distinct name in search, editor tabs, and Obsidian's graph. Two consequences follow. No topic file may share its folder's name, because that name is taken by the index. Folder names must be unique across the KB, so that their indexes are too: prefix a subfolder with its parent when the bare name could collide (`aws-data-engineering/`, not `data-engineering/`, because `data-engineering/` is the vendor-neutral subject).
-- **`kb/index.md` is a topic map, not a folder list.** Its **Topics** section lists the subjects people ask about, such as "Streaming ingestion" or "Data warehousing", not folder names. Each topic links to every file that covers it, wherever that file lives, so a topic that spans `data-engineering/` and `aws/` is one entry. A file may appear under several topics. Each entry looks like this:
-
-  ```
-  - **Topic**: what it covers. Read when: <the kind of question it answers>.
-    - [file.md](folder/file.md)
-  ```
-
-  Below the topics, a **Subjects** section lists each top-level subject folder, linked to its index, with what it covers.
+- **`kb/index.md` covers only the first layer.** It lists the top-level subject folders, linked to their indexes, and the reference files at the top of `kb/` (`context.md`, `links.md`). It never links deeper. A subject's index is where its reading guide starts.
 - **Every folder index lists every markdown file and subfolder in its folder,** one line each:
 
   `- [file.md](file.md): what it covers. Read when: <the kind of question it answers>.`
 
-  A folder index lists only its own folder's contents. It never lists grandchildren. `kb/index.md` is the exception, because topics cut across folders.
+  A folder index lists only its own folder's contents. It never lists grandchildren, and `kb/index.md` is no exception.
 - **Indexes are reading guides, not just lists.** A reader who opens an index should learn how to study what it holds, not only what's there. The file list itself carries the reading order: list files in the order to read them, not alphabetically, and group them under short bold labels when the folder has stages or layers. Right after the opening statement, a short `## How to read this folder` section adds only what the list can't say, one line each:
   - **Before:** what to read first, such as the concept files behind a vendor's services.
   - **Order:** why the files are in this order, or that the folder is a reference to dip into. Omit it for a one-file folder.
   - **After:** where to go next.
 
-  **Never say a thing twice.** The guide never lists the files again, and it never restates how files relate when their Related sections already say it. A fact shared by every file in a folder is stated once, in the parent index, not in each child. `kb/index.md` works the same way: its topics are in study order, and its `## How to study` section only names the paths through them. When you add, move or split a file, place it in the reading order in the same change.
+  **Never say a thing twice.** The guide never lists the files again, and it never restates how files relate when their Related sections already say it. A fact shared by every file in a folder is stated once, in the parent index, not in each child. `kb/index.md` works the same way: its subjects are in study order. When you add, move or split a file, place it in the reading order in the same change.
 - **Every topic gets its own file, even a small one.** When a topic comes up, even briefly, create a file for it rather than folding it into a broader file, as long as there is real content to put in it. Name it in kebab-case after the subject (`batch-vs-streaming.md`, not `notes-oct.md`). When a file grows too big to read in one sitting, or holds several distinct subtopics, promote it to a folder named after the topic. The file's content is split into topic files inside that folder, and the folder index (`<topic>/<topic>.md`) becomes the reading guide to them. Update every link to the old file, the parent index and `kb/index.md` in the same change.
 - **Images** go in an `images/` subfolder of the folder that uses them, named `<topic>-<yyyy-mm-dd>.<ext>`. Link them from the topic file. Indexes don't list images.
-- **Moves keep indexes true.** Whenever you add, rename, split, or move a file or folder, update the parent folder's index in the same change. Also update every topic in `kb/index.md` that links to the file.
+- **Moves keep indexes true.** Whenever you add, rename, split, or move a file or folder, update the parent folder's index in the same change. When a subject folder is added or renamed, update `kb/index.md` too.
 
 ## Writing content
 
