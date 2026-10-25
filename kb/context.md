@@ -1,6 +1,6 @@
 # Glossary
 
-This file holds the domain vocabulary shared across the projects in this KB. Entries follow `../.claude/skills/kb-intake/references/glossary-format.md`.
+This file holds the vocabulary shared across the subjects in this KB: terms, abbreviations, and service nicknames. Entries follow `../.claude/skills/kb-intake/references/glossary-format.md`.
 
 ## Language
 

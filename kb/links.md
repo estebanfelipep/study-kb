@@ -6,22 +6,22 @@ Each entry looks like this:
 
 `- [Title](url): what it is. See [topic.md](path/to/topic.md).`
 
-## Docs
+## Official docs
 
 _None yet._
 
-## Dashboards and monitoring
+## Courses and training
 
 _None yet._
 
-## Consoles and deploys
+## Practice exams
 
 _None yet._
 
-## Recordings and meetings
+## Videos and articles
 
 _None yet._
 
-## Repos
+## Code and repos
 
 _None yet._
