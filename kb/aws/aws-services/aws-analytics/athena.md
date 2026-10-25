@@ -10,6 +10,9 @@ Athena queries large datasets **directly on S3** with **standard SQL**. The data
 
 - Queries formats such as **CSV, Parquet and ORC**, plus JSON and others _(added)_.
 - Reads table definitions from the [Glue Data Catalog](glue.md), so you define a table once and query it from Athena, EMR or Redshift Spectrum _(added)_.
+- **Needs only S3 and the catalog.** You can define a table yourself in Athena with `CREATE EXTERNAL TABLE … LOCATION 's3://…'`. Athena has no catalog of its own, so that definition is stored in the Glue Data Catalog, but no crawler or Glue job is involved. This suits data with a known, stable format, such as AWS logs _(added)_.
+- **CTAS** (`CREATE TABLE AS SELECT`) writes a query's results to S3 as new files, including as Parquet, and registers them as a table. Athena can do light transformations this way; heavy, scheduled ETL belongs in a Glue job _(added)_.
+- Can also use an external Apache Hive metastore instead of the Glue Data Catalog. It's rare, mostly where a company already runs Hive _(added; verify)_.
 - **Serverless:** there's nothing to provision, and you pay **per TB of data scanned** by each query _(added)_.
 - **Parquet/ORC plus partitioning** reduce the data a query scans, which makes queries cheaper and faster. Converting to Parquet in [Data Firehose](data-firehose.md) pays off here _(added)_.
 - **Federated query** connectors can also query RDS, DynamoDB and other sources _(added)_.
@@ -18,7 +21,15 @@ Athena queries large datasets **directly on S3** with **standard SQL**. The data
 
 ## Example
 
-_(added)_ A security analyst wants the IP addresses with the most 403 errors from the load balancer last week. The ALB access logs are already in S3, so the analyst runs one query:
+_(added)_ A security analyst wants the IP addresses with the most 403 errors from the load balancer last week. The ALB access logs are already in S3. Their format is fixed, so the analyst describes them once in Athena, with no crawler:
+
+```sql
+CREATE EXTERNAL TABLE alb_logs (client_ip string, status int, ...)
+PARTITIONED BY (day string)
+LOCATION 's3://my-logs/alb/';
+```
+
+Then they run one query:
 
 ```sql
 SELECT client_ip, COUNT(*) AS errors
@@ -32,7 +43,8 @@ The answer comes back in seconds. No pipeline was built, no database was loaded,
 ## Related
 
 - [s3.md](../aws-general-services/s3.md): Athena runs SQL directly on the files stored in S3, so the data is queried where it sits instead of being loaded into a database first.
-- [glue.md](glue.md): Athena reads its table definitions from the Glue Data Catalog; crawlers register the S3 data as tables, and Athena queries those tables.
+- [glue.md](glue.md): Athena reads its table definitions from the Glue Data Catalog. Tables can come from Athena's own `CREATE TABLE` or from Glue crawlers, and Glue jobs can clean the data into Parquet first; only the catalog is required.
+- [choosing-delivery-services.md](../../aws-data-engineering/choosing-delivery-services.md): also compares Athena with Glue (answering questions vs making data better) and gives how much Glue an Athena setup needs.
 - [data-firehose.md](data-firehose.md): Firehose can convert streams to Parquet or ORC before writing to S3, which means Athena later scans less data per query and costs less.
 - [step-functions.md](../aws-application-coordination/step-functions.md): Step Functions can start an Athena query as a workflow step (for example a nightly row-count check) and pass the results to Lambda.
 - [quicksight.md](quicksight.md): QuickSight dashboards are often built on top of Athena queries over S3 data.

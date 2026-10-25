@@ -18,6 +18,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Crawler**: A Glue component that scans data, infers format and schema, and writes tables to the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**CTAS**: `CREATE TABLE AS SELECT`. An Athena statement that writes a query's results to S3 as new files and registers them as a table. See [athena.md](aws/aws-services/aws-analytics/athena.md).
+
 **DAG**: Directed acyclic graph. A workflow of tasks and their dependencies, as defined in Apache Airflow. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Data catalog**: The metadata store that makes a data lake's contents findable: what data exists, where, its quality and how it's used. It stores metadata, not the data. See [modern-data-architecture.md](data-engineering/modern-data-architecture.md).

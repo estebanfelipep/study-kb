@@ -4,9 +4,30 @@ AWS Glue: serverless data integration, covering jobs, crawlers, the Data Catalog
 
 ## What it is
 
-AWS Glue is a serverless data integration service and a fully managed ETL service. It prepares and cleanses data from various sources, classifies data, extracts schema and populates data catalogs. It appears in five of the six data engineer functions (infrastructure, ingest, prepare, catalog, automate) and across the whole flow: jobs for ingestion, crawlers and the Data Catalog for cataloging, ETL for processing, and workflows for automation. It's the central service of the training.
+AWS Glue is a serverless data integration service and a fully managed ETL service. It
+- prepares and cleanses data from various sources
+- classifies data
+- extracts schema 
+- and populates data catalogs. 
+
+It appears in five of the six data engineer functions (infrastructure, ingest, prepare, catalog, automate) and across the whole flow: jobs for ingestion, crawlers and the Data Catalog for cataloging, ETL for processing, and workflows for automation. It's the central service of the training.
+
+**In one line: Glue turns raw files in S3 into data you can find, trust and query, without running servers.** 
+
+It's a family of tools under one name that share one hub, the Data Catalog: crawlers and the catalog **describe** the data, and jobs **transform** it. Glue is mainly a cataloging and processing service, not an orchestrator: workflows are its only orchestration, and they chain only Glue's own crawlers and jobs.
 
 ## Characteristics
+
+### Problems each part solves _(added)_
+
+| Problem | Without Glue | Glue's answer | Stage |
+| --- | --- | --- | --- |
+| Nobody knows what columns, format or partitions the S3 files have | A data swamp; each team and engine defines its own tables | **Crawlers** infer the schema and partitions and write them to the catalog | Catalog |
+| Athena, EMR and Redshift Spectrum each need the table structure | Definitions per engine, drifting apart | **Data Catalog**: one definition, read by every engine | Catalog |
+| Raw data is messy and too big for a script | Run your own Spark cluster, or hit Lambda's 15-minute limit | **Jobs**: serverless Spark that cleans, joins and writes partitioned Parquet | Process |
+| Each run would reprocess all of history | Rereading everything, every night | **Job bookmarks**: only new data | Process |
+| Bad rows or PII would reach analysts | Silent bad data, exposed contact details | **Data Quality** rules and **sensitive data detection** | Process, security |
+| Crawler, then job, then the next job | Manual runs or cron | **Workflows and triggers** | Automation |
 
 - **Serverless:** jobs scale automatically; you don't manage infrastructure and pay only per use.
 - Part of the **security and auditability** story: KMS encryption, data masking, and the Data Catalog's table history.
@@ -19,6 +40,8 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 - **Job bookmarks** remember what was already processed, so each run handles only new data. _(added)_
 - Connectors to many sources. _(added)_
 - Run for hours on GB to TB of data (distributed Spark), so they suit transformations that would time out in [Lambda](../aws-compute/lambda.md). _(added)_
+- The usual pattern is **S3 to S3**: a job reads objects from one prefix (`raw/`) and writes **new**, cleaned objects to another (`curated/`). Lake files are written once, so the raw objects stay unchanged as the source of truth. _(added)_
+- S3 isn't the only target: jobs can also write to Redshift or to databases over JDBC. _(added; verify)_
 
 ### Crawlers
 
@@ -26,6 +49,7 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 - Flow: data lands in S3 → crawlers catalog it → it becomes discoverable and queryable.
 - Update schemas and partitions automatically as new data arrives. _(added)_
 - Used in discovery step 5 to extract relevant data (or custom scripts).
+- **Optional.** A table can also be written to the catalog by hand, for example with `CREATE EXTERNAL TABLE` in [Athena](athena.md). Crawlers pay off when there are many sources, schemas change, or new partitions keep arriving. _(added)_
 
 ### Data Catalog
 
@@ -36,6 +60,7 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 - Keeps **table versions**: each schema change creates a new version you can compare or roll back to. _(added)_
 - **Stores metadata, not the data.** The data stays in S3; the catalog holds table definitions that point to it. _(added)_
 - **One catalog, many engines:** [Athena](athena.md), [EMR](emr.md), Redshift Spectrum and Glue jobs all read table definitions from it. Compatible with the **Apache Hive metastore**. _(added)_
+- **Athena has no catalog of its own.** Tables created in Athena are stored here too, so Athena uses the Data Catalog even when no crawler or job is involved. _(added)_
 - [Lake Formation](lake-formation.md) permissions are applied to Data Catalog resources (databases, tables, columns), so the catalog is the anchor for governance. _(added)_
 - Supports owners, descriptions and custom table properties; the full business glossary lives in [DataZone](datazone.md). _(added)_
 - The catalog and connection passwords can be encrypted with KMS. _(added)_
@@ -61,6 +86,23 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 
 ## Example
 
+_(added)_ How the parts fit in one lake:
+
+```
+sources ─► S3 raw/ ─► crawler ─► Data Catalog ◄─ Athena, EMR and
+              │                    ▲    ▲        Spectrum read the
+              ▼                    │    │        tables here
+          Glue job (Spark) ────────┘    │
+          bookmarks, quality,           │
+          PII masking             Lake Formation
+              │                   permissions
+              ▼
+          S3 curated/ (partitioned Parquet,
+                       registered as a table)
+
+Glue workflow: crawler → job → crawler, in order
+```
+
 - _(added)_ Nightly ETL: a Glue job reads only new JSON order files from S3 (job bookmarks), joins them with the customer table from the Data Catalog, drops test orders, standardizes country codes, and writes partitioned Parquet back to S3. A data-quality rule fails the job if more than 1% of orders have no customer ID. Nothing is billed between nights.
 - _(added)_ Masking: a job copies customer records from `raw/` to `curated/`, replaces emails with a hash and keeps only the last four digits of phone numbers. Analysts can count unique customers but can't see contact details.
 - _(added)_ Table versions: a source adds a `discount_code` column; the next crawler run creates version 7 of `orders`. When a report breaks, the team compares versions 6 and 7.
@@ -68,7 +110,8 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 ## Related
 
 - [s3.md](../aws-general-services/s3.md): crawlers scan data that lands in S3 and register it as tables; Glue jobs read raw data from S3 and write curated, partitioned Parquet back to it.
-- [athena.md](athena.md): Athena queries S3 data through the table definitions the Glue Data Catalog holds.
+- [athena.md](athena.md): Athena queries S3 data through the table definitions the Glue Data Catalog holds. It needs only the catalog; crawlers and jobs are optional, added when schemas change or data needs cleaning.
+- [choosing-delivery-services.md](../../aws-data-engineering/choosing-delivery-services.md): compares Glue with Athena (Glue makes data better, Athena answers questions about it) and gives how much Glue an Athena setup needs.
 - [emr.md](emr.md): EMR also reads the Glue Data Catalog, and both run Apache Spark; EMR is the choice when you need cluster control or other frameworks.
 - [lake-formation.md](lake-formation.md): Lake Formation applies its fine-grained permissions to Data Catalog resources (databases, tables, columns), so the catalog is the anchor for governance.
 - [datazone.md](datazone.md): the Data Catalog holds technical metadata; DataZone holds the full business glossary on top of it.
