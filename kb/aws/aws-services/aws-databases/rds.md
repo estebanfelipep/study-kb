@@ -37,6 +37,7 @@ Amazon RDS (Relational Database Service) runs managed relational databases for a
 - [replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md): RDS is the typical operational database that file copies into the lake, by full load + CDC, scheduled snapshots or snapshot export.
 - [redshift.md](../aws-analytics/redshift.md): RDS runs the app (OLTP) and Redshift analyzes the data (OLAP). Aurora zero-ETL replicates Aurora data into Redshift within seconds, and Redshift federated query can read RDS in place.
 - [dms.md](dms.md): DMS copies RDS data to S3 or Redshift by full load or ongoing CDC.
+- [unified-customer-data-on-aws.md](../../aws-data-engineering/unified-customer-data-on-aws.md): RDS or Aurora can be the sales CRM's database in that example, the source DMS captures changes from.
 - [glue.md](../aws-analytics/glue.md): a Glue job can copy RDS tables to S3 or Redshift in batch. The example's nightly Glue job is what zero-ETL replaces.
 - [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): RDS is the OLTP database in the OLTP vs OLAP concept, and the example of why an operational database isn't a data lake.
 - [choosing-storage-and-processing-services.md](../../aws-data-engineering/choosing-storage-and-processing-services.md): compares RDS with Redshift (row-based OLTP vs columnar MPP OLAP), checks RDS against each data lake requirement (it fails most), and compares RDS/Aurora with DynamoDB.

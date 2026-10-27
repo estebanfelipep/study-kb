@@ -96,15 +96,15 @@ Glue appears across the whole flow: jobs for ingestion, crawlers and the Data Ca
 
 ## 5. Deliver
 
-| Service | Typical consumer _(added)_ |
-| --- | --- |
-| [redshift.md](../aws-services/aws-analytics/redshift.md) | Analysts, BI |
-| [athena.md](../aws-services/aws-analytics/athena.md) | Analysts, engineers (ad hoc) |
-| [emr.md](../aws-services/aws-analytics/emr.md) | Data scientists, engineers |
-| Purpose-built databases (below) | Applications, specialized analytics |
-| [opensearch-service.md](../aws-services/aws-databases/opensearch-service.md) | Engineers, ops (search, logs) |
-| [quicksight.md](../aws-services/aws-analytics/quicksight.md) | Business analysts, executives |
-| Machine learning: [sagemaker.md](../aws-services/aws-ai/sagemaker.md) (the course doesn't name the service _(added)_) | Data scientists |
+| Service                                                                                                               | Typical consumer _(added)_          |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| [redshift.md](../aws-services/aws-analytics/redshift.md)                                                              | Analysts, BI                        |
+| [athena.md](../aws-services/aws-analytics/athena.md)                                                                  | Analysts, engineers (ad hoc)        |
+| [emr.md](../aws-services/aws-analytics/emr.md)                                                                        | Data scientists, engineers          |
+| Purpose-built databases (below)                                                                                       | Applications, specialized analytics |
+| [opensearch-service.md](../aws-services/aws-databases/opensearch-service.md)                                          | Engineers, ops (search, logs)       |
+| [quicksight.md](../aws-services/aws-analytics/quicksight.md)                                                          | Business analysts, executives       |
+| Machine learning: [sagemaker.md](../aws-services/aws-ai/sagemaker.md) (the course doesn't name the service _(added)_) | Data scientists                     |
 
 ### Purpose-built databases
 
@@ -164,3 +164,7 @@ Data discovery step 5 ([data-discovery.md](../../data-engineering/data-discovery
 - **Data security officer** → PII protection with Macie, fine-grained access and masking with Lake Formation, regulations with Audit Manager.
 
 The personas are defined in [data-personas.md](../../data-engineering/data-personas.md).
+
+## Related
+
+- [unified-customer-data-on-aws.md](unified-customer-data-on-aws.md): applies this stage-to-service map to one project. Each row of its table names the pipeline stage, so a service there can be traced back to its stage section here.
