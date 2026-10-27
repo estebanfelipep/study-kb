@@ -81,6 +81,29 @@ The vendor-neutral version is in [batch-and-streaming.md](../../data-engineering
 | Sources and targets | Specific supported pairs (Aurora/RDS/DynamoDB → Redshift and others) | Many databases → many targets | Anything Glue can connect to |
 | Pick it when | Supported source, near real-time analytics, least effort | Migrations or unsupported source/target pairs | Data needs heavy cleaning or joining first |
 
+## DMS vs DataSync
+
+**DMS moves a database's data. DataSync moves files.** DMS understands tables, rows and transactions; DataSync sees only files and folders.
+
+|  | **DMS** | **DataSync** |
+| --- | --- | --- |
+| What it moves | Rows from database tables | Files and objects, as they are |
+| Typical sources | RDS, Aurora, on-premises Oracle, SQL Server, MySQL, MongoDB | On-premises NFS/SMB shares, object storage, HDFS |
+| How it reads | Queries the tables (full load), then reads the change log (CDC) | Walks the file system and copies new or changed files |
+| Keeping current | Continuously, seconds to minutes | On a schedule (batch) |
+| What lands in S3 | New files built from rows: `LOAD` files plus `Op`-column change files | The same files that were on the share |
+
+Analogy: DataSync is a mover copying the documents in a filing cabinet without reading them. DMS is a clerk who copies the accounts ledger once, then writes down every new entry as it's made.
+
+## DMS vs an RDS read replica
+
+Both keep a copy of an RDS database current, but for different reasons.
+
+- **RDS read replica:** a second, live database kept in sync. Apps can connect to it, to spread read traffic or to fail over. Nothing lands in the lake.
+- **DMS to S3:** files in the lake (a snapshot plus a log of changes). No app can connect to it; it exists for analytics, next to every other source.
+
+"Offload reads" or "failover" points to a read replica. "Get the database into the data lake" points to DMS.
+
 ## Getting RDS data into S3 _(added)_
 
 The concept, including why the CDC files need a merge step, is in [replicating-databases-to-the-lake.md](../../data-engineering/replicating-databases-to-the-lake.md). Loading Redshift directly with zero-ETL is covered in the section above.

@@ -12,6 +12,7 @@ AWS DataSync transfers data from on-premises file shares, object storage and Had
 - Can **sync on a schedule**.
 - Ingest mode: batch, scheduled. _(added)_
 - For files, not databases. _(added)_
+- Also copies between AWS storage services, such as S3, EFS and FSx. _(added; verify)_
 - Usual exam triggers: "on-premises NFS/SMB file shares", "HDFS", "scheduled sync". _(added)_
 - AWS points to DataSync (and the AWS Data Transfer Terminal) for transfers where several Snow devices are no longer offered. _(added; verify current status)_
 

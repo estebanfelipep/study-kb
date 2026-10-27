@@ -82,9 +82,16 @@ _Avoid:_ customer 360, single customer view
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
+
+**Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
 **Reverse ETL**: Pushing cleaned data back into operational tools, such as a CRM. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
 **RPU**: Redshift Processing Unit. The capacity unit of Redshift Serverless. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
+
+**SCD2**: Slowly changing dimension, type 2. A history table with one row per version of a record and `valid_from` / `valid_to` columns, so you can query any past state. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+_Avoid:_ SCD type 2
 
 **Schema-on-read / schema-on-write**: Applying structure when data is read (lakes) vs defining it before loading (warehouses, databases). See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
@@ -101,6 +108,8 @@ _Avoid:_ customer 360, single customer view
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
 
 **Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
+
+**Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Visibility timeout**: How long an SQS message stays hidden from other consumers while one processes it. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 

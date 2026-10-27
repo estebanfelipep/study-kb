@@ -21,7 +21,7 @@ Read [aws-services](../aws-services/aws-services.md) instead for how an individu
 
 **Choose between services**
 
-- [choosing-ingestion-services.md](choosing-ingestion-services.md): pick-rules and comparisons for ingestion: DMS, Firehose, MSK, Kinesis, DataSync, Transfer Family, Snow, IoT Core, and loading Redshift (streaming ingestion, auto copy, zero-ETL vs DMS vs Glue). Read when: a question asks how to get data into AWS.
+- [choosing-ingestion-services.md](choosing-ingestion-services.md): pick-rules and comparisons for ingestion: DMS, Firehose, MSK, Kinesis, DataSync, Transfer Family, Snow, IoT Core, loading Redshift (streaming ingestion, auto copy, zero-ETL vs DMS vs Glue), DMS vs DataSync, and DMS vs an RDS read replica. Read when: a question asks how to get data into AWS.
 - [choosing-storage-and-processing-services.md](choosing-storage-and-processing-services.md): S3 vs Redshift, RDS vs Redshift, RDS isn't a lake, DynamoDB vs RDS, S3 vs EBS vs EFS, serverless vs provisioned options, and Glue vs EMR vs Flink. Read when: a question asks where data should live or what should transform it.
 - [choosing-delivery-services.md](choosing-delivery-services.md): pick-rules for Athena, Redshift, EMR, OpenSearch, QuickSight and SageMaker, plus Athena vs Redshift vs Spectrum, Athena vs Glue, and how much Glue Athena needs. Read when: a question asks how consumers should query or see data, or whether a crawler or Glue job is needed.
 - [choosing-orchestration-services.md](choosing-orchestration-services.md): pick-rules and comparisons for Step Functions, MWAA, Glue workflows, Lambda, EventBridge, SNS, SQS and API Gateway. Read when: a question asks how to coordinate, trigger or decouple pipeline steps.
