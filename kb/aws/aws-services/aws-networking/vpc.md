@@ -31,3 +31,4 @@ A network ACL blocks a known bad IP range from the whole subnet.
 - [s3.md](../aws-general-services/s3.md): S3 sits outside your VPC; resources in private subnets reach it through a gateway VPC endpoint instead of the internet.
 - [guardduty.md](../aws-security/guardduty.md): GuardDuty analyzes VPC Flow Logs to detect malicious network traffic.
 - [waf.md](../aws-security/waf.md): security groups and NACLs filter IPs and ports at layers 3–4, while WAF inspects HTTP requests at layer 7.
+- [site-to-site-vpn.md](site-to-site-vpn.md): a Site-to-Site VPN connects an on-premises network to the VPC through a virtual private gateway attached to it.

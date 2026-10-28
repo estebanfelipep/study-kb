@@ -7,7 +7,7 @@ The vendor-neutral stages are in [modern-data-architecture.md](../../../data-eng
 ## How to read this folder
 
 - **Before:** [modern-data-architecture.md](../../../data-engineering/modern-data-architecture.md), which defines each stage.
-- **Order:** the stages in pipeline order, 1 to 5, then the functions and personas, which cut across the stages.
+- **Order:** the stages in pipeline order, 1 to 5, each followed by its Example Corp worked example where there is one, then the functions and personas, which cut across the stages.
 - **After:** the `choosing-*` files in [aws-data-engineering](../aws-data-engineering.md), to pick between the services of a stage.
 
 ## The flow
@@ -46,12 +46,14 @@ You **build** the S3 data lake first, and processed data is usually written back
 Specialized services bring each type of source into the lake: DMS for databases, Firehose and MSK for streams, IoT Core for devices, DataSync, Transfer Family and Snow Family for files and bulk data.
 
 - [ingest-on-aws.md](ingest-on-aws.md): the ingest services and what each one ingests. Read when: you need which AWS service brings a type of source into the lake.
+- [example-corp-ingest-on-aws.md](example-corp-ingest-on-aws.md): Example Corp ingests an on-premises MySQL table and an Aurora table with DMS, and NAS files with DataSync, into the raw bucket over a Site-to-Site VPN. Read when: you need a worked example of setting up DMS endpoints and tasks, a DataSync agent and task, or securing on-premises ingestion.
 
 ## 2. Store
 
 S3 is the data lake, built first, with one bucket per zone. Other "lake" services build and govern a lake on S3, or are purpose-built lakes for one kind of data.
 
 - [store-on-aws.md](store-on-aws.md): S3 as the data lake, zones as buckets, and the AWS "lake" services (Lake Formation, S3 Tables, SageMaker Lakehouse, Security Lake, CloudTrail Lake, HealthLake). Read when: you need where lake data lives on AWS, or what a service with "lake" in its name does.
+- [example-corp-store-on-aws.md](example-corp-store-on-aws.md): Example Corp's three zone buckets, S3 Standard plus lifecycle rules on raw and cleaned, Intelligent-Tiering on curated, and why archived data can't be queried directly. Read when: you need a worked example of choosing storage classes and lifecycle rules per zone.
 
 ## 3. Catalog
 

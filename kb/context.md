@@ -8,6 +8,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
 **CDC**: Change data capture. Replicating a database's ongoing inserts, updates and deletes rather than reloading it. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **CDO**: Chief data officer. The executive who builds a data-driven culture and owns data and AI strategy. See [data-personas.md](data-engineering/data-personas.md).
@@ -24,6 +26,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Curated zone**: The data lake zone that holds data merged, joined or aggregated with other datasets, quality-assured and consumption-ready for analytics and ML. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
+**Customer gateway**: The on-premises end of an AWS Site-to-Site VPN. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
+
 **DAG**: Directed acyclic graph. A workflow of tasks and their dependencies, as defined in Apache Airflow. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Data catalog**: The metadata store that makes a data lake's contents findable: what data exists, where, its quality and how it's used. It stores metadata, not the data. See [modern-data-architecture.md](data-engineering/modern-data-architecture.md).
@@ -37,6 +41,10 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **Data swamp**: A data lake without a catalog: files nobody can find or trust. See [modern-data-architecture.md](data-engineering/modern-data-architecture.md).
 
 **Data warehouse**: A columnar SQL analytics database for curated, modeled data, with schema-on-write. On AWS, Redshift. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
+
+**DataSync agent**: The software DataSync runs on premises, next to the storage, to read files and copy them to AWS. See [datasync.md](aws/aws-services/aws-migration-and-transfer/datasync.md).
+
+**Directory bucket**: The S3 bucket type that S3 Express One Zone stores data in. It lives in one AZ and supports hundreds of thousands of requests per second. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 
 **DLQ**: Dead-letter queue. Holds messages that failed processing too many times, so they don't block the queue. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 
@@ -53,10 +61,14 @@ _Avoid:_ record linkage, identity resolution
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
 
+**Full CDC**: CDC that captures updates and deletes as well as inserts. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+
 **Full load**: Copying every row of a database's tables once, usually before CDC takes over. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
+
+**Insert-only CDC**: CDC for append-only data, such as logs, where rows are only added. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Job bookmark**: Glue's record of data a job already processed, so each run handles only new data. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -78,6 +90,8 @@ _Avoid:_ customer 360, single customer view
 
 **OLTP**: Online transaction processing. Many small reads and writes for an application, on row-based storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**Ongoing replication**: The DMS phase that applies changes from the source's transaction log to the target in near real time. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
 **Open table format**: A table layer over lake files, such as Apache Iceberg, that adds updates, deletes and merges. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Orchestration**: Coordinating multiple services and their dependencies through a series of steps. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
@@ -98,6 +112,8 @@ _Avoid:_ customer 360, single customer view
 
 **RPU**: Redshift Processing Unit. The capacity unit of Redshift Serverless. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
+**S3 Express One Zone**: The single-AZ S3 storage class with the lowest latency, for the most frequently accessed data. See [s3.md](aws/aws-services/aws-general-services/s3.md).
+
 **SCD2**: Slowly changing dimension, type 2. A history table with one row per version of a record and `valid_from` / `valid_to` columns, so you can query any past state. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 _Avoid:_ SCD type 2
 
@@ -106,6 +122,10 @@ _Avoid:_ SCD type 2
 **Serverless**: Building and running applications without managing infrastructure, paying only while code runs. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Shard**: An ordered unit of a Kinesis stream, with about 1 MB/s in and 2 MB/s out. See [kinesis-data-streams.md](aws/aws-services/aws-analytics/kinesis-data-streams.md).
+
+**Site-to-Site VPN**: An encrypted tunnel over the public internet between an on-premises network and AWS. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
+
+**Source endpoint**: The DMS connection to the data store it migrates from. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Spectrum**: Redshift Spectrum, which queries files in S3 from Redshift without loading them. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
@@ -117,7 +137,12 @@ _Avoid:_ SCD type 2
 
 **Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
+**Target endpoint**: The DMS connection to the data store it migrates to. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+
+**Virtual private gateway**: The AWS end of a Site-to-Site VPN, attached to a VPC. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
+_Avoid:_ VPN gateway
 
 **Visibility timeout**: How long an SQS message stays hidden from other consumers while one processes it. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 
@@ -143,6 +168,8 @@ _Avoid:_ Quick Suite (when meaning the BI service)
 
 **Control Tower control**: A preventive or detective rule in a Control Tower landing zone. See [control-tower.md](aws/aws-services/aws-security/control-tower.md).
 _Avoid:_ guardrail
+
+**DataSync**: AWS DataSync. See [datasync.md](aws/aws-services/aws-migration-and-transfer/datasync.md).
 
 **DMS**: AWS Database Migration Service. See [dms.md](aws/aws-services/aws-databases/dms.md).
 

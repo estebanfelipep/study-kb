@@ -1,6 +1,6 @@
 # Replicating databases into the data lake
 
-This file covers how an operational database gets into a data lake: a copy written as files, kept current by a full load plus change data capture, merged into a current-state table, a three-table example of what lands in the lake, and the history the raw files keep.
+This file covers how an operational database gets into a data lake: a copy written as files, kept current by a full load plus change data capture, the two kinds of CDC workload, merged into a current-state table, a three-table example of what lands in the lake, and the history the raw files keep.
 
 ## It's a copy
 
@@ -35,6 +35,18 @@ lake/raw/sales-crm/
 ```
 
 `I` is insert, `U` is update and `D` is delete. Writing the files as Parquet makes them columnar, which is cheaper to query later.
+
+## Two kinds of CDC workload
+
+| Aspect | Insert-only CDC | Full CDC (with updates and deletes) |
+| --- | --- | --- |
+| Common use cases | Append-only data, such as logs | Dynamic datasets whose records are changed or purged |
+| Operations | Inserts only | Inserts, updates and deletes, so existing records must be handled |
+| Performance impact | Lower, optimized for inserts | Higher: existing records must be found, then changed or deleted |
+| Data consistency | Easy to keep: data is only added | Harder to keep consistent across transactions |
+| How changes are captured | Capturing new entries is enough | Needs more involved methods, such as transaction logs or triggers |
+
+The three-table example below is full CDC: Ana's move is an update and the chair is a delete.
 
 ## Files can't be updated in place
 

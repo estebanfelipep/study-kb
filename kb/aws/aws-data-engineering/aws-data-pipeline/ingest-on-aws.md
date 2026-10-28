@@ -26,3 +26,4 @@ Once the data lake is in place, use **specialized AWS services** to ingest diffe
 - [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md): the ingest modes (batch, micro-batch, streaming) decide which of these services fits a source.
 - [choosing-ingestion-services.md](../choosing-ingestion-services.md): the pick-rules and comparisons between these services, such as DMS vs DataSync and Firehose vs MSK.
 - [store-on-aws.md](store-on-aws.md): the next stage; every service here writes into the S3 data lake described there.
+- [example-corp-ingest-on-aws.md](example-corp-ingest-on-aws.md): a worked example of this stage: DMS and DataSync ingest three sources into the raw bucket.

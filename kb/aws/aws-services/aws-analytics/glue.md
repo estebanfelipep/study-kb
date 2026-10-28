@@ -124,3 +124,4 @@ Glue workflow: crawler → job → crawler, in order
 - [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares Glue workflows with Step Functions and MWAA (Glue workflows only chain Glue crawlers and jobs), and a Glue job with Lambda (Glue for heavy, long-running ETL).
 - [choosing-security-and-monitoring-services.md](../../aws-data-engineering/choosing-security-and-monitoring-services.md): compares the Data Catalog with DataZone (technical vs business metadata), and Glue sensitive data detection with Macie (masking PII during a job vs finding PII at rest in S3).
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): Glue is the serverless ETL option, replacing ETL on EMR clusters.
+- [dms.md](../aws-databases/dms.md): DMS can populate the Glue Data Catalog automatically with the tables it writes to S3.

@@ -2,6 +2,10 @@
 
 This file covers how a data lake is split into zones (layers): the three core zones, the extra zones to consider, and what each one is for.
 
+## Sources
+
+- [Data lake foundation](https://docs.aws.amazon.com/whitepapers/latest/building-data-lakes/data-lake-foundation.html): AWS whitepaper (Storage Best Practices for Data and Analytics Applications), the zones of a data lake.
+
 ## Why zones
 
 A zones (layers) strategy helps with **data organization**, **data integrity** and **access control**. The common approach has three zones that line up with the stages of the pipeline: data moves from one zone to the next as it's processed.
@@ -52,3 +56,4 @@ With a landing zone, the flow starts one step earlier:
 - [unified-customer-data.md](unified-customer-data.md): a worked example through all three zones: CRM changes land in raw, each source is standardized into cleaned, and the matched, merged `customer_360` is curated.
 - [data-security-and-monitoring.md](data-security-and-monitoring.md): zones are also access boundaries, and the landing zone is where PII is masked before anyone downstream sees it.
 - [s3.md](../aws/aws-services/aws-general-services/s3.md): on AWS each zone is commonly its own S3 bucket, with a storage class and lifecycle rules chosen per zone.
+- [example-corp-store-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/example-corp-store-on-aws.md): an AWS example with one S3 bucket per zone, and a storage class and lifecycle rules chosen for each.

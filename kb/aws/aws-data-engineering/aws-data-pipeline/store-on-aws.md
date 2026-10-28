@@ -6,7 +6,7 @@ This file covers stage 2 of the data pipeline on AWS: S3 as the data lake, its z
 
 [s3.md](../../aws-services/aws-general-services/s3.md) is the foundation of the data lake: virtually unlimited scale, high durability, pay for what you use. You **build** it first, and processed data is usually written back to it after stage 4.
 
-The lake's zones (raw, cleaned, curated, and optional landing, logs, archived and sandbox) are commonly one S3 bucket each, with a storage class and lifecycle rules per zone. The zones are defined in [data-lake-zones.md](../../../data-engineering/data-lake-zones.md), and the S3 setup, with the Example Corp example, is in [s3.md](../../aws-services/aws-general-services/s3.md).
+The lake's zones (raw, cleaned, curated, and optional landing, logs, archived and sandbox) are commonly one S3 bucket each, with a storage class and lifecycle rules per zone. The zones are defined in [data-lake-zones.md](../../../data-engineering/data-lake-zones.md), the S3 setup per zone is in [s3.md](../../aws-services/aws-general-services/s3.md), and Example Corp's buckets are worked through in [example-corp-store-on-aws.md](example-corp-store-on-aws.md).
 
 ## AWS "lake" services
 
@@ -38,3 +38,4 @@ The lake's zones (raw, cleaned, curated, and optional landing, logs, archived an
 - [choosing-storage-and-processing-services.md](../choosing-storage-and-processing-services.md): compares S3 with Redshift (lake vs warehouse) and RDS (why a database isn't a lake).
 - [ingest-on-aws.md](ingest-on-aws.md): the previous stage; its services write into this lake.
 - [catalog-on-aws.md](catalog-on-aws.md): the next stage; crawlers catalog what lands here.
+- [example-corp-store-on-aws.md](example-corp-store-on-aws.md): a worked example of this stage: three zone buckets, with storage classes and lifecycle rules chosen per zone.
