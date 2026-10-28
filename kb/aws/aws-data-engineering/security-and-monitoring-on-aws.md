@@ -16,7 +16,7 @@ The course notes that **services can belong to more than one area**, and that th
 
 ## Security best practices on AWS
 
-| Practice | AWS implementation | Example _(added)_ |
+| Practice | AWS implementation | Example |
 | --- | --- | --- |
 | **Implement robust access control** | **IAM roles and policies** | Each Glue job gets its own role, scoped to its own bucket prefixes |
 | **Encrypt data at rest and in transit** | **KMS** for data at rest; **HTTPS/TLS** for data in transit | Default bucket encryption with a customer managed key; a bucket policy that denies non-HTTPS requests |
@@ -40,13 +40,13 @@ Further reading: *Security* in the **Data Analytics Lens** of the AWS Well-Archi
 
 For a **single view of overall system health**, the course recommends integrating monitoring with visualization tools: [Managed Grafana](../aws-services/aws-monitoring/managed-grafana.md) and [QuickSight](../aws-services/aws-analytics/quicksight.md).
 
-### Monitoring best practices on AWS _(added: examples)_
+### Monitoring best practices on AWS
 
 - **Test and validate jobs:** run the new Glue job version on a sample in a dev account and compare row counts with the old version.
 - **Alert on critical failures:** a Glue job failure event → EventBridge → SNS → the on-call channel.
 - **Visualize:** one Managed Grafana dashboard for the full pipeline.
 
-## Example: a secured and monitored pipeline _(added)_
+## Example: a secured and monitored pipeline
 
 ```
 Partners ──HTTPS (ACM cert)──▶ API Gateway ◀── WAF + Shield
@@ -55,13 +55,16 @@ Partners ──HTTPS (ACM cert)──▶ API Gateway ◀── WAF + Shield
                                  Lambda
                                     │
                                     ▼
-          S3 raw/  (KMS encrypted, private, Macie scans)
+          S3 landing/  (KMS encrypted, private, Macie scans)
                                     │
                                     ▼
           Glue job (IAM role, masks PII)
                                     │
                                     ▼
-          S3 curated/ ──▶ Glue Data Catalog
+          S3 raw/ → cleaned/ → curated/ (Glue jobs)
+                                    │
+                                    ▼
+                          Glue Data Catalog
                           (Lake Formation permissions)
                                     │
                                     ▼

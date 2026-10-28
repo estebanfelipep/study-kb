@@ -10,9 +10,9 @@ This file covers the three ingest modes (batch, micro-batch, streaming), what a 
 | **Micro-batch** (small, frequent batches) | Sensors, website logs, graphics and video rendering |
 | **Batch** (large, scheduled loads) | Medical imagery, genomic data, financial records, usage data |
 
-The parenthetical definitions are _(added)_. Sensors appear under both streaming and micro-batch: the same source can be ingested either way.
+Sensors appear under both streaming and micro-batch: the same source can be ingested either way.
 
-### Example: one sensor fleet, three ingest modes _(added)_
+### Example: one sensor fleet, three ingest modes
 
 A company runs 10,000 smart thermostats. Each takes a temperature reading every 10 seconds. The same readings can be ingested in all three modes, and each mode serves a different need:
 
@@ -37,7 +37,7 @@ Batch         [---- all of yesterday, loaded at 02:00 ---]
 
 The rule of thumb: pick the mode from **how soon the data must be acted on**, not from the source. The same thermostat feeds all three.
 
-## What a stream is _(added)_
+## What a stream is
 
 A **stream** is a **continuous, never-ending, ordered sequence of small records** (events), appended as things happen. It's like a log that only grows at the end: every click, sensor reading or transaction becomes one record.
 
@@ -56,7 +56,7 @@ Streams are **temporary**: records expire after a retention period, not because 
 
 How AWS implements this is in [kinesis-data-streams.md](../aws/aws-services/aws-analytics/kinesis-data-streams.md) and [msk.md](../aws/aws-services/aws-analytics/msk.md).
 
-## Data in motion vs data at rest _(added)_
+## Data in motion vs data at rest
 
 |  | **Stream (data in motion)** | **Object storage (data at rest)** |
 | --- | --- | --- |
@@ -70,7 +70,7 @@ How AWS implements this is in [kinesis-data-streams.md](../aws/aws-services/aws-
 
 **Analogy:** a stream is a **conveyor belt**: items pass in order, several workers can each look at every item, and anything not picked up eventually falls off the end. Object storage is the **warehouse**: items sit on labeled shelves for as long as you want and can be fetched in any order. A delivery service (such as Amazon Data Firehose) is the worker who packs items from the belt into boxes for the warehouse.
 
-## Streams vs queues _(added)_
+## Streams vs queues
 
 Both buffer data between producers and consumers.
 

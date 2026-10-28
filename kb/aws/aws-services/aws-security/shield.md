@@ -8,12 +8,12 @@ Shield is a **DDoS mitigation** service that protects applications on AWS from *
 
 ## Characteristics
 
-- **Shield Standard:** **free and automatic** for every customer. Protects against common layer 3 and 4 attacks (SYN floods, UDP reflection) _(added)_.
-- **Shield Advanced:** paid. Adds layer 7 protection with [WAF](waf.md), a **24/7 response team**, cost protection against scaling charges caused by an attack, and attack reports _(added)_.
+- **Shield Standard:** **free and automatic** for every customer. Protects against common layer 3 and 4 attacks (SYN floods, UDP reflection).
+- **Shield Advanced:** paid. Adds layer 7 protection with [WAF](waf.md), a **24/7 response team**, cost protection against scaling charges caused by an attack, and attack reports.
 
 ## Example
 
-_(added)_ An attacker floods a public dashboard's CloudFront distribution with traffic. Shield Standard absorbs the network-level flood automatically. With Shield Advanced, the response team would also help write WAF rules against the application-level part of the attack, and AWS would credit the extra scaling cost.
+An attacker floods a public dashboard's CloudFront distribution with traffic. Shield Standard absorbs the network-level flood automatically. With Shield Advanced, the response team would also help write WAF rules against the application-level part of the attack, and AWS would credit the extra scaling cost.
 
 ## Related
 

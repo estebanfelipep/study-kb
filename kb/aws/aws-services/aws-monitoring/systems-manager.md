@@ -8,18 +8,18 @@ Systems Manager provides **application-level monitoring for EC2 instances** and 
 
 ## Characteristics
 
-- **Course correction:** the course's description is loose. Systems Manager is mainly an **operations management** toolkit. Most **metrics and alarms** come from [CloudWatch](cloudwatch.md); Systems Manager acts on instances and gathers operational data _(added)_.
-- **Run Command:** run a script on many instances at once, without SSH _(added)_.
-- **Session Manager:** shell access with no open ports or SSH keys, logged in CloudTrail _(added)_.
-- **Patch Manager:** patch instances on a schedule _(added)_.
-- **Parameter Store:** store configuration and secrets for pipelines _(added)_.
-- **OpsCenter and Explorer:** collect operational issues (including from CloudWatch alarms) in one place _(added)_.
-- **Automation runbooks:** fix common problems automatically, for example restart a service when an alarm fires. [Config](config.md) uses them for auto-remediation _(added)_.
-- **Inventory:** what software is installed on each instance _(added)_.
+- **Course correction:** the course's description is loose. Systems Manager is mainly an **operations management** toolkit. Most **metrics and alarms** come from [CloudWatch](cloudwatch.md); Systems Manager acts on instances and gathers operational data.
+- **Run Command:** run a script on many instances at once, without SSH.
+- **Session Manager:** shell access with no open ports or SSH keys, logged in CloudTrail.
+- **Patch Manager:** patch instances on a schedule.
+- **Parameter Store:** store configuration and secrets for pipelines.
+- **OpsCenter and Explorer:** collect operational issues (including from CloudWatch alarms) in one place.
+- **Automation runbooks:** fix common problems automatically, for example restart a service when an alarm fires. [Config](config.md) uses them for auto-remediation.
+- **Inventory:** what software is installed on each instance.
 
 ## Example
 
-_(added)_ A self-managed Kafka cluster on EC2 runs out of disk. A CloudWatch alarm (from the agent's disk metric) opens an OpsCenter item and starts an Automation runbook that deletes old log segments and restarts the broker.
+A self-managed Kafka cluster on EC2 runs out of disk. A CloudWatch alarm (from the agent's disk metric) opens an OpsCenter item and starts an Automation runbook that deletes old log segments and restarts the broker.
 
 ## Related
 

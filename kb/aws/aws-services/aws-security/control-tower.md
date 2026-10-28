@@ -8,15 +8,15 @@ Control Tower sets up and operates a **multi-account AWS environment** with **pr
 
 ## Characteristics
 
-- **Course correction:** it's really an **account governance** service, not a network security one _(added)_.
-- Builds a **landing zone**: an AWS Organizations structure with a log archive account and an audit account _(added)_.
-- **Controls** are either **preventive** (block an action, for example disabling CloudTrail) or **detective** ([Config](../aws-monitoring/config.md) rules that flag issues). Exam material may call controls **guardrails** _(added)_.
-- **Account Factory** creates new accounts that already follow the rules _(added)_.
-- Sits on top of **AWS Organizations** (accounts, organizational units, service control policies) and sets it up with best practices _(added)_.
+- **Course correction:** it's really an **account governance** service, not a network security one.
+- Builds a **landing zone**: an AWS Organizations structure with a log archive account and an audit account.
+- **Controls** are either **preventive** (block an action, for example disabling CloudTrail) or **detective** ([Config](../aws-monitoring/config.md) rules that flag issues). Exam material may call controls **guardrails**.
+- **Account Factory** creates new accounts that already follow the rules.
+- Sits on top of **AWS Organizations** (accounts, organizational units, service control policies) and sets it up with best practices.
 
 ## Example
 
-_(added)_ A company separates its analytics into `data-dev`, `data-prod` and `data-sandbox` accounts. Control Tower creates each with [CloudTrail](../aws-monitoring/cloudtrail.md) on, logs centralized in the log archive account, and a control preventing anyone from making S3 buckets public.
+A company separates its analytics into `data-dev`, `data-prod` and `data-sandbox` accounts. Control Tower creates each with [CloudTrail](../aws-monitoring/cloudtrail.md) on, logs centralized in the log archive account, and a control preventing anyone from making S3 buckets public.
 
 ## Related
 

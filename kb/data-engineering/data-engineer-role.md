@@ -49,7 +49,7 @@ Data analysts, data scientists and other **data consumers** ([data-personas.md](
 | Make it useful | **Transform** | Clean, validate, join, reshape and enrich it |
 | Serve it to stakeholders | **Load** (and serve) | Put it where consumers can query it, such as a data lake, a warehouse or a dashboard |
 
-## Analytical vs operational use _(added: Q&A)_
+## Analytical vs operational use
 
 **Question:** is data engineering only about turning data into something analysts use for business decisions, without directly affecting the product?
 
@@ -87,9 +87,9 @@ A data engineer might do all six functions, or share them with other specialists
 | 5 | **Automate regular workflows and pipelines** | Simplify and speed up data processing |
 | 6 | **Ensure data quality, security and compliance** | Access controls, authorization policies, monitoring; fine-grained access so people get the right privileges in the right context |
 
-The AWS services for each function are in [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline.md).
+The AWS services for each function are in [functions-and-personas-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/functions-and-personas-on-aws.md).
 
-### How the functions map to the one-line summary _(added)_
+### How the functions map to the one-line summary
 
 | Summary step | Functions |
 | --- | --- |

@@ -8,14 +8,14 @@ GuardDuty is a **threat detection** service that identifies potential security i
 
 ## Characteristics
 
-- Analyzes **CloudTrail events, VPC Flow Logs and DNS logs** with ML and threat intelligence. **No agents** to install for these _(added)_.
-- Optional protection plans add **S3 data events, EKS, RDS login activity, Lambda network activity and malware scanning** _(added)_.
-- One click to enable. Findings go to [EventBridge](../aws-application-coordination/eventbridge.md) and Security Hub _(added)_.
-- Looks at **behavior** (API calls, network traffic, logs), not at the content of data. Answers "Is someone attacking me?" _(added)_.
+- Analyzes **CloudTrail events, VPC Flow Logs and DNS logs** with ML and threat intelligence. **No agents** to install for these.
+- Optional protection plans add **S3 data events, EKS, RDS login activity, Lambda network activity and malware scanning**.
+- One click to enable. Findings go to [EventBridge](../aws-application-coordination/eventbridge.md) and Security Hub.
+- Looks at **behavior** (API calls, network traffic, logs), not at the content of data. Answers "Is someone attacking me?".
 
 ## Example
 
-_(added)_ An access key for the ingestion role leaks on a public code repository. Hours later, GuardDuty flags API calls with that key from an unusual country and a burst of `GetObject` calls on the data lake. An EventBridge rule triggers a [Lambda](../aws-compute/lambda.md) function that deactivates the key.
+An access key for the ingestion role leaks on a public code repository. Hours later, GuardDuty flags API calls with that key from an unusual country and a burst of `GetObject` calls on the data lake. An EventBridge rule triggers a [Lambda](../aws-compute/lambda.md) function that deactivates the key.
 
 ## Related
 

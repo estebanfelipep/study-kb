@@ -2,7 +2,7 @@
 
 This file holds the comparisons and exam pick-rules for access control, encryption, compliance, threat detection, network protection, auditing and monitoring.
 
-All content here is _(added)_ general knowledge. Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The area-to-service map is in [security-and-monitoring-on-aws.md](security-and-monitoring-on-aws.md).
+Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The area-to-service map is in [security-and-monitoring-on-aws.md](security-and-monitoring-on-aws.md).
 
 ## Which service answers which question
 

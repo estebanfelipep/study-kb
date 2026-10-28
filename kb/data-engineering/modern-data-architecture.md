@@ -18,7 +18,7 @@ Teams often build data solutions on their own, each with its **own ingestion, st
 - **Inhibit data sharing.**
 - **Prevent using data for new insights.**
 
-_(Added)_ Silos usually aren't anyone's mistake. Each team picks the best store for its own job, such as the database behind one app or a spreadsheet in finance. The problem appears when you need to combine them. Typical signs:
+Silos usually aren't anyone's mistake. Each team picks the best store for its own job, such as the database behind one app or a spreadsheet in finance. The problem appears when you need to combine them. Typical signs:
 
 | Sign | Example |
 | --- | --- |
@@ -35,13 +35,13 @@ A modern data architecture for analytics and insights:
 - Creates **end-to-end governance**.
 - **Puts data in the hands of everyone** in the organization (democratization).
 
-_(Added)_ How the stages fix silos: the data lake gives every source one place to land, the catalog makes it findable, and governance tools control it end to end.
+How the stages fix silos: the data lake gives every source one place to land, the catalog makes it findable, and governance tools control it end to end.
 
 ### Modern data strategy
 
 A modern data strategy uses **technology building blocks** to help you:
 
-| Verb | What it means _(added)_ |
+| Verb | What it means |
 | --- | --- |
 | **Manage** | Store, catalog and govern data |
 | **Access** | Let the right people find and reach it |
@@ -64,9 +64,9 @@ Across every stage: security and governance
 
 **Order note.** Data *flows* ingest → store. But you **build** the data lake first: "Before you can ingest data, you need a place to put it." Processed data is usually written back to the lake, so storage is used again after stage 4.
 
-The AWS services for each stage are in [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline.md).
+The AWS services for each stage are in [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline/aws-data-pipeline.md).
 
-### How the stages map to the role _(added)_
+### How the stages map to the role
 
 | Stage | Data engineer function ([data-engineer-role.md](data-engineer-role.md)) | Discovery step ([data-discovery.md](data-discovery.md)) | ETL |
 | --- | --- | --- | --- |
@@ -85,16 +85,16 @@ The sources are the ones classified in discovery step 3 ([data-discovery.md](dat
 
 | Kind of source | How it's ingested |
 | --- | --- |
-| **Relational and non-relational databases** | Loaded into the lake, as a full load or ongoing **change data capture** (CDC: copy only the inserts, updates and deletes) _(added: full load vs CDC)_ |
-| **Real-time data streams** (logs, clickstreams, app events _(added)_) | Delivered continuously into the lake. Delivery can **convert streams to columnar formats** such as Parquet or ORC, decompress data and run custom transformations on the way in |
+| **Relational and non-relational databases** | Loaded into the lake, as a full load or ongoing **change data capture** (CDC: copy only the inserts, updates and deletes) |
+| **Real-time data streams** (logs, clickstreams, app events) | Delivered continuously into the lake. Delivery can **convert streams to columnar formats** such as Parquet or ORC, decompress data and run custom transformations on the way in |
 | **High-throughput event streams** | Run on an event-streaming platform such as **Apache Kafka**, for streaming pipelines and applications |
-| **IoT devices** | A device platform connects **billions of devices** and routes **trillions of messages** onward, often into a stream that delivers to the lake _(added: onward routing)_ |
+| **IoT devices** | A device platform connects **billions of devices** and routes **trillions of messages** onward, often into a stream that delivers to the lake |
 | **On-premises file shares, object storage and Hadoop clusters** | Transferred to cloud storage over the network, and can **sync on a schedule** |
-| **Files from partners and vendors** | Sent over file transfer protocols (**SFTP, FTPS, FTP**, and AS2 _(added)_), with transfers into and out of the lake automated |
+| **Files from partners and vendors** | Sent over file transfer protocols (**SFTP, FTPS, FTP**, and AS2), with transfers into and out of the lake automated |
 | **Huge or sensitive data** | Shipped on **physical devices** when network transfer isn't feasible because of volume or sensitivity |
 
-- _(Added)_ **Light transformation can happen during ingest,** such as format conversion. Heavier logic belongs in stage 4.
-- _(Added)_ **Converting to a columnar format on the way in pays off at delivery:** query engines scan less data, so queries are cheaper and faster ([data-lakes-and-warehouses.md](data-lakes-and-warehouses.md)).
+- **Light transformation can happen during ingest,** such as format conversion. Heavier logic belongs in stage 4.
+- **Converting to a columnar format on the way in pays off at delivery:** query engines scan less data, so queries are cheaper and faster ([data-lakes-and-warehouses.md](data-lakes-and-warehouses.md)).
 
 ## 2. Store
 
@@ -108,14 +108,15 @@ The storage under a data lake needs:
 | **High durability** | Data is safe once it lands |
 | **Pay for what you use** | No capacity to provision up front |
 
-- _(Added)_ **The lake holds both raw and processed data.** Raw data lands first, and stage 4 writes its curated output back to the lake.
-- _(Added)_ **Not lakes, but often mistaken for them:** query and processing engines *read* the lake, a warehouse serves the curated part of it (a lake house), and an operational database is a *source* that feeds it.
+- **The lake holds both raw and processed data.** Raw data lands first, and stage 4 writes its curated output back to the lake.
+- **The lake is split into zones:** raw (as ingested), cleaned (filtered, standardized, corrected) and curated (merged and consumption-ready), plus optional landing, logs, archived and sandbox zones. Stage 4 moves data from one zone to the next. See [data-lake-zones.md](data-lake-zones.md).
+- **Not lakes, but often mistaken for them:** query and processing engines *read* the lake, a warehouse serves the curated part of it (a lake house), and an operational database is a *source* that feeds it.
 
 ## 3. Catalog
 
 The **data catalog** is an **essential component** of a data lake. Cataloging lets an organization keep track of its data assets and understand:
 
-| Question | Example metadata _(added)_ |
+| Question | Example metadata |
 | --- | --- |
 | **What** data exists? | Table names, descriptions, schemas (columns and types) |
 | **Where** is it? | Storage location, format (CSV, JSON, Parquet), partitions |
@@ -126,11 +127,11 @@ A data catalog is designed to be the **single source of truth about the contents
 
 **Crawlers** fill the catalog. A crawler **scans data, determines its format and schema, groups it into tables and writes the metadata to the catalog**. Flow: data lands in the lake → a crawler catalogs it → it becomes discoverable and queryable.
 
-- _(Added)_ Without a catalog, a lake is just millions of files that nobody can find or trust. This is sometimes called a **data swamp**.
-- _(Added)_ **The catalog stores metadata, not the data itself.** The data stays in the lake; the catalog holds the table definitions that point to it.
-- _(Added)_ **One catalog, many engines:** define a table once and query it from any engine that reads the catalog. The **Apache Hive metastore** is the common standard engines expect.
-- _(Added)_ **The catalog anchors governance:** access permissions are granted on catalog objects (databases, tables, columns), so they apply to every engine that reads through it.
-- _(Added)_ **Technical vs business metadata:** a technical catalog holds schemas, locations and partitions for engines; a business catalog adds a **business glossary**, owners and descriptions for people across the organization.
+- Without a catalog, a lake is just millions of files that nobody can find or trust. This is sometimes called a **data swamp**.
+- **The catalog stores metadata, not the data itself.** The data stays in the lake; the catalog holds the table definitions that point to it.
+- **One catalog, many engines:** define a table once and query it from any engine that reads the catalog. The **Apache Hive metastore** is the common standard engines expect.
+- **The catalog anchors governance:** access permissions are granted on catalog objects (databases, tables, columns), so they apply to every engine that reads through it.
+- **Technical vs business metadata:** a technical catalog holds schemas, locations and partitions for engines; a business catalog adds a **business glossary**, owners and descriptions for people across the organization.
 
 ## 4. Process
 
@@ -138,7 +139,7 @@ After data is **cataloged**, it's **processed or transformed** into formats more
 
 ### Types of transformation
 
-| Transformation | Example _(added)_ |
+| Transformation | Example |
 | --- | --- |
 | **Data type conversion** | `"2026-10-18"` string → date; `"42"` → integer |
 | **Filtering** | Drop test accounts, null rows or irrelevant columns |
@@ -150,13 +151,13 @@ After data is **cataloged**, it's **processed or transformed** into formats more
 
 | Kind | What it does | Mode |
 | --- | --- | --- |
-| **Managed ETL** | Prepares and cleanses data from various sources. Can also **classify data, extract schemas and populate the catalog** | Batch _(added: some also run streaming ETL)_ |
+| **Managed ETL** | Prepares and cleanses data from various sources. Can also **classify data, extract schemas and populate the catalog** | Batch (some also run streaming ETL) |
 | **Big data frameworks** | Runs **open-source frameworks** on clusters you customize, or serverless | Batch |
 | **Real-time stream processing** | Lets you **quickly author SQL** for **filtering, aggregating, joining and deriving** data as it streams in | Real time |
 
-- _(Added)_ **Apache Spark** is the open-source distributed engine most managed ETL and big data services run on. **Apache Flink** is the common open-source engine for real-time stream processing, and supports Java, Scala and Python as well as SQL.
-- _(Added)_ **Managed vs framework, in one line:** managed ETL is less to run and more opinionated. Running frameworks yourself gives more control and more framework choice, but more to manage.
-- _(Added)_ **A visual editor** for building ETL jobs answers discovery step 5's "Do you have a visual editor?"
+- **Apache Spark** is the open-source distributed engine most managed ETL and big data services run on. **Apache Flink** is the common open-source engine for real-time stream processing, and supports Java, Scala and Python as well as SQL.
+- **Managed vs framework, in one line:** managed ETL is less to run and more opinionated. Running frameworks yourself gives more control and more framework choice, but more to manage.
+- **A visual editor** for building ETL jobs answers discovery step 5's "Do you have a visual editor?"
 
 ## 5. Deliver
 
@@ -164,19 +165,19 @@ After data is **cataloged**, it's **processed or transformed** into formats more
 
 The **primary purpose of data analytics** is to **extract insights from data that lead to good business or organizational outcomes**. Data can be delivered in several ways:
 
-| Way to deliver | What it does | Typical consumer _(added)_ |
+| Way to deliver | What it does | Typical consumer |
 | --- | --- | --- |
 | **Data warehouse** | Analyzes **large sets of structured data** across many databases and datasets **without moving the data** | Analysts, BI |
 | **SQL directly on the lake** | Queries large datasets **in place** with **standard SQL**, in formats such as **CSV, Parquet and ORC** | Analysts, engineers (ad hoc) |
 | **Big data frameworks** | Runs **Spark, Hive, Presto and Flink** on large datasets. Examples: log analysis, ML, data science, web indexing, scientific simulations | Data scientists, engineers |
 | **Purpose-built databases** | Store, query and analyze large datasets with the data model that fits (table below) | Applications, specialized analytics |
-| **Search and log analytics** | Searches and analyzes data from streams, the lake and databases _(added: full-text search, log analytics, near real-time log dashboards)_ | Engineers, ops |
+| **Search and log analytics** | Searches and analyzes data from streams, the lake and databases (full-text search, log analytics, near real-time log dashboards) | Engineers, ops |
 | **BI dashboards** | **Visualize and analyze** with SQL, charts, graphs and **dashboards** | Business analysts, executives |
 | **Machine learning** | Build, train and deploy models for **predictive analytics, computer vision, NLP, recommendation systems** and more | Data scientists |
 
-_(Added)_ A warehouse works "without moving the data" in two ways. It queries files in the lake in place, which is the lake house idea from [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md). It also queries operational databases through **federated queries**.
+A warehouse works "without moving the data" in two ways. It queries files in the lake in place, which is the lake house idea from [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md). It also queries operational databases through **federated queries**.
 
-### Purpose-built databases _(added)_
+### Purpose-built databases
 
 | Type | Use it for |
 | --- | --- |
@@ -189,7 +190,7 @@ _(Added)_ A warehouse works "without moving the data" in two ways. It queries fi
 | Wide column | Large, sparse tables, such as Apache Cassandra workloads |
 | Ledger | Immutable, verifiable history |
 
-### How earlier stages pay off here _(added)_
+### How earlier stages pay off here
 
 - **Ingest:** columnar formats written at ingest mean less data scanned per query.
 - **Catalog:** every delivery engine reads the same table definitions from the catalog, so a table is defined once.
@@ -200,7 +201,8 @@ The **entire data analytics system depends on data being secured** and accessibl
 
 ## Related
 
-- [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline.md): implements each of the five stages with AWS services, from DMS and Firehose at ingest to Redshift, Athena and QuickSight at deliver, and maps each purpose-built database type to its AWS service.
+- [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline/aws-data-pipeline.md): implements each of the five stages with AWS services, from DMS and Firehose at ingest to Redshift, Athena and QuickSight at deliver, and maps each purpose-built database type to its AWS service.
+- [data-lake-zones.md](data-lake-zones.md): stage 2 (store) is organized into raw, cleaned and curated zones, and stage 4 (process) moves data between them.
 - [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md): stage 2 (store) is the data lake. That file defines the lake, how it differs from a warehouse (schema-on-read vs schema-on-write), why an operational database isn't one, and how the stage 5 warehouse works with it as a lake house.
 - [batch-and-streaming.md](batch-and-streaming.md): stage 1 (ingest) works differently per ingest mode. Batch loads land files in the lake on a schedule, while streams deliver records continuously and can feed real-time processing in stage 4.
 - [data-discovery.md](data-discovery.md): discovery plans the stages before they're built. Step 3 classifies the sources stage 1 ingests, step 4 sets the storage and catalog needs, and step 5 sets the processing requirements.

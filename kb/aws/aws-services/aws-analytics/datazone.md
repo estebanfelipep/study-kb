@@ -8,17 +8,17 @@ DataZone lets you **catalog, discover, share and govern** data across **AWS, on 
 
 ## Characteristics
 
-- A governance service, used in the catalog and deliver stages _(added)_.
-- Audience is business users across the organization, not engines _(added)_.
-- Holds business metadata: the **business glossary**, descriptions and owners. Technical metadata (schemas, locations, partitions) stays in the [Glue Data Catalog](glue.md) _(added)_.
-- Self-service sharing: users **request and approve** access to data products _(added)_.
-- Supports **data mesh** setups _(added)_.
-- Provides **lineage** (which job produced which table) as part of DataZone / SageMaker Catalog _(added; check current docs)_.
-- Best practice: **define and implement data governance** with data owners per domain, a catalog with business terms, and access requests through DataZone _(added)_.
+- A governance service, used in the catalog and deliver stages.
+- Audience is business users across the organization, not engines.
+- Holds business metadata: the **business glossary**, descriptions and owners. Technical metadata (schemas, locations, partitions) stays in the [Glue Data Catalog](glue.md).
+- Self-service sharing: users **request and approve** access to data products.
+- Supports **data mesh** setups.
+- Provides **lineage** (which job produced which table) as part of DataZone / SageMaker Catalog.
+- Best practice: **define and implement data governance** with data owners per domain, a catalog with business terms, and access requests through DataZone.
 
 ## Example
 
-_(added)_ A marketing analyst searches DataZone for "customer lifetime value", finds the data product the finance team published, and requests access. The finance data owner approves, and the analyst can query it without a ticket to the data team.
+A marketing analyst searches DataZone for "customer lifetime value", finds the data product the finance team published, and requests access. The finance data owner approves, and the analyst can query it without a ticket to the data team.
 
 ## Related
 

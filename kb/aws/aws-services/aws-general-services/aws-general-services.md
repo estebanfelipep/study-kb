@@ -10,4 +10,4 @@ Services that belong to two or more categories, such as S3, which is both web st
 
 ## Files
 
-- [s3.md](s3.md): Amazon S3 object storage: buckets, objects, keys, use cases, storage classes, security, performance, event notifications, static websites, and its role as the data lake. Read when: you need how S3 works, its limits or storage classes, or why the lake is built on it.
+- [s3.md](s3.md): Amazon S3 object storage: buckets, objects, keys and why there are no real folders, use cases, S3 for data lakes (features, availability), storage classes, lifecycle rules, data lake zones as buckets, the Example Corp lifecycle example, security, performance, event notifications and static websites. Read when: you need how S3 works, its limits, storage classes or lifecycle rules, how lake zones map to buckets, or why the lake is built on it.

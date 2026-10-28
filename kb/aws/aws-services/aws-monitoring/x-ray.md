@@ -4,19 +4,19 @@ This file covers X-Ray: tracing requests across services to find where they slow
 
 ## What it is
 
-X-Ray provides **end-to-end monitoring and performance insights** for applications on AWS and their underlying services. The course lists it for monitoring **data pipelines**. It answers "**Which** call in this request is slow?" _(added)_.
+X-Ray provides **end-to-end monitoring and performance insights** for applications on AWS and their underlying services. The course lists it for monitoring **data pipelines**. It answers "**Which** call in this request is slow?".
 
 ## Characteristics
 
-- **Traces** a request as it moves through API Gateway, Lambda, DynamoDB, SQS and other services _(added)_.
-- The **service map** shows each component with its latency and error rate _(added)_.
-- Built into [Lambda](../aws-compute/lambda.md), [API Gateway](../aws-apis/api-gateway.md) and [Step Functions](../aws-application-coordination/step-functions.md) with a setting _(added)_.
-- Works on individual requests (traces), unlike [CloudWatch](cloudwatch.md)'s aggregated metrics _(added)_.
-- AWS recommends instrumenting with **OpenTelemetry** (AWS Distro for OpenTelemetry) and viewing traces in **CloudWatch Application Signals**; the X-Ray SDKs are in maintenance _(added; check current docs)_.
+- **Traces** a request as it moves through API Gateway, Lambda, DynamoDB, SQS and other services.
+- The **service map** shows each component with its latency and error rate.
+- Built into [Lambda](../aws-compute/lambda.md), [API Gateway](../aws-apis/api-gateway.md) and [Step Functions](../aws-application-coordination/step-functions.md) with a setting.
+- Works on individual requests (traces), unlike [CloudWatch](cloudwatch.md)'s aggregated metrics.
+- AWS recommends instrumenting with **OpenTelemetry** (AWS Distro for OpenTelemetry) and viewing traces in **CloudWatch Application Signals**; the X-Ray SDKs are in maintenance.
 
 ## Example
 
-_(added)_ A data ingestion API is slow. The X-Ray service map shows API Gateway at 20 ms, Lambda at 50 ms, and a DynamoDB write at 1.8 seconds because of throttling. The fix is DynamoDB capacity, not the Lambda code.
+A data ingestion API is slow. The X-Ray service map shows API Gateway at 20 ms, Lambda at 50 ms, and a DynamoDB write at 1.8 seconds because of throttling. The fix is DynamoDB capacity, not the Lambda code.
 
 ## Related
 

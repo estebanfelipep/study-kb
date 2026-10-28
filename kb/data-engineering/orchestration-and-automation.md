@@ -18,17 +18,17 @@ As businesses rely more on data analytics, **managing the complexity of data wor
 | Definition | Using tools and services to **automate repetitive tasks** related to data ingestion, processing and analytics | **Coordinating multiple services** to define and manage the **flow of data through a series of steps** |
 | Involves | A single task that runs without manual effort | **Workflows and dependencies** between steps |
 | Suitable for | **Simple, repetitive tasks** | **Complex workflows** involving multiple **services, teams and dependencies** across stages |
-| Example _(added)_ | A function converts every new file in the lake to Parquet | A workflow runs: crawl new data → run an ETL job → load the warehouse → notify the team, with retries on failure |
+| Example | A function converts every new file in the lake to Parquet | A workflow runs: crawl new data → run an ETL job → load the warehouse → notify the team, with retries on failure |
 
 **They're typically used together.** Orchestration often means coordinating multiple automated tasks in a defined sequence. Together they **streamline operations**, **improve reliability** and **empower non-programmers** to manage complex workflows.
 
-_(Added)_ Analogy: automation is each musician playing their part; orchestration is the conductor deciding who plays when.
+Analogy: automation is each musician playing their part; orchestration is the conductor deciding who plays when.
 
-## Workflows as DAGs _(added)_
+## Workflows as DAGs
 
 Many orchestrators (Apache Airflow, for example) define a workflow as a **DAG** (directed acyclic graph): tasks plus the dependencies between them. **Operators** are prebuilt task types, such as "run SQL" or "run a Spark job". Other orchestrators model workflows as **state machines**, where each step is a state: run a task, branch, run in parallel, wait, or loop.
 
-## Messaging patterns _(added)_
+## Messaging patterns
 
 |  | **Publish/subscribe** | **Queue** | **Event bus** |
 | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ The AWS services are SNS (pub/sub), SQS (queues) and EventBridge (event bus); se
 - **Traditional ETL:** data is extracted from source systems, transformed or cleaned, and loaded into a data warehouse or data lake. These processes are **time-consuming and complex** to develop and maintain.
 - **Zero-ETL:** data can be **queried directly from its original sources** without requiring data movement or transformation.
 
-_(Added)_ Zero-ETL doesn't mean zero transformation forever. It removes the **pipeline-building** step; you may still model the data afterward, for example with SQL views in the warehouse. The two main forms are **querying data in place** and **managed replication** from a source to a target.
+Zero-ETL doesn't mean zero transformation forever. It removes the **pipeline-building** step; you may still model the data afterward, for example with SQL views in the warehouse. The two main forms are **querying data in place** and **managed replication** from a source to a target.
 
 ## Serverless architecture
 
@@ -59,6 +59,6 @@ A **serverless architecture** is a way to build and run applications and service
 - **Extremely cost effective:** you **pay only for the time your code is running**.
 - **Efficiently orchestrated and automated workflows depend significantly on serverless applications.**
 
-_(Added)_ Serverless is usually cheapest for spiky or unpredictable workloads. For steady, round-the-clock heavy load, provisioned capacity can cost less.
+Serverless is usually cheapest for spiky or unpredictable workloads. For steady, round-the-clock heavy load, provisioned capacity can cost less.
 
 The AWS zero-ETL and serverless services are in [zero-etl-and-serverless-on-aws.md](../aws/aws-data-engineering/zero-etl-and-serverless-on-aws.md).

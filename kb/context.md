@@ -14,11 +14,15 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **CIA triad**: Confidentiality, integrity and availability, the three goals of data security. See [data-security-and-monitoring.md](data-engineering/data-security-and-monitoring.md).
 
+**Cleaned zone**: The data lake zone that holds each source after filtering anomalies, standardizing formats and correcting invalid values, still not combined with other sources. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
+
 **Columnar format**: A file or storage layout that stores each column together, so queries read only the columns they need. Parquet and ORC are columnar file formats. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **Crawler**: A Glue component that scans data, infers format and schema, and writes tables to the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **CTAS**: `CREATE TABLE AS SELECT`. An Athena statement that writes a query's results to S3 as new files and registers them as a table. See [athena.md](aws/aws-services/aws-analytics/athena.md).
+
+**Curated zone**: The data lake zone that holds data merged, joined or aggregated with other datasets, quality-assured and consumption-ready for analytics and ML. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **DAG**: Directed acyclic graph. A workflow of tasks and their dependencies, as defined in Apache Airflow. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -58,6 +62,8 @@ _Avoid:_ customer 360, single customer view
 
 **Lake house**: A lake and a warehouse used together: the lake holds everything, and the warehouse serves the curated, high-performance part and can query the lake in place. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**Landing zone (data lake)**: An optional first zone for sensitive data such as PII, where it is masked before moving into the raw zone. Not the same as a Control Tower landing zone. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
+
 **Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
 
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
@@ -81,6 +87,8 @@ _Avoid:_ customer 360, single customer view
 **PII**: Personally identifiable information. See [macie.md](aws/aws-services/aws-security/macie.md).
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
+
+**Raw zone**: The data lake zone that holds data as ingested, in its original format, kept for auditing and reprocessing. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
 

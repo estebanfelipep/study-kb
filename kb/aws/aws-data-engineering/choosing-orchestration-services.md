@@ -2,7 +2,7 @@
 
 This file holds the comparisons and exam pick-rules for orchestrating, automating and connecting pipeline steps: Step Functions, MWAA, Glue workflows, Lambda, EventBridge, SNS, SQS and API Gateway.
 
-All content here is _(added)_ general knowledge. Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The vendor-neutral concepts are in [orchestration-and-automation.md](../../data-engineering/orchestration-and-automation.md).
+Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The vendor-neutral concepts are in [orchestration-and-automation.md](../../data-engineering/orchestration-and-automation.md).
 
 ## If the question says… pick
 

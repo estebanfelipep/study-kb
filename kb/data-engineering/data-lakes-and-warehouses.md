@@ -10,7 +10,7 @@ A modern data architecture **starts with the data lake**: you need a place to pu
 
 On AWS, the data lake is built on [s3.md](../aws/aws-services/aws-general-services/s3.md).
 
-## Lake vs warehouse _(added)_
+## Lake vs warehouse
 
 **A lake is storage. A warehouse is a query engine with its own storage, built for analytics.** They usually work together.
 
@@ -27,11 +27,11 @@ On AWS, the data lake is built on [s3.md](../aws/aws-services/aws-general-servic
 
 **Rule of thumb:** raw data from every source lands in the **lake**. A processing engine transforms it, and the curated output stays in the lake. The hot, heavily queried subset goes into the **warehouse** for dashboards, or is queried in place.
 
-### Lake house _(added)_
+### Lake house
 
 A **lake house** combines the two: the lake holds everything, and the warehouse serves the curated, high-performance part. The warehouse can query files in the lake without loading them and export results back to the lake in open formats. The warehouse *reaches into* the lake but isn't the lake.
 
-## OLTP vs OLAP _(added)_
+## OLTP vs OLAP
 
 **An operational database runs the application (OLTP). A warehouse analyzes the data (OLAP).** The purpose drives the design.
 
@@ -52,12 +52,12 @@ A **lake house** combines the two: the lake holds everything, and the warehouse 
 
 **How they fit together:** the OLTP database is usually a **source**. The app writes to it, a pipeline or replication copies the data to the lake and/or warehouse, and analysts query the warehouse without touching the production database.
 
-## Why an operational database isn't a data lake _(added)_
+## Why an operational database isn't a data lake
 
 Every database stores data. A data lake is defined by **what** it stores, **how much**, and **in what state**: one central place for every source, any format, at any scale, with no preprocessing, paid per use. A per-application database fails most of those: it's one store per app (a silo by design), needs a schema first, and handles unstructured data only as blobs. If each team treated its own database as "our data lake", you'd recreate the silos and duplication the lake exists to fix.
 
 The AWS version of this comparison (RDS vs S3) is in [choosing-storage-and-processing-services.md](../aws/aws-data-engineering/choosing-storage-and-processing-services.md).
 
-## Columnar file formats _(added)_
+## Columnar file formats
 
 **Parquet and ORC** are **columnar** file formats. Converting lake data to them makes it cheaper and faster to query, because engines read only the columns a query needs. It's the same columnar idea warehouses use. Combined with **partitioning**, it cuts the data each query scans.

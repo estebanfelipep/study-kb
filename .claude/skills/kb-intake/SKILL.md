@@ -32,10 +32,10 @@ Work through intake in order:
 
 6. **Write current state only.** State the fact as it is now. Never note what it used to say, when it changed, or why. No "(previously X)", no dated session entries: `git log -p <file>` and the commit message are the changelog (`docs/adr/0001-git-history-as-changelog.md`). Study progress is a current snapshot, such as which domains are covered and what still needs review.
    - When the information comes with external resources (a YouTube video, an AWS doc, an article), list them in a `## Sources` section right after the file's one-line statement (`- [Title](url): what it is.`) and add them to `links.md`. Notes the user shares directly need no source tag, and a file with no external resources gets no Sources section.
-   - Mark content that isn't from the user's notes (general knowledge, Q&A, your additions) with `_(added)_`, or `_(added; verify)_` for facts likely to change.
    - For an external resource, extract the durable facts in your own words and link back rather than pasting in a copy.
    - Put images in the folder's `images/`, named `<topic>-<yyyy-mm-dd>.<ext>`, and link them from the topic file.
    - Cross-reference related KB files with relative markdown links, never backticked paths or `[[wikilinks]]`. Every link says how the two things relate (direction and mechanism), per `AGENTS.md`'s "Every link explains the relationship" rule. When you add a relationship, add the matching explained link on the other file's side too.
+   - Make it visual: tables for comparisons, ASCII diagrams for flows, timelines for things that happen over time, and sample rows for what data looks like, per `AGENTS.md`'s "Show, don't only tell" rule.
    - Keep ASCII diagrams within 72 columns.
    - Match the style already in the file.
    - Open a new file with a one-line statement of what it covers.

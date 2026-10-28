@@ -8,19 +8,19 @@ Amazon DynamoDB is a fully managed NoSQL database with no servers to provision o
 
 ## Characteristics
 
-- **Key-value and document** model; single-digit-millisecond reads and writes at any scale. _(added)_
-- Access by key. No joins or complex ad hoc SQL. _(added)_
-- **On-demand capacity** (pay per request, scales automatically) or **provisioned capacity** (set reads and writes per second; cheaper for steady load). _(added)_
+- **Key-value and document** model; single-digit-millisecond reads and writes at any scale.
+- Access by key. No joins or complex ad hoc SQL.
+- **On-demand capacity** (pay per request, scales automatically) or **provisioned capacity** (set reads and writes per second; cheaper for steady load).
 - **DynamoDB Streams** emits every change, which can trigger Lambda functions, so DynamoDB is an **event source** as well as a store. Lambda can be invoked by DynamoDB events to process data in real time.
-- **TTL** (time to live) deletes expired items automatically. _(added)_
-- Encryption at rest with [KMS](../aws-security/kms.md). _(added)_
-- Writes can be throttled when capacity is too low. _(added)_
+- **TTL** (time to live) deletes expired items automatically.
+- Encryption at rest with [KMS](../aws-security/kms.md).
+- Writes can be throttled when capacity is too low.
 
 ## Example
 
-- _(added)_ A pipeline remembers which files it already processed: each Lambda run writes `{file_key, status, processed_at}` to a table and checks it first, so a file delivered twice isn't loaded twice.
-- _(added)_ A `user_sessions` table holds live session data for a streaming app, and DynamoDB Streams sends every change to a Lambda function that updates real-time counters.
-- _(added)_ A metrics API: [API Gateway](../aws-apis/api-gateway.md) → [Lambda](../aws-compute/lambda.md) reads a precomputed value from DynamoDB and returns JSON.
+- A pipeline remembers which files it already processed: each Lambda run writes `{file_key, status, processed_at}` to a table and checks it first, so a file delivered twice isn't loaded twice.
+- A `user_sessions` table holds live session data for a streaming app, and DynamoDB Streams sends every change to a Lambda function that updates real-time counters.
+- A metrics API: [API Gateway](../aws-apis/api-gateway.md) → [Lambda](../aws-compute/lambda.md) reads a precomputed value from DynamoDB and returns JSON.
 
 ## Related
 
@@ -28,5 +28,5 @@ Amazon DynamoDB is a fully managed NoSQL database with no servers to provision o
 - [api-gateway.md](../aws-apis/api-gateway.md): in a serverless API, API Gateway invokes Lambda, which reads the precomputed value from DynamoDB and returns it.
 - [opensearch-service.md](opensearch-service.md): OpenSearch can analyze data stored in DynamoDB with the OpenSearch APIs.
 - [choosing-storage-and-processing-services.md](../../aws-data-engineering/choosing-storage-and-processing-services.md): compares DynamoDB with RDS/Aurora. DynamoDB is NoSQL, accessed by key, fully serverless, with no joins; RDS/Aurora is relational SQL with joins and transactions on instances you size.
-- [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline.md): DynamoDB is the key-value example among AWS's purpose-built databases at the deliver stage.
+- [deliver-on-aws.md](../../aws-data-engineering/aws-data-pipeline/deliver-on-aws.md): DynamoDB is the key-value example among AWS's purpose-built databases at the deliver stage.
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): DynamoDB is the serverless NoSQL database in the serverless services list, the alternative to provisioned RDS/Aurora.

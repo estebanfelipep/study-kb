@@ -2,7 +2,7 @@
 
 This file holds the comparisons and exam pick-rules for where data lives (lake, warehouse, databases, block and file storage) and what transforms it (Glue, EMR, Flink).
 
-All content here is _(added)_ general knowledge. Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The vendor-neutral concepts are in [data-lakes-and-warehouses.md](../../data-engineering/data-lakes-and-warehouses.md).
+Service details are in each service's file in [aws-services](../aws-services/aws-services.md). The vendor-neutral concepts are in [data-lakes-and-warehouses.md](../../data-engineering/data-lakes-and-warehouses.md).
 
 ## Storage
 

@@ -4,7 +4,7 @@ Amazon Kinesis Data Streams (KDS): real-time streaming storage, its records and 
 
 ## What it is
 
-Kinesis Data Streams is a real-time data streaming service. It captures large volumes of continuous data (clicks, logs, IoT readings, transactions) and keeps it for a while, so multiple applications can read and process it within milliseconds of arrival. The course names it as an **event source** in orchestrated workflows: it triggers Lambda functions, feeds Step Functions streaming pipelines, and is a source for OpenSearch and Redshift streaming ingestion. For what a stream is, see [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md). _(added: most details below come from Q&A)_
+Kinesis Data Streams is a real-time data streaming service. It captures large volumes of continuous data (clicks, logs, IoT readings, transactions) and keeps it for a while, so multiple applications can read and process it within milliseconds of arrival. The course names it as an **event source** in orchestrated workflows: it triggers Lambda functions, feeds Step Functions streaming pipelines, and is a source for OpenSearch and Redshift streaming ingestion. For what a stream is, see [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md).
 
 ```
 Producers ──▶ Kinesis Data Stream ──▶ Consumers
@@ -13,7 +13,7 @@ Producers ──▶ Kinesis Data Stream ──▶ Consumers
                 up to 365 days)       ingestion, apps on EC2/ECS)
 ```
 
-## Characteristics _(added)_
+## Characteristics
 
 ### Records
 
@@ -34,7 +34,7 @@ Producers ──▶ Kinesis Data Stream ──▶ Consumers
 - **Consumers:** your code (Lambda, Flink, custom apps); transformation is written in the consumer.
 - **Monitoring:** the CloudWatch metric `GetRecords.IteratorAgeMilliseconds` shows how far consumers are behind.
 
-## Example _(added)_
+## Example
 
 - **Fraud detection:** each card transaction is written with `card_id` as the partition key, so one card's transactions stay in order. A Lambda consumer scores each one in milliseconds and blocks suspicious ones. [Firehose](data-firehose.md) archives the same stream to S3 for model training and audits.
 - **Video playback quality:** every player sends a heartbeat event every few seconds (bitrate, buffering, errors, device, region, CDN). On-demand mode absorbs spikes during a premiere. [Managed Service for Apache Flink](managed-service-for-apache-flink.md) computes buffering rate per region and CDN per 1-minute window. A spike makes a Lambda consumer publish to [SNS](../aws-application-coordination/sns.md), or [EventBridge](../aws-application-coordination/eventbridge.md) starts a [Step Functions](../aws-application-coordination/step-functions.md) workflow that shifts traffic. Firehose writes Parquet to S3 for next-day reports in [Athena](athena.md) and [QuickSight](quicksight.md). Kinesis fits because the alert must fire within seconds, three consumers need the same events, and the team wants to replay hours after fixing a bug.

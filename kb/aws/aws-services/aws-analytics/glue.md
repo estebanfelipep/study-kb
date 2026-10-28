@@ -18,7 +18,7 @@ It's a family of tools under one name that share one hub, the Data Catalog: craw
 
 ## Characteristics
 
-### Problems each part solves _(added)_
+### Problems each part solves
 
 | Problem | Without Glue | Glue's answer | Stage |
 | --- | --- | --- | --- |
@@ -34,22 +34,22 @@ It's a family of tools under one name that share one hub, the Data Catalog: craw
 
 ### Jobs
 
-- Ingest and transform data. Run on **Apache Spark**, or **Python shell** for small tasks (also Ray). _(added)_
-- Capacity is measured in **DPUs** (data processing units), billed per second while a job runs. _(added)_
-- Mostly batch; also **streaming ETL**. _(added)_
-- **Job bookmarks** remember what was already processed, so each run handles only new data. _(added)_
-- Connectors to many sources. _(added)_
-- Run for hours on GB to TB of data (distributed Spark), so they suit transformations that would time out in [Lambda](../aws-compute/lambda.md). _(added)_
-- The usual pattern is **S3 to S3**: a job reads objects from one prefix (`raw/`) and writes **new**, cleaned objects to another (`curated/`). Lake files are written once, so the raw objects stay unchanged as the source of truth. _(added)_
-- S3 isn't the only target: jobs can also write to Redshift or to databases over JDBC. _(added; verify)_
+- Ingest and transform data. Run on **Apache Spark**, or **Python shell** for small tasks (also Ray).
+- Capacity is measured in **DPUs** (data processing units), billed per second while a job runs.
+- Mostly batch; also **streaming ETL**.
+- **Job bookmarks** remember what was already processed, so each run handles only new data.
+- Connectors to many sources.
+- Run for hours on GB to TB of data (distributed Spark), so they suit transformations that would time out in [Lambda](../aws-compute/lambda.md).
+- The usual pattern is **S3 to S3**: a job reads objects from one zone's prefix or bucket and writes **new** objects to the next zone: `raw/` → `cleaned/` (filter, standardize, correct), then `cleaned/` → `curated/` (join, aggregate). Lake files are written once, so the raw objects stay unchanged as the source of truth. The zones are in [data-lake-zones.md](../../../data-engineering/data-lake-zones.md).
+- S3 isn't the only target: jobs can also write to Redshift or to databases over JDBC.
 
 ### Crawlers
 
 - Scan data, determine the format and schema, group data into tables, and write the metadata to the Data Catalog.
 - Flow: data lands in S3 → crawlers catalog it → it becomes discoverable and queryable.
-- Update schemas and partitions automatically as new data arrives. _(added)_
+- Update schemas and partitions automatically as new data arrives.
 - Used in discovery step 5 to extract relevant data (or custom scripts).
-- **Optional.** A table can also be written to the catalog by hand, for example with `CREATE EXTERNAL TABLE` in [Athena](athena.md). Crawlers pay off when there are many sources, schemas change, or new partitions keep arriving. _(added)_
+- **Optional.** A table can also be written to the catalog by hand, for example with `CREATE EXTERNAL TABLE` in [Athena](athena.md). Crawlers pay off when there are many sources, schemas change, or new partitions keep arriving.
 
 ### Data Catalog
 
@@ -57,36 +57,36 @@ It's a family of tools under one name that share one hub, the Data Catalog: craw
 - Lets you search and find relevant data sources by attributes such as name, owner, business terms and others.
 - Stores the **table definition and physical location** of a dataset, and lets you add business-relevant attributes.
 - **Tracks how data has changed over time**, including metadata changes as data moves between stores such as S3 and Redshift. This helps trace the flow of data.
-- Keeps **table versions**: each schema change creates a new version you can compare or roll back to. _(added)_
-- **Stores metadata, not the data.** The data stays in S3; the catalog holds table definitions that point to it. _(added)_
-- **One catalog, many engines:** [Athena](athena.md), [EMR](emr.md), Redshift Spectrum and Glue jobs all read table definitions from it. Compatible with the **Apache Hive metastore**. _(added)_
-- **Athena has no catalog of its own.** Tables created in Athena are stored here too, so Athena uses the Data Catalog even when no crawler or job is involved. _(added)_
-- [Lake Formation](lake-formation.md) permissions are applied to Data Catalog resources (databases, tables, columns), so the catalog is the anchor for governance. _(added)_
-- Supports owners, descriptions and custom table properties; the full business glossary lives in [DataZone](datazone.md). _(added)_
-- The catalog and connection passwords can be encrypted with KMS. _(added)_
+- Keeps **table versions**: each schema change creates a new version you can compare or roll back to.
+- **Stores metadata, not the data.** The data stays in S3; the catalog holds table definitions that point to it.
+- **One catalog, many engines:** [Athena](athena.md), [EMR](emr.md), Redshift Spectrum and Glue jobs all read table definitions from it. Compatible with the **Apache Hive metastore**.
+- **Athena has no catalog of its own.** Tables created in Athena are stored here too, so Athena uses the Data Catalog even when no crawler or job is involved.
+- [Lake Formation](lake-formation.md) permissions are applied to Data Catalog resources (databases, tables, columns), so the catalog is the anchor for governance.
+- Supports owners, descriptions and custom table properties; the full business glossary lives in [DataZone](datazone.md).
+- The catalog and connection passwords can be encrypted with KMS.
 - For the catalog concept (single source of truth, data swamp), see [modern-data-architecture.md](../../../data-engineering/modern-data-architecture.md).
 
 ### Workflows
 
-- Orchestrate a chain of Glue crawlers, jobs and triggers. Only Glue; serverless. _(added: defined in the Glue console or API)_
+- Orchestrate a chain of Glue crawlers, jobs and triggers. Only Glue; serverless. (defined in the Glue console or API)
 
-### Glue Studio _(added)_
+### Glue Studio
 
 - The visual editor for building ETL jobs. It answers discovery step 5's "Do you have a visual editor?"
 
-### Data Quality _(added)_
+### Data Quality
 
 - Rules that check data in a job, for example failing the job when too many rows break a rule.
 
 ### Sensitive data protection
 
 - Protects sensitive data with **encryption with KMS** and **data masking**.
-- **Security configurations** encrypt job output in S3, CloudWatch logs and job bookmarks with KMS. _(added)_
-- **Sensitive data detection** finds PII in a job's data while the job processes it, and can **redact, hash or partially mask** it. _(added)_
+- **Security configurations** encrypt job output in S3, CloudWatch logs and job bookmarks with KMS.
+- **Sensitive data detection** finds PII in a job's data while the job processes it, and can **redact, hash or partially mask** it.
 
 ## Example
 
-_(added)_ How the parts fit in one lake:
+How the parts fit in one lake:
 
 ```
 sources ─► S3 raw/ ─► crawler ─► Data Catalog ◄─ Athena, EMR and
@@ -97,15 +97,15 @@ sources ─► S3 raw/ ─► crawler ─► Data Catalog ◄─ Athena, EMR and
           PII masking             Lake Formation
               │                   permissions
               ▼
-          S3 curated/ (partitioned Parquet,
-                       registered as a table)
+          S3 cleaned/, then curated/ (partitioned
+                       Parquet, registered as tables)
 
 Glue workflow: crawler → job → crawler, in order
 ```
 
-- _(added)_ Nightly ETL: a Glue job reads only new JSON order files from S3 (job bookmarks), joins them with the customer table from the Data Catalog, drops test orders, standardizes country codes, and writes partitioned Parquet back to S3. A data-quality rule fails the job if more than 1% of orders have no customer ID. Nothing is billed between nights.
-- _(added)_ Masking: a job copies customer records from `raw/` to `curated/`, replaces emails with a hash and keeps only the last four digits of phone numbers. Analysts can count unique customers but can't see contact details.
-- _(added)_ Table versions: a source adds a `discount_code` column; the next crawler run creates version 7 of `orders`. When a report breaks, the team compares versions 6 and 7.
+- Nightly ETL: a Glue job reads only new JSON order files from S3 (job bookmarks), joins them with the customer table from the Data Catalog, drops test orders, standardizes country codes, and writes partitioned Parquet back to S3. A data-quality rule fails the job if more than 1% of orders have no customer ID. Nothing is billed between nights.
+- Masking: a job copies customer records from the `landing/` zone to `raw/`, replaces emails with a hash and keeps only the last four digits of phone numbers. Analysts can count unique customers but can't see contact details.
+- Table versions: a source adds a `discount_code` column; the next crawler run creates version 7 of `orders`. When a report breaks, the team compares versions 6 and 7.
 
 ## Related
 
@@ -118,7 +118,7 @@ Glue workflow: crawler → job → crawler, in order
 - [lambda.md](../aws-compute/lambda.md): Lambda handles small, event-driven tasks; a Glue job takes over for big transformations that would time out in Lambda's 15 minutes.
 - [step-functions.md](../aws-application-coordination/step-functions.md): Step Functions can start Glue crawlers and jobs as steps of a larger workflow; Glue workflows only chain Glue components.
 - [kms.md](../aws-security/kms.md): Glue security configurations use KMS keys to encrypt job output, logs, bookmarks and the Data Catalog.
-- [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline.md): Glue appears in stages 1 (ingest jobs), 3 (crawlers and the Data Catalog) and 4 (ETL), and in five of the six data engineer functions.
+- [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline/aws-data-pipeline.md): Glue appears in stages 1 (ingest jobs), 3 (crawlers and the Data Catalog) and 4 (ETL), and in five of the six data engineer functions.
 - [modern-data-architecture.md](../../../data-engineering/modern-data-architecture.md): Glue jobs perform the types of transformation listed here (type conversion, filtering, aggregation, standardization, normalizing), and the Data Catalog implements the catalog concept.
 - [choosing-storage-and-processing-services.md](../../aws-data-engineering/choosing-storage-and-processing-services.md): compares Glue with EMR and EMR Serverless: Glue is serverless, ETL-first and integrated with crawlers, the catalog, a visual editor and data quality; EMR gives control and more frameworks.
 - [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares Glue workflows with Step Functions and MWAA (Glue workflows only chain Glue crawlers and jobs), and a Glue job with Lambda (Glue for heavy, long-running ETL).

@@ -10,15 +10,15 @@ MWAA is a managed service for orchestrating data analytics workflows on AWS with
 
 - Workflows **handle dependencies**, support **parallel tasks**, and run tasks **sequentially** where needed.
 - Airflow **workers scale dynamically** with the workload.
-- A workflow is a **DAG** (directed acyclic graph) written in **Python**: a set of tasks plus the dependencies between them. See [orchestration-and-automation.md](../../../data-engineering/orchestration-and-automation.md) _(added)_.
-- **Operators** are prebuilt task types: run a Glue job, run SQL in Redshift, call an API, run a Spark job on EMR, or call services outside AWS _(added)_.
-- AWS manages the Airflow scheduler, workers, web server and metadata database. You upload DAG files to S3 _(added)_.
-- You size an environment, and **it costs money while it's running, even when idle** _(added)_.
-- Suits teams with existing Airflow code, Python-first teams, workflows touching many non-AWS systems, and open-source portability _(added)_.
+- A workflow is a **DAG** (directed acyclic graph) written in **Python**: a set of tasks plus the dependencies between them. See [orchestration-and-automation.md](../../../data-engineering/orchestration-and-automation.md).
+- **Operators** are prebuilt task types: run a Glue job, run SQL in Redshift, call an API, run a Spark job on EMR, or call services outside AWS.
+- AWS manages the Airflow scheduler, workers, web server and metadata database. You upload DAG files to S3.
+- You size an environment, and **it costs money while it's running, even when idle**.
+- Suits teams with existing Airflow code, Python-first teams, workflows touching many non-AWS systems, and open-source portability.
 
 ## Example
 
-_(added)_ A data team runs 150 Airflow DAGs on self-managed servers on premises. They move to MWAA by uploading the same Python files to S3. One of those DAGs:
+A data team runs 150 Airflow DAGs on self-managed servers on premises. They move to MWAA by uploading the same Python files to S3. One of those DAGs:
 
 1. Waits for a file from a vendor's SFTP server.
 2. Runs an EMR Spark job.

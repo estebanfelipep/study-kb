@@ -2,8 +2,6 @@
 
 This file follows one customer update from a sales system to marketing, to show how a modern data architecture removes data silos: one copy per source, one merged record per customer, and a view per department.
 
-All content here is _(added)_: general knowledge from Q&A, not the course notes.
-
 The example uses the five stages from [modern-data-architecture.md](modern-data-architecture.md) and the personas from [data-personas.md](data-personas.md). Read those first if the stages are new.
 
 ## What "unified" means
@@ -45,6 +43,12 @@ Ana moves from Madrid to Lisbon and tells her sales rep. Sales updates the CRM. 
  ┌──────────┐       │                ▼
  │ Tickets  │─batch─┘      ┌───────────────────┐
  └──────────┘              │ 3 Catalog         │
+                           │ 4 Process: clean  │
+                           │   each source     │
+                           │   cleaned/ zone   │
+                           └─────────┬─────────┘
+                                     ▼
+                           ┌───────────────────┐
                            │ 4 Process: match  │
                            │   IDs, merge,     │
                            │   pick sources    │
@@ -65,11 +69,11 @@ Ana moves from Madrid to Lisbon and tells her sales rep. Sales updates the CRM. 
 2. **Ingest: the change is captured.** **Change data capture (CDC)** reads the CRM's change log and copies only what changed: "customer S-981, city: Madrid → Lisbon, at 10:42". It doesn't reload the whole table. The marketing and support tools come in too, often as nightly batch loads. How a database's tables become files in the lake is in [replicating-databases-to-the-lake.md](replicating-databases-to-the-lake.md).
 3. **Store: the change lands in the lake's raw zone.** The raw zone keeps every source as it arrived, untouched. That gives a history, and lets you rebuild if a later step is wrong.
 4. **Catalog: everyone can find it.** The catalog records that `raw/crm/customers` exists, its schema, where it lives and who owns it. Without it, marketing wouldn't know the table exists.
-5. **Process: build the one customer record.** This is where the silos actually get merged:
+5. **Process: build the one customer record.** This is where the silos actually get merged, in two hops through the lake's zones ([data-lake-zones.md](data-lake-zones.md)):
+   - **Standardize each source (raw → cleaned):** `Lisboa`, `Lisbon` and `LIS` become `Lisbon`, and dates and country codes follow one format. This is the standardization transformation from the process stage. Each source is written to the cleaned zone on its own, for example `cleaned/crm/customers`, still not combined.
    - **Match the IDs (entity resolution):** S-981 in sales, `ana@x.io` in marketing and T-55 in support are recognized as the same person, for example by a normalized email or phone number. The output is a cross-reference table: `customer_key 7001 = S-981 = ana@x.io = T-55`.
-   - **Standardize:** `Lisboa`, `Lisbon` and `LIS` become `Lisbon`, and dates and country codes follow one format. This is the standardization transformation from the process stage.
    - **Pick a winner per field (survivorship):** the rule is decided once, by the architect with the departments. For example, address comes from the CRM, email preferences from marketing, and open tickets from support. A conflict is solved by the rule, not by whichever copy happened to change last.
-   - The result is written back to the lake as `curated/customer_360`, with **one row per real customer**. This single trusted record is the **golden record**. Doing all of this as an ongoing practice is **master data management (MDM)**.
+   - The result combines all three sources, so it's written to the curated zone (cleaned → curated) as `curated/customer_360`, with **one row per real customer**. This single trusted record is the **golden record**. Doing all of this as an ongoing practice is **master data management (MDM)**.
 6. **Deliver: each department sees its own view of the same row.**
    - Marketing's customer profile summary is a query or view over `customer_360`. The next time it refreshes, Ana's row says Lisbon.
    - Permissions decide what each team sees. Marketing might get city, segment and email preferences, but not deal values. Sales sees deal values but not ticket text. It's one table with different column and row filters.
@@ -119,6 +123,7 @@ Most teams don't need seconds for marketing profiles, so the delay is chosen per
 - [data-engineer-role.md](data-engineer-role.md): this example shows the job in practice. The engineer gets data from the sources (CDC, batch loads), makes it useful (matching, standardizing, merging) and serves it (department views, reverse ETL).
 - [modern-data-architecture.md](modern-data-architecture.md): the example walks through its five stages and shows how they remove the data silos defined there.
 - [replicating-databases-to-the-lake.md](replicating-databases-to-the-lake.md): explains step 2 in depth, meaning how the CRM's tables become full-load and change files in the raw zone and are merged into a current table.
+- [data-lake-zones.md](data-lake-zones.md): the example passes through all three zones: changes land in raw, each source is standardized into cleaned, and the merged `customer_360` is curated.
 - [data-personas.md](data-personas.md): the "Who does what" table applies the six personas to one project.
 - [batch-and-streaming.md](batch-and-streaming.md): the delay table is a choice between the ingest modes defined there.
 - [unified-customer-data-on-aws.md](../aws/aws-data-engineering/unified-customer-data-on-aws.md): builds this same example with AWS services, from DMS for CDC to Lake Formation for the department views.

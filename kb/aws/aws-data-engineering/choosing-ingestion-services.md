@@ -2,7 +2,7 @@
 
 This file holds the comparisons and exam pick-rules for getting data into AWS: databases, files, streams and devices, plus zero-ETL loading into Redshift.
 
-All content here is _(added)_ general knowledge. Service details are in each service's file in [aws-services](../aws-services/aws-services.md).
+Service details are in each service's file in [aws-services](../aws-services/aws-services.md).
 
 ## Matching services to sources and ingest modes
 
@@ -104,7 +104,7 @@ Both keep a copy of an RDS database current, but for different reasons.
 
 "Offload reads" or "failover" points to a read replica. "Get the database into the data lake" points to DMS.
 
-## Getting RDS data into S3 _(added)_
+## Getting RDS data into S3
 
 The concept, including why the CDC files need a merge step, is in [replicating-databases-to-the-lake.md](../../data-engineering/replicating-databases-to-the-lake.md). Loading Redshift directly with zero-ETL is covered in the section above.
 

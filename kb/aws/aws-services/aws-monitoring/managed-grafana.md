@@ -8,14 +8,14 @@ Managed Grafana is used for **monitoring end-to-end workflows** through dashboar
 
 ## Characteristics
 
-- Fully managed **Grafana**, the open-source dashboard tool _(added)_.
-- Pulls from many sources at once: **CloudWatch, Prometheus, X-Ray, OpenSearch, Athena, Redshift** and non-AWS tools _(added)_.
-- Sign-in through IAM Identity Center _(added)_.
-- Audience is engineers and operations; business reporting is [QuickSight](../aws-analytics/quicksight.md)'s role _(added)_.
+- Fully managed **Grafana**, the open-source dashboard tool.
+- Pulls from many sources at once: **CloudWatch, Prometheus, X-Ray, OpenSearch, Athena, Redshift** and non-AWS tools.
+- Sign-in through IAM Identity Center.
+- Audience is engineers and operations; business reporting is [QuickSight](../aws-analytics/quicksight.md)'s role.
 
 ## Example
 
-_(added)_ One Grafana dashboard shows Kinesis throughput, Glue job durations, Redshift query queues and the count of failed Step Functions runs, so the data team sees the whole pipeline on one screen.
+One Grafana dashboard shows Kinesis throughput, Glue job durations, Redshift query queues and the count of failed Step Functions runs, so the data team sees the whole pipeline on one screen.
 
 ## Related
 

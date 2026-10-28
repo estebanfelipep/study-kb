@@ -4,9 +4,9 @@ Amazon RDS and Aurora: managed relational databases, their role as pipeline sour
 
 ## What it is
 
-Amazon RDS (Relational Database Service) runs managed relational databases for applications: OLTP workloads. Amazon Aurora is AWS's own engine in the RDS family. In a data pipeline, RDS is usually a **source**: the application writes to it, and data is copied to S3 or Redshift for analytics. It isn't a data lake. For OLTP vs OLAP and why an operational database isn't a lake, see [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md). _(added)_
+Amazon RDS (Relational Database Service) runs managed relational databases for applications: OLTP workloads. Amazon Aurora is AWS's own engine in the RDS family. In a data pipeline, RDS is usually a **source**: the application writes to it, and data is copied to S3 or Redshift for analytics. It isn't a data lake. For OLTP vs OLAP and why an operational database isn't a lake, see [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md).
 
-## Characteristics _(added)_
+## Characteristics
 
 - **Engines:** MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, plus Aurora.
 - **Workload:** many small, fast reads and writes on a few rows ("get order #123"); thousands of small concurrent transactions; ACID transactions across tables, joins, flexible queries.
@@ -17,20 +17,20 @@ Amazon RDS (Relational Database Service) runs managed relational databases for a
 - **Not for BI:** large analytical queries compete with application traffic, row storage is wasteful for aggregates, and a single node can't parallelize a scan of billions of rows.
 - **Usually one database per application**, a silo by design.
 - **Getting data out:** [Glue](../aws-analytics/glue.md), [DMS](dms.md) or zero-ETL integration copies it to S3 and/or [Redshift](../aws-analytics/redshift.md). Redshift federated query and Athena federated query can also read it in place.
-- **Snapshot export to S3** _(added)_: an RDS or Aurora snapshot can be exported to S3 as Parquet, for occasional bulk copies with no load on the live database.
+- **Snapshot export to S3**: an RDS or Aurora snapshot can be exported to S3 as Parquet, for occasional bulk copies with no load on the live database.
 - Encryption at rest with [KMS](../aws-security/kms.md); Multi-AZ for availability.
 
 ### Aurora zero-ETL integration with Redshift
 
 - Replicates data from some Aurora sources to Redshift in **near real time** for analytics, with no complex ETL pipelines to build and maintain. Check current Aurora documentation for the supported sources.
-- How it works: you create an integration between an Aurora cluster and a Redshift warehouse. AWS replicates the initial data and then every insert, update and delete, typically within seconds. No code, no scheduled jobs. _(added)_
-- No transformation in flight; you model the data later in Redshift. _(added)_
-- AWS also offers zero-ETL integrations from RDS for MySQL and other sources. _(added; verify the current list)_
+- How it works: you create an integration between an Aurora cluster and a Redshift warehouse. AWS replicates the initial data and then every insert, update and delete, typically within seconds. No code, no scheduled jobs.
+- No transformation in flight; you model the data later in Redshift.
+- AWS also offers zero-ETL integrations from RDS for MySQL and other sources.
 
 ## Example
 
-- _(added)_ The flow: the app writes to RDS (OLTP); Glue, DMS or zero-ETL copies the data to S3 and/or Redshift; analysts query Redshift (OLAP) without touching the production database.
-- _(added)_ An online store runs on Aurora MySQL. A nightly Glue job used to copy tables to Redshift, so dashboards were a day old and the job broke when someone added a column. With zero-ETL integration, new orders appear in Redshift within seconds, the finance dashboard shows today's revenue, and heavy analytical queries don't slow the app.
+- The flow: the app writes to RDS (OLTP); Glue, DMS or zero-ETL copies the data to S3 and/or Redshift; analysts query Redshift (OLAP) without touching the production database.
+- An online store runs on Aurora MySQL. A nightly Glue job used to copy tables to Redshift, so dashboards were a day old and the job broke when someone added a column. With zero-ETL integration, new orders appear in Redshift within seconds, the finance dashboard shows today's revenue, and heavy analytical queries don't slow the app.
 
 ## Related
 

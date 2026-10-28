@@ -12,15 +12,15 @@ SNS is a fully managed **messaging** service. Applications and services send mes
 - Those events can **invoke Step Functions workflows**, which coordinate Glue, Redshift and Athena in processing and analytics pipelines.
 - **Message durability, encryption and archiving** make analytics workflows more reliable and help them recover from failures.
 - An S3 upload can publish a message to a topic. Lambda functions or other services subscribe to the topic and process the object asynchronously.
-- Subscriber types are Lambda, SQS queues, HTTP/HTTPS endpoints, Firehose, email, SMS and mobile push _(added)_.
-- SNS **pushes** messages immediately and doesn't store them _(added)_.
-- **Subscription filter policies** let each subscriber receive only the messages it needs _(added)_.
-- **SNS + SQS fan-out:** SNS sends to several SQS queues, and each queue buffers work for a different consumer that runs at its own pace. If one consumer is down, its queue holds the messages until it recovers _(added)_.
-- It's the usual last step of an alert: a CloudWatch alarm or an EventBridge rule notifies the on-call team through SNS _(added)_.
+- Subscriber types are Lambda, SQS queues, HTTP/HTTPS endpoints, Firehose, email, SMS and mobile push.
+- SNS **pushes** messages immediately and doesn't store them.
+- **Subscription filter policies** let each subscriber receive only the messages it needs.
+- **SNS + SQS fan-out:** SNS sends to several SQS queues, and each queue buffers work for a different consumer that runs at its own pace. If one consumer is down, its queue holds the messages until it recovers.
+- It's the usual last step of an alert: a CloudWatch alarm or an EventBridge rule notifies the on-call team through SNS.
 
 ## Example
 
-_(added)_ A new orders file lands in S3, and S3 publishes one event to the `new-orders` topic. Three subscribers each get a copy at the same time:
+A new orders file lands in S3, and S3 publishes one event to the `new-orders` topic. Three subscribers each get a copy at the same time:
 
 - **Lambda A** updates a real-time inventory table in DynamoDB.
 - An **SQS queue** feeds a slower billing job.

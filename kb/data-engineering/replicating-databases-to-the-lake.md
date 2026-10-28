@@ -2,8 +2,6 @@
 
 This file covers how an operational database gets into a data lake: a copy written as files, kept current by a full load plus change data capture, merged into a current-state table, a three-table example of what lands in the lake, and the history the raw files keep.
 
-All content here is _(added)_: general knowledge from Q&A, not the course notes.
-
 ## It's a copy
 
 The operational database stays where it is and keeps running its app. **A copy of its tables is written to the lake as files.** The lake never contains the live database, only files that represent its tables. Reasons to copy rather than query the database directly are in [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md): analytical queries would compete with the app, row storage is slow for aggregates, and in the lake the data sits next to every other source.
@@ -48,13 +46,13 @@ The process stage turns the pile into a current table:
 raw/sales-crm/customers/     ← full load + change files
         │  job: apply I/U/D, keep latest row per key
         ▼
-curated/customers/           ← one row per customer, current state
+cleaned/customers/           ← one row per customer, current state
 ```
 
 There are two common ways to do it:
 
-- **Rebuild:** a job periodically rewrites the curated table from the full load plus all the changes. It's simple, but slow for big tables.
-- **Merge with an open table format:** store the curated table in a format such as **Apache Iceberg**, which adds `MERGE`, `UPDATE` and `DELETE` on top of lake files. Each batch of changes is applied directly. This is the modern approach.
+- **Rebuild:** a job periodically rewrites the cleaned table from the full load plus all the changes. It's simple, but slow for big tables.
+- **Merge with an open table format:** store the cleaned table in a format such as **Apache Iceberg**, which adds `MERGE`, `UPDATE` and `DELETE` on top of lake files. Each batch of changes is applied directly. This is the modern approach.
 
 ## Example: three tables, from full load to current state
 
@@ -128,37 +126,37 @@ What the change files show:
 
 So querying `raw/` as it is shows Ana twice and the chair as still on sale. The merge keeps the latest row per key and drops deleted rows, which gives the same state as the database right now:
 
-`curated/customers`
+`cleaned/customers`
 
 | customer_id | name | city |
 | --- | --- | --- |
 | 981 | Ana | Lisbon |
 | 982 | Luis | Porto |
 
-`curated/orders`
+`cleaned/orders`
 
 | order_id | customer_id | product_id | qty | status |
 | --- | --- | --- | --- | --- |
 | 5001 | 981 | P-10 | 1 | shipped |
 | 5002 | 982 | P-10 | 2 | cancelled |
 
-`curated/products`
+`cleaned/products`
 
 | product_id | name | price |
 | --- | --- | --- |
 | P-10 | Desk lamp | 39.00 |
 
-**In one line:** `raw/` is a snapshot of each table plus every change since, the full history but not queryable as it is. `curated/` is one current row per key, like the database.
+**In one line:** `raw/` is a snapshot of each table plus every change since, the full history but not queryable as it is. `cleaned/` is one current row per key, like the database. Joining these tables with each other or with other sources, such as orders with customers for a sales report, is the next hop, into `curated/`. The zones are in [data-lake-zones.md](data-lake-zones.md).
 
 ## History: what the raw zone keeps
 
-The operational database usually keeps only the current state: when Ana moves, Madrid is overwritten. The raw zone keeps **every version since the full load**, so you can see that Ana lived in Madrid until 10:42, or rebuild any table as it was at a past moment by replaying the log up to that time. It's also what lets the curated table be rebuilt if a merge job had a bug.
+The operational database usually keeps only the current state: when Ana moves, Madrid is overwritten. The raw zone keeps **every version since the full load**, so you can see that Ana lived in Madrid until 10:42, or rebuild any table as it was at a past moment by replaying the log up to that time. It's also what lets the cleaned table be rebuilt if a merge job had a bug.
 
 Its limits:
 
 - **History starts at the full load.** Changes made before replication began aren't there.
 - **It lasts only as long as the files are kept.** Lifecycle rules that expire old raw files delete that history.
-- **The curated table keeps only the current state** unless it's designed to keep history. Two common ways:
+- **The cleaned table (and anything built from it) keeps only the current state** unless it's designed to keep history. Two common ways:
   - **Table snapshots ("time travel")** in an open table format such as Iceberg: query the table as of a past snapshot.
   - **A history table** with one row per version and `valid_from` / `valid_to` columns, so a query can ask "where did Ana live on day 1 at 10:00?". This is called a **slowly changing dimension, type 2** (SCD2).
 
@@ -177,6 +175,8 @@ Its limits:
 - [data-lakes-and-warehouses.md](data-lakes-and-warehouses.md): explains why the database is copied: an OLTP database isn't a lake, and analytics on it competes with the app. This file shows how the copy gets made.
 - [batch-and-streaming.md](batch-and-streaming.md): the full load is a batch ingest, and CDC is ongoing replication close to streaming.
 - [modern-data-architecture.md](modern-data-architecture.md): replication is how the databases row of the ingest stage works. The raw files land in the store stage, and the merge into a current table is a process-stage job.
+- [data-lake-zones.md](data-lake-zones.md): the load and change files land in the raw zone, and the merge into one current row per key writes the cleaned zone.
 - [unified-customer-data.md](unified-customer-data.md): step 2 of that example is this replication, applied to the sales CRM.
+- [s3.md](../aws/aws-services/aws-general-services/s3.md): on AWS the lake's files live in S3, where each table "folder" is only a key prefix, and S3 lifecycle rules decide how long the raw history is kept.
 - [dms.md](../aws/aws-services/aws-databases/dms.md): DMS implements full load + CDC on AWS and writes the change files to S3 with the `Op` column.
 - [choosing-ingestion-services.md](../aws/aws-data-engineering/choosing-ingestion-services.md): maps each way to get RDS data out onto an AWS service.

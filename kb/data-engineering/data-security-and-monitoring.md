@@ -12,7 +12,7 @@ Security in data analytics workflows **cannot be overstated**. A breach or compr
 | --- | --- | --- |
 | Definition | Measures that protect data from **unauthorized access, breaches or attacks** | The **policies, procedures and processes** that ensure the proper **management, quality and use** of data |
 | Involves | Safeguarding **confidentiality, integrity and availability** | Defining **roles, responsibilities and decision-making processes** for data |
-| Question it answers _(added)_ | "Can only the right people reach this data, and is it safe?" | "Who decides what this data is, who may use it, and how?" |
+| Question it answers | "Can only the right people reach this data, and is it safe?" | "Who decides what this data is, who may use it, and how?" |
 
 The **entire data analytics system depends on data being secured** and accessible only by authorized users.
 
@@ -64,7 +64,7 @@ Monitoring keeps data analytics workflows **reliable, available and performant**
 
 ## Monitoring best practices
 
-| Practice | What it means | Example _(added)_ |
+| Practice | What it means | Example |
 | --- | --- | --- |
 | **Test and validate analytics jobs** | **Test deployments before production** to validate performance and accuracy | Run the new job version on a sample in a dev environment and compare row counts with the old version |
 | **Monitor key metrics at each stage** | ETL **success and failure rates**, model **training times**, **number of predictions** | Track records in vs records out at each stage to catch silent data loss |

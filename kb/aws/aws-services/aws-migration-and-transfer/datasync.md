@@ -10,15 +10,15 @@ AWS DataSync transfers data from on-premises file shares, object storage and Had
 
 - Sources: on-premises file shares, object storage and Hadoop clusters.
 - Can **sync on a schedule**.
-- Ingest mode: batch, scheduled. _(added)_
-- For files, not databases. _(added)_
-- Also copies between AWS storage services, such as S3, EFS and FSx. _(added; verify)_
-- Usual exam triggers: "on-premises NFS/SMB file shares", "HDFS", "scheduled sync". _(added)_
-- AWS points to DataSync (and the AWS Data Transfer Terminal) for transfers where several Snow devices are no longer offered. _(added; verify current status)_
+- Ingest mode: batch, scheduled.
+- For files, not databases.
+- Also copies between AWS storage services, such as S3, EFS and FSx.
+- Usual exam triggers: "on-premises NFS/SMB file shares", "HDFS", "scheduled sync".
+- AWS points to DataSync (and the AWS Data Transfer Terminal) for transfers where several Snow devices are no longer offered.
 
 ## Example
 
-- _(added)_ A nightly scheduled DataSync task copies new files from an on-premises NFS share into the S3 data lake.
+- A nightly scheduled DataSync task copies new files from an on-premises NFS share into the S3 data lake.
 
 ## Related
 
@@ -27,4 +27,4 @@ AWS DataSync transfers data from on-premises file shares, object storage and Had
 - [dms.md](../aws-databases/dms.md): DataSync moves files (NFS/SMB shares, object storage, HDFS), while DMS moves databases, including ongoing changes with CDC. "Replicate a database" points to DMS, not DataSync.
 - [s3.md](../aws-general-services/s3.md): DataSync copies on-premises files into AWS storage such as the S3 data lake.
 - [choosing-ingestion-services.md](../../aws-data-engineering/choosing-ingestion-services.md): compares DataSync with DMS, Transfer Family and Snow Family: NFS/SMB/HDFS and scheduled sync point to DataSync.
-- [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline.md): DataSync is the ingest-stage service for on-premises files.
+- [ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/ingest-on-aws.md): DataSync is the ingest-stage service for on-premises files.

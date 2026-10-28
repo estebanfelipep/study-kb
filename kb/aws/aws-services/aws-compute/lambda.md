@@ -12,14 +12,14 @@ Lambda runs code (**Lambda functions**) **without provisioning or managing serve
 - **Orchestrated:** [Step Functions](../aws-application-coordination/step-functions.md) can orchestrate multiple Lambda functions, with **error handling, retries and visualizations**. Combined with Step Functions, Lambda functions can invoke AWS services and microservices as steps in a workflow.
 - **Decoupled:** Lambda works in event-driven architectures with [SNS](../aws-application-coordination/sns.md) and [SQS](../aws-application-coordination/sqs.md), which decouple and coordinate analytics tasks. A message in an SQS queue can invoke a function, which chains functions together asynchronously.
 - Can sit behind [API Gateway](../aws-apis/api-gateway.md), where it runs the business logic of a serverless API.
-- **Maximum run time: 15 minutes** per invocation _(added)_.
-- Memory goes up to **10 GB**, and CPU scales with memory _(added)_.
-- You pay per request and per millisecond of run time, and nothing when idle _(added)_.
-- Suits small to medium data, such as one file or one batch of records. Bigger transformations that would time out belong in a Glue job _(added)_.
+- **Maximum run time: 15 minutes** per invocation.
+- Memory goes up to **10 GB**, and CPU scales with memory.
+- You pay per request and per millisecond of run time, and nothing when idle.
+- Suits small to medium data, such as one file or one batch of records. Bigger transformations that would time out belong in a Glue job.
 
 ## Example
 
-_(added)_ A partner uploads `orders_2026-10-18.csv` to an S3 bucket, and the upload event invokes a Lambda function. The function:
+A partner uploads `orders_2026-10-18.csv` to an S3 bucket, and the upload event invokes a Lambda function. The function:
 
 1. Validates the header and row count.
 2. Converts the file to Parquet and writes it to the `clean/` prefix.

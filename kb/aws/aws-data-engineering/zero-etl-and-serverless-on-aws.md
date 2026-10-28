@@ -14,13 +14,13 @@ Zero-ETL and serverless are the two technologies that make orchestration and aut
 | [Redshift auto copy](../aws-services/aws-analytics/redshift.md) | Loads new files automatically | S3 → Redshift |
 | [OpenSearch zero-ETL with S3](../aws-services/aws-databases/opensearch-service.md) | Queries data where it sits | S3 (query from OpenSearch) |
 
-_(Added)_ AWS has extended zero-ETL integrations to more sources, such as RDS for MySQL, DynamoDB and some SaaS applications into Redshift. Verify the current list. On the exam, "near real-time analytics on transactional data without building pipelines" points to **zero-ETL**.
+AWS has extended zero-ETL integrations to more sources, such as RDS for MySQL, DynamoDB and some SaaS applications into Redshift. Verify the current list. On the exam, "near real-time analytics on transactional data without building pipelines" points to **zero-ETL**.
 
 ## Serverless services
 
 **Lambda is the primary serverless AWS service.** Many AWS services have serverless options or can be used in serverless workflows.
 
-| Service | Serverless role | Closest non-serverless alternative _(added)_ |
+| Service | Serverless role | Closest non-serverless alternative |
 | --- | --- | --- |
 | [Lambda](../aws-services/aws-compute/lambda.md) | Run code | EC2, containers |
 | [API Gateway](../aws-services/aws-apis/api-gateway.md) | Expose APIs | ALB + EC2 |

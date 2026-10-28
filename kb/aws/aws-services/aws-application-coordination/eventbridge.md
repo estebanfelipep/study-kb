@@ -10,16 +10,16 @@ EventBridge is a **serverless** service for building **event-driven applications
 
 - Incoming events can **invoke Step Functions workflows**, which coordinate several services in a pipeline.
 - **Built-in matching and routing rules** filter and transform events before delivery, so event data can be **pre-processed before analytics**.
-- **Event bus:** where events arrive. There's a default bus for AWS service events, custom buses for your own apps, and partner buses for SaaS apps such as Salesforce, Zendesk and Datadog _(added)_.
-- **Rule:** a pattern that matches events by content (for example, `source = aws.s3`, `bucket = raw-data`, and a key starting with `sales/`), plus **up to 5 targets** _(added)_.
-- **Input transformer:** reshapes the event before it goes to the target _(added)_.
-- **EventBridge Scheduler:** runs targets on a schedule (cron or rate). This is the usual way to start a pipeline every night or every hour _(added)_.
-- **Archive and replay:** keep events and replay them later, for example after fixing a bug _(added)_.
-- It's the usual path for alerts: Glue job state changes, Macie findings, GuardDuty findings and Config compliance changes are routed through EventBridge to Lambda or SNS _(added)_.
+- **Event bus:** where events arrive. There's a default bus for AWS service events, custom buses for your own apps, and partner buses for SaaS apps such as Salesforce, Zendesk and Datadog.
+- **Rule:** a pattern that matches events by content (for example, `source = aws.s3`, `bucket = raw-data`, and a key starting with `sales/`), plus **up to 5 targets**.
+- **Input transformer:** reshapes the event before it goes to the target.
+- **EventBridge Scheduler:** runs targets on a schedule (cron or rate). This is the usual way to start a pipeline every night or every hour.
+- **Archive and replay:** keep events and replay them later, for example after fixing a bug.
+- It's the usual path for alerts: Glue job state changes, Macie findings, GuardDuty findings and Config compliance changes are routed through EventBridge to Lambda or SNS.
 
 ## Example
 
-_(added)_ Three rules on one event bus:
+Three rules on one event bus:
 
 - **Rule 1:** an S3 object is created in `raw/sales/` → start the sales **Step Functions** workflow.
 - **Rule 2:** a Glue job's state is `FAILED` → run a **Lambda** function that opens a Jira ticket.

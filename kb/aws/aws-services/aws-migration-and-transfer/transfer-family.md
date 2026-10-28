@@ -8,14 +8,14 @@ AWS Transfer Family automates file transfers into and out of S3 over file transf
 
 ## Characteristics
 
-- Protocols: **SFTP, FTPS, FTP and AS2**. _(added: the course text lists "SFTP, FTPS, and SFTP")_
+- Protocols: **SFTP, FTPS, FTP and AS2**. (the course text lists "SFTP, FTPS, and SFTP")
 - Transfers **into and out of S3**.
-- Ingest mode: batch. _(added)_
-- Usual exam triggers: "partners upload via SFTP", "keep existing FTP workflows". _(added)_
+- Ingest mode: batch.
+- Usual exam triggers: "partners upload via SFTP", "keep existing FTP workflows".
 
 ## Example
 
-- _(added)_ A partner uploads `orders_2026-10-18.csv` over SFTP. Transfer Family writes it to an S3 bucket, and the upload event invokes a [Lambda](../aws-compute/lambda.md) function that validates and converts it.
+- A partner uploads `orders_2026-10-18.csv` over SFTP. Transfer Family writes it to an S3 bucket, and the upload event invokes a [Lambda](../aws-compute/lambda.md) function that validates and converts it.
 
 ## Related
 

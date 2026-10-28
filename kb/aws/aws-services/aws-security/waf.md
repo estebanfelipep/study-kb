@@ -8,15 +8,15 @@ AWS WAF protects **web applications** from **common exploits and attacks** and p
 
 ## Characteristics
 
-- Works at **layer 7** (HTTP/HTTPS) on **CloudFront, ALB, API Gateway, AppSync and Cognito** _(added)_.
-- Rules block **SQL injection, cross-site scripting**, bad IPs and countries, and **rate-limit** requests per IP _(added)_.
-- **Managed rule groups** from AWS and vendors give protection without writing rules _(added)_.
-- Pay per rule and request _(added)_.
-- [Shield](shield.md) Advanced uses WAF for layer 7 DDoS protection _(added)_.
+- Works at **layer 7** (HTTP/HTTPS) on **CloudFront, ALB, API Gateway, AppSync and Cognito**.
+- Rules block **SQL injection, cross-site scripting**, bad IPs and countries, and **rate-limit** requests per IP.
+- **Managed rule groups** from AWS and vendors give protection without writing rules.
+- Pay per rule and request.
+- [Shield](shield.md) Advanced uses WAF for layer 7 DDoS protection.
 
 ## Example
 
-_(added)_ A public [API Gateway](../aws-apis/api-gateway.md) endpoint lets partners submit data. WAF blocks requests containing SQL injection patterns and limits each IP to 1,000 requests per 5 minutes, so one bad client can't flood the ingestion [Lambda](../aws-compute/lambda.md).
+A public [API Gateway](../aws-apis/api-gateway.md) endpoint lets partners submit data. WAF blocks requests containing SQL injection patterns and limits each IP to 1,000 requests per 5 minutes, so one bad client can't flood the ingestion [Lambda](../aws-compute/lambda.md).
 
 ## Related
 

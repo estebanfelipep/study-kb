@@ -6,7 +6,7 @@ Building, running and maintaining a data analytics system is collaborative. The 
 
 ## The six personas
 
-| Persona | Level _(added)_ | Responsibility | Areas of interest |
+| Persona | Level | Responsibility | Areas of interest |
 | --- | --- | --- | --- |
 | **Chief data officer (CDO)** | Executive | Builds a culture of using data to solve problems and accelerate innovation | Data quality, data governance, data and AI strategy, evangelizing the value of data |
 | **Data architect** | Technical lead | Designs technical solutions to business needs and solves complex data challenges, so the CDO can deliver the vision | Pipelines, processing, integration, governance, data catalogs |
@@ -17,7 +17,7 @@ Building, running and maintaining a data analytics system is collaborative. The 
 
 The course groups the roles only as executive, managerial and technical; the Level column is a finer split.
 
-## How the personas relate _(added)_
+## How the personas relate
 
 ```
 CDO (sets the vision and strategy)
@@ -29,7 +29,7 @@ CDO (sets the vision and strategy)
 Data security officer: sets the rules every role must follow
 ```
 
-## What each persona needs from the data engineer _(added)_
+## What each persona needs from the data engineer
 
 | Persona | What they need | Related function ([data-engineer-role.md](data-engineer-role.md)) |
 | --- | --- | --- |
@@ -39,10 +39,10 @@ Data security officer: sets the rules every role must follow
 | Data scientist | Clean, enriched data ready for ML | 3. Prepare |
 | Data analyst | Data that's easy to find and fast to query | 4. Catalog, 3. Prepare |
 
-## Personas in the pipeline _(added)_
+## Personas in the pipeline
 
 - The **data engineer** builds the ingest, store, catalog and process stages.
 - **Scientists and analysts** consume the deliver stage.
 - The **data security officer** owns security and governance across every stage.
 
-The stages are in [modern-data-architecture.md](modern-data-architecture.md). Which AWS services each persona uses is in [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline.md).
+The stages are in [modern-data-architecture.md](modern-data-architecture.md). Which AWS services each persona uses is in [functions-and-personas-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/functions-and-personas-on-aws.md).

@@ -11,17 +11,17 @@ SQS is a managed **message queuing** service that **sends, stores and retrieves*
 - Compute such as **EC2 instances polls the queue** and picks up the messages that contain jobs. Processing **scales independently**, based on the number of messages in the queue.
 - Features include **message attributes, dead-letter queues**, and integration with the **AWS CLI and SDKs**.
 - One Lambda function can send a message to a queue, and that message invokes a separate Lambda function for further processing.
-- **Pull model:** consumers ask the queue for messages, and each message goes to **one** consumer. A message is **deleted** once it's processed, and there's no replay _(added)_.
-- **Visibility timeout:** while a consumer works on a message, the message is hidden from other consumers. If the consumer crashes, the message reappears and another consumer retries it _(added)_.
-- **Dead-letter queue (DLQ):** a message that fails too many times moves here. One bad message doesn't block the queue, and you can inspect it later _(added)_.
-- **Retention:** up to 14 days _(added)_.
-- **Queue types** _(added)_:
+- **Pull model:** consumers ask the queue for messages, and each message goes to **one** consumer. A message is **deleted** once it's processed, and there's no replay.
+- **Visibility timeout:** while a consumer works on a message, the message is hidden from other consumers. If the consumer crashes, the message reappears and another consumer retries it.
+- **Dead-letter queue (DLQ):** a message that fails too many times moves here. One bad message doesn't block the queue, and you can inspect it later.
+- **Retention:** up to 14 days.
+- **Queue types**:
   - **Standard:** nearly unlimited throughput, at-least-once delivery, best-effort order.
   - **FIFO:** strict order and exactly-once processing, with lower throughput.
 
 ## Example
 
-_(added)_ Analysts submit report requests from a web form throughout the day. Sometimes that's 10 an hour, and sometimes it's 5,000 in a minute after a board meeting.
+Analysts submit report requests from a web form throughout the day. Sometimes that's 10 an hour, and sometimes it's 5,000 in a minute after a board meeting.
 
 - Each request becomes a message in a queue.
 - An Auto Scaling group of EC2 workers (or Lambda functions) pulls messages, runs the query and emails the report.

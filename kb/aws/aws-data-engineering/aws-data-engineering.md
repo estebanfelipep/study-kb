@@ -14,7 +14,7 @@ Read [aws-services](../aws-services/aws-services.md) instead for how an individu
 
 **Map the concepts to AWS**
 
-- [aws-data-pipeline.md](aws-data-pipeline.md): the five pipeline stages, the data engineer's functions and the personas mapped to AWS services, plus AWS "lake" services and purpose-built databases. Read when: you need which AWS services belong to which stage or function.
+- [aws-data-pipeline/](aws-data-pipeline/aws-data-pipeline.md): the five pipeline stages mapped to AWS services, one file per stage (ingest, store, catalog, process, deliver), plus the data engineer's functions and the personas. Read when: you need which AWS services belong to which stage or function.
 - [zero-etl-and-serverless-on-aws.md](zero-etl-and-serverless-on-aws.md): the AWS zero-ETL integrations and the serverless services, with their roles. Read when: you need which services avoid ETL pipelines, or the serverless option for a workload.
 - [security-and-monitoring-on-aws.md](security-and-monitoring-on-aws.md): the five security areas, best practices and monitoring aspects mapped to AWS services, with an example secured and monitored pipeline. Read when: you need which AWS services cover a security or monitoring area.
 - [unified-customer-data-on-aws.md](unified-customer-data-on-aws.md): the unified customer data example built with AWS services, one row per step, each labeled with its pipeline stage. Read when: you need which AWS service does each step of merging departments' customer data, or how the example maps onto the five stages.

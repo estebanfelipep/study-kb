@@ -8,19 +8,19 @@ KMS lets you **create and control encryption keys** and **encrypts and decrypts 
 
 ## Characteristics
 
-- **Course correction:** the course says KMS protects data "at rest and in transit". KMS is for **data at rest** (S3, EBS, RDS, Redshift encryption). Data **in transit** is protected by **HTTPS/TLS**, with certificates from [ACM](../aws-apis/acm.md), as the course's own best-practices section says. KMS is involved in transit mostly when an app encrypts data itself before sending it _(added)_.
-- **AWS managed keys:** created automatically by a service (for example, `aws/s3`). No control over the policy or rotation _(added)_.
-- **Customer managed keys:** you control the **key policy**, rotation, disabling and deletion, and get a [CloudTrail](../aws-monitoring/cloudtrail.md) record of every use _(added)_.
-- **Envelope encryption:** KMS encrypts a small data key; the data key encrypts the data. Large data never leaves for KMS _(added)_.
-- Integrated with S3, Redshift, Glue, Kinesis, EBS, RDS, DynamoDB and more _(added)_.
+- **Course correction:** the course says KMS protects data "at rest and in transit". KMS is for **data at rest** (S3, EBS, RDS, Redshift encryption). Data **in transit** is protected by **HTTPS/TLS**, with certificates from [ACM](../aws-apis/acm.md), as the course's own best-practices section says. KMS is involved in transit mostly when an app encrypts data itself before sending it.
+- **AWS managed keys:** created automatically by a service (for example, `aws/s3`). No control over the policy or rotation.
+- **Customer managed keys:** you control the **key policy**, rotation, disabling and deletion, and get a [CloudTrail](../aws-monitoring/cloudtrail.md) record of every use.
+- **Envelope encryption:** KMS encrypts a small data key; the data key encrypts the data. Large data never leaves for KMS.
+- Integrated with S3, Redshift, Glue, Kinesis, EBS, RDS, DynamoDB and more.
 - [Glue](../aws-analytics/glue.md) security configurations use KMS to encrypt job output, CloudWatch logs, job bookmarks, the Data Catalog and connection passwords.
 - Best practice: **encrypt data at rest and in transit**: KMS at rest, HTTPS/TLS in transit.
 
 ## Example
 
-_(added)_ The `curated/finance/` bucket uses a customer managed key. Its key policy allows decryption only by the finance analyst role and the Glue job role. Even an admin with full S3 access can download the objects but can't read them without permission on the key.
+The `curated/finance/` bucket uses a customer managed key. Its key policy allows decryption only by the finance analyst role and the Glue job role. Even an admin with full S3 access can download the objects but can't read them without permission on the key.
 
-_(added)_ Default bucket encryption with a customer managed key, plus a bucket policy that denies non-HTTPS requests.
+Default bucket encryption with a customer managed key, plus a bucket policy that denies non-HTTPS requests.
 
 ## Related
 

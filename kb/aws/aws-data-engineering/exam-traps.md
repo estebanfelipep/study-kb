@@ -2,8 +2,6 @@
 
 This file holds the DEA-C01 keyword-to-service table, the older service names exam material may use, and the places where the course text is wrong or loose.
 
-All content here is _(added)_ general knowledge; verify names and availability against current AWS docs.
-
 ## Exam keywords: all stages
 
 | Keywords in the question | Service | Stage |

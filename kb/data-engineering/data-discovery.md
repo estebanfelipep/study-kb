@@ -12,7 +12,7 @@ This file covers data discovery: what it is, the questions it answers, its five 
 
 ## The questions discovery answers
 
-| Question | Answered in step _(added)_ |
+| Question | Answered in step |
 | --- | --- |
 | Which data should be analyzed, and what is it worth to the business? | 1. Business value |
 | Who owns the data, and where is it? | 3. Data sources |
@@ -30,7 +30,7 @@ This file covers data discovery: what it is, the questions it answers, its five 
 | 4 | **Define storage, catalog and data access needs** | Pick the best storage per data type, assess data quality to find processing needs, catalog and register sources |
 | 5 | **Define data processing requirements** | Extract relevant data, then curate and transform it |
 
-The AWS tools the course names for step 5 are in [aws-data-pipeline.md](../aws/aws-data-engineering/aws-data-pipeline.md).
+The AWS tools the course names for step 5 are in [functions-and-personas-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/functions-and-personas-on-aws.md).
 
 ### Step 1: Define business value
 
@@ -103,7 +103,7 @@ Example questions:
 - How often do transformations run (real time, micro-batch, overnight batch)?
 - Any constraints with your current tool?
 
-## Connections to the rest of the role _(added)_
+## Connections to the rest of the role
 
 | Discovery step | Related |
 | --- | --- |

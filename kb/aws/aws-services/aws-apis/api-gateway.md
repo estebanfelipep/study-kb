@@ -8,17 +8,17 @@ API Gateway creates **RESTful and HTTP APIs** that integrate with Lambda functio
 
 ## Characteristics
 
-- **API types** _(added)_:
+- **API types**:
   - **REST APIs:** more features, such as API keys, usage plans, per-client throttling, request validation and caching.
   - **HTTP APIs:** simpler, cheaper and lower latency. Use them when you don't need the REST-only features.
   - **WebSocket APIs:** two-way, real-time connections, for example chat or live dashboards.
-- Handles authentication (IAM, Cognito, Lambda authorizers), throttling and scaling for you _(added)_.
-- You pay per request, and it costs nothing when nobody calls it _(added)_.
-- Works with [AWS WAF](../aws-security/waf.md) to block web attacks, and with [ACM](acm.md) certificates for HTTPS _(added)_.
+- Handles authentication (IAM, Cognito, Lambda authorizers), throttling and scaling for you.
+- You pay per request, and it costs nothing when nobody calls it.
+- Works with [AWS WAF](../aws-security/waf.md) to block web attacks, and with [ACM](acm.md) certificates for HTTPS.
 
 ## Example
 
-_(added)_ A data team exposes a **metrics API** to other internal teams. A request to `GET /metrics/daily-active-users?date=2026-10-17` goes to API Gateway. API Gateway invokes a Lambda function, which reads the precomputed value from DynamoDB and returns JSON. A rate limit of 100 requests per second per API key keeps one runaway client from overloading the backend.
+A data team exposes a **metrics API** to other internal teams. A request to `GET /metrics/daily-active-users?date=2026-10-17` goes to API Gateway. API Gateway invokes a Lambda function, which reads the precomputed value from DynamoDB and returns JSON. A rate limit of 100 requests per second per API key keeps one runaway client from overloading the backend.
 
 ## Related
 

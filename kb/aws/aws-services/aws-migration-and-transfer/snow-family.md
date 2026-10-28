@@ -9,12 +9,12 @@ The AWS Snow Family is a set of **physical devices** for moving huge or sensitiv
 ## Characteristics
 
 - For huge or sensitive data; offline batch ingest.
-- Usual exam triggers: "petabytes", "limited bandwidth", "would take weeks over the network". _(added)_
-- AWS no longer offers several Snow devices to new customers; it points to [DataSync](datasync.md) and the AWS Data Transfer Terminal instead. Exam questions may still feature Snowball. _(added; verify current status)_
+- Usual exam triggers: "petabytes", "limited bandwidth", "would take weeks over the network".
+- AWS no longer offers several Snow devices to new customers; it points to [DataSync](datasync.md) and the AWS Data Transfer Terminal instead. Exam questions may still feature Snowball.
 
 ## Example
 
-- _(added)_ A company with petabytes of archives and poor connectivity ships the data on Snowball devices instead of transferring it over the network for weeks.
+- A company with petabytes of archives and poor connectivity ships the data on Snowball devices instead of transferring it over the network for weeks.
 
 ## Related
 

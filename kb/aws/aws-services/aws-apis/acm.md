@@ -4,17 +4,17 @@ This file covers ACM: SSL/TLS certificates and encryption in transit for pipelin
 
 ## What it is
 
-ACM provisions, manages and deploys **SSL/TLS certificates** for AWS services and applications. The course lists it under **access management**. It is what makes **encryption in transit** (HTTPS/TLS) work for your own endpoints _(added)_.
+ACM provisions, manages and deploys **SSL/TLS certificates** for AWS services and applications. The course lists it under **access management**. It is what makes **encryption in transit** (HTTPS/TLS) work for your own endpoints.
 
 ## Characteristics
 
-- **Public certificates are free** when used with integrated services (ALB, CloudFront, API Gateway) and **renew automatically** _(added)_.
-- **Private certificates** come from **AWS Private CA** (paid) for internal services _(added)_.
-- Manages certificates (public/private key pairs tied to a domain), not encryption keys for stored data; that's [KMS](../aws-security/kms.md) _(added)_.
+- **Public certificates are free** when used with integrated services (ALB, CloudFront, API Gateway) and **renew automatically**.
+- **Private certificates** come from **AWS Private CA** (paid) for internal services.
+- Manages certificates (public/private key pairs tied to a domain), not encryption keys for stored data; that's [KMS](../aws-security/kms.md).
 
 ## Example
 
-_(added)_ A data API behind [API Gateway](api-gateway.md) serves `https://data.example.com`. ACM issues the certificate and renews it every year without anyone touching it, so clients' connections stay encrypted and no certificate ever expires in production.
+A data API behind [API Gateway](api-gateway.md) serves `https://data.example.com`. ACM issues the certificate and renews it every year without anyone touching it, so clients' connections stay encrypted and no certificate ever expires in production.
 
 ## Related
 

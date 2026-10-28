@@ -4,20 +4,20 @@ This file covers AWS Config: resource configuration history, compliance rules an
 
 ## What it is
 
-AWS Config provides **configuration management and auditing of AWS resources** to assess security and compliance posture **over time**. It belongs to **regulatory compliance**, one of the five security areas. It answers "**What** does my resource look like, and is it compliant?" _(added)_.
+AWS Config provides **configuration management and auditing of AWS resources** to assess security and compliance posture **over time**. It belongs to **regulatory compliance**, one of the five security areas. It answers "**What** does my resource look like, and is it compliant?".
 
 ## Characteristics
 
-- Records the **configuration history** of each resource: what it looked like and when it changed _(added)_.
-- **Config rules** check resources against desired settings ("S3 buckets must block public access", "Redshift clusters must be encrypted") and flag non-compliant ones _(added)_.
-- Can **auto-remediate** through [Systems Manager](systems-manager.md) Automation, for example to re-enable bucket encryption _(added)_.
-- **Conformance packs** bundle rules for a standard, such as HIPAA _(added)_.
-- Can show which [CloudTrail](cloudtrail.md) event changed a resource, and is an evidence source for [Audit Manager](../aws-security/audit-manager.md) _(added)_.
-- [Control Tower](../aws-security/control-tower.md) detective controls are Config rules _(added)_.
+- Records the **configuration history** of each resource: what it looked like and when it changed.
+- **Config rules** check resources against desired settings ("S3 buckets must block public access", "Redshift clusters must be encrypted") and flag non-compliant ones.
+- Can **auto-remediate** through [Systems Manager](systems-manager.md) Automation, for example to re-enable bucket encryption.
+- **Conformance packs** bundle rules for a standard, such as HIPAA.
+- Can show which [CloudTrail](cloudtrail.md) event changed a resource, and is an evidence source for [Audit Manager](../aws-security/audit-manager.md).
+- [Control Tower](../aws-security/control-tower.md) detective controls are Config rules.
 
 ## Example
 
-_(added)_ A rule requires encryption on every S3 bucket. An engineer creates an unencrypted bucket for a quick test. Config marks it non-compliant within minutes, an [EventBridge](../aws-application-coordination/eventbridge.md) rule notifies the security team through [SNS](../aws-application-coordination/sns.md), and remediation turns encryption on.
+A rule requires encryption on every S3 bucket. An engineer creates an unencrypted bucket for a quick test. Config marks it non-compliant within minutes, an [EventBridge](../aws-application-coordination/eventbridge.md) rule notifies the security team through [SNS](../aws-application-coordination/sns.md), and remediation turns encryption on.
 
 ## Related
 

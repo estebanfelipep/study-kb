@@ -15,7 +15,7 @@ Step Functions is a **visual workflow service** that orchestrates and automates 
 - **Processes streaming data** by connecting Lambda functions that process data from Kinesis Data Streams or Data Firehose, for real-time analytics.
 - [EventBridge](eventbridge.md) events and [SNS](sns.md) messages can start workflows. A workflow then coordinates Glue, Redshift and Athena.
 
-### Key features _(added)_
+### Key features
 
 - Workflows are **state machines**. Each step is a state: run a task, choose a branch, run steps in parallel, wait, or loop over items.
 - **Retries, error catching and timeouts** are built in per step, so failure handling isn't buried in your code.
@@ -29,7 +29,7 @@ Step Functions is a **visual workflow service** that orchestrates and automates 
 
 ## Example
 
-_(added)_ A nightly sales pipeline:
+A nightly sales pipeline:
 
 1. Start a **Glue crawler** to register yesterday's files.
 2. Run a **Glue ETL job** that cleans the data and converts it to Parquet.

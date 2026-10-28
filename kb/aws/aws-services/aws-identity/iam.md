@@ -8,18 +8,18 @@ IAM manages **fine-grained access and permissions** for human users, software us
 
 ## Characteristics
 
-- Used in **every stage** of the pipeline; a security service rather than a governance one _(added)_.
-- Building blocks: **users** (long-term credentials, best avoided for people), **groups**, **roles** (temporary credentials, assumed by services, apps or federated users) and **policies** (JSON documents that allow or deny actions on resources) _(added)_.
-- Grants access to AWS **services and API actions**, such as `s3:GetObject` on a bucket. Granularity is bucket, prefix or object. Column, row and cell access to data is [Lake Formation](../aws-analytics/lake-formation.md)'s job; the two work together _(added)_.
-- **Least privilege:** grant only what's needed. A Glue job role should read one bucket prefix and write another, not `s3:*` _(added)_.
-- **Explicit deny always wins** over any allow _(added)_.
-- People should sign in through **IAM Identity Center** (SSO) rather than as IAM users _(added)_.
+- Used in **every stage** of the pipeline; a security service rather than a governance one.
+- Building blocks: **users** (long-term credentials, best avoided for people), **groups**, **roles** (temporary credentials, assumed by services, apps or federated users) and **policies** (JSON documents that allow or deny actions on resources).
+- Grants access to AWS **services and API actions**, such as `s3:GetObject` on a bucket. Granularity is bucket, prefix or object. Column, row and cell access to data is [Lake Formation](../aws-analytics/lake-formation.md)'s job; the two work together.
+- **Least privilege:** grant only what's needed. A Glue job role should read one bucket prefix and write another, not `s3:*`.
+- **Explicit deny always wins** over any allow.
+- People should sign in through **IAM Identity Center** (SSO) rather than as IAM users.
 - Also used for **data access** monitoring, through permissions and access logs, alongside [CloudTrail](../aws-monitoring/cloudtrail.md) and [GuardDuty](../aws-security/guardduty.md).
 - Best practice: **implement robust access control** by creating IAM roles and policies that control who can access which resources.
 
 ## Example
 
-_(added)_ A Glue ETL job runs as the role `glue-sales-etl`. Its policy allows `s3:GetObject` on `s3://raw/sales/*`, `s3:PutObject` on `s3://curated/sales/*`, and `kms:Decrypt` on the raw bucket's key. Nothing else. If the job is compromised, it can't touch HR data.
+A Glue ETL job runs as the role `glue-sales-etl`. Its policy allows `s3:GetObject` on `s3://raw/sales/*`, `s3:PutObject` on `s3://cleaned/sales/*`, and `kms:Decrypt` on the raw bucket's key. Nothing else. If the job is compromised, it can't touch HR data.
 
 ## Related
 

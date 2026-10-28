@@ -2,7 +2,7 @@
 
 This file holds the comparisons and exam pick-rules for serving data to consumers: querying, warehousing, search, dashboards and ML, plus how Athena relates to Glue.
 
-All content here is _(added)_ general knowledge. Service details are in each service's file in [aws-services](../aws-services/aws-services.md).
+Service details are in each service's file in [aws-services](../aws-services/aws-services.md).
 
 ## If the question says… pick
 
@@ -64,4 +64,4 @@ Both query logs in S3.
 - **Serverless:** no clusters, automatic scaling. Best for variable workloads and teams that don't want to tune OpenSearch.
 - **Managed domains:** you choose instance types, counts and storage, with access to more plugins and settings. Best for large, steady workloads that need fine control.
 
-Purpose-built databases by type are listed in [aws-data-pipeline.md](aws-data-pipeline.md).
+Purpose-built databases by type are listed in [deliver-on-aws.md](aws-data-pipeline/deliver-on-aws.md).

@@ -8,15 +8,15 @@ Audit Manager **continuously audits** usage to assess **risk and compliance** wi
 
 ## Characteristics
 
-- A governance (compliance) service _(added)_.
-- Comes with **prebuilt frameworks** (GDPR, HIPAA, PCI DSS, SOC 2, CIS) and lets you build custom ones _(added)_.
-- Evidence comes from [Config](../aws-monitoring/config.md), [CloudTrail](../aws-monitoring/cloudtrail.md), Security Hub and manual uploads _(added)_.
-- It **doesn't make you compliant**. It gathers proof of what your controls are doing _(added)_.
-- Answers "Can I prove compliance to an auditor?" _(added)_.
+- A governance (compliance) service.
+- Comes with **prebuilt frameworks** (GDPR, HIPAA, PCI DSS, SOC 2, CIS) and lets you build custom ones.
+- Evidence comes from [Config](../aws-monitoring/config.md), [CloudTrail](../aws-monitoring/cloudtrail.md), Security Hub and manual uploads.
+- It **doesn't make you compliant**. It gathers proof of what your controls are doing.
+- Answers "Can I prove compliance to an auditor?".
 
 ## Example
 
-_(added)_ Before a yearly PCI DSS audit, the compliance team opens an Audit Manager assessment. Instead of spending weeks collecting screenshots, they export a report showing that every bucket holding card data was encrypted and logged for the full year.
+Before a yearly PCI DSS audit, the compliance team opens an Audit Manager assessment. Instead of spending weeks collecting screenshots, they export a report showing that every bucket holding card data was encrypted and logged for the full year.
 
 ## Related
 

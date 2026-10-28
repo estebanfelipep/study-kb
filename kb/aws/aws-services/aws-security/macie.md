@@ -8,16 +8,16 @@ Macie **automatically discovers, classifies and protects sensitive data** such a
 
 ## Characteristics
 
-- A security service that also feeds governance _(added)_.
-- Works on **S3 only** _(added)_.
-- Finds names, addresses, credit card numbers, passport numbers, credentials, and custom patterns you define _(added)_.
-- Also flags risky **bucket settings**: public, unencrypted or shared outside the account _(added)_.
-- Looks at **what's inside** S3 objects (data at rest), not behavior _(added)_.
-- Findings go to [EventBridge](../aws-application-coordination/eventbridge.md) and Security Hub _(added)_.
+- A security service that also feeds governance.
+- Works on **S3 only**.
+- Finds names, addresses, credit card numbers, passport numbers, credentials, and custom patterns you define.
+- Also flags risky **bucket settings**: public, unencrypted or shared outside the account.
+- Looks at **what's inside** S3 objects (data at rest), not behavior.
+- Findings go to [EventBridge](../aws-application-coordination/eventbridge.md) and Security Hub.
 
 ## Example
 
-_(added)_ A partner drops customer exports into the `raw/` bucket every day. Macie scans it and finds a file with unmasked credit card numbers. An EventBridge rule triggers a [Lambda](../aws-compute/lambda.md) function that moves the file to a quarantine bucket and alerts the data security officer.
+A partner drops customer exports into the `landing/` bucket every day, before anything moves to `raw/`. Macie scans it and finds a file with unmasked credit card numbers. An EventBridge rule triggers a [Lambda](../aws-compute/lambda.md) function that moves the file to a quarantine bucket and alerts the data security officer.
 
 ## Related
 
