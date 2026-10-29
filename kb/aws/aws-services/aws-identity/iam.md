@@ -29,4 +29,4 @@ A Glue ETL job runs as the role `glue-sales-etl`. Its policy allows `s3:GetObjec
 - [lake-formation.md](../aws-analytics/lake-formation.md): IAM lets a user reach the services, and Lake Formation decides which data (columns, rows, cells) they see. They work together.
 - [kms.md](../aws-security/kms.md): a Glue job role's IAM policy includes `kms:Decrypt` on the raw bucket's key so it can read encrypted data.
 - [cloudtrail.md](../aws-monitoring/cloudtrail.md): for data access monitoring, IAM sets the permissions and CloudTrail logs how they're used, including denied calls.
-- [glue.md](../aws-analytics/glue.md): each Glue job runs as its own IAM role, scoped to the bucket prefixes it reads and writes (least privilege).
+- [glue.md](../aws-analytics/glue.md): each Glue job runs as its own IAM role, scoped to the bucket prefixes it reads and writes (least privilege), and each Glue crawler runs with an IAM role that grants it read access to the data it scans.

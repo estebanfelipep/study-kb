@@ -21,6 +21,10 @@ Each entry looks like this:
 - [Central storage: Amazon S3 as the data lake storage platform](https://docs.aws.amazon.com/whitepapers/latest/building-data-lakes/amazon-s3-data-lake-storage-platform.html): AWS whitepaper (Storage Best Practices for Data and Analytics Applications), S3 as the lake's storage. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 - [Data lake foundation](https://docs.aws.amazon.com/whitepapers/latest/building-data-lakes/data-lake-foundation.html): AWS whitepaper (Storage Best Practices for Data and Analytics Applications), the zones of a data lake. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 - [Cost Modeling Data Lakes for Beginners](https://docs.aws.amazon.com/whitepapers/latest/cost-modeling-data-lakes/welcome.html): AWS whitepaper, including the storage costs of analytics services. See [s3.md](aws/aws-services/aws-general-services/s3.md).
+- [What Is a Data Catalog?](https://aws.amazon.com/what-is/data-catalog/): AWS overview of data catalogs and the Glue Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Data discovery and cataloging in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/catalog-and-crawler.html): AWS Glue User Guide, the Data Catalog and crawlers. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Optimizing query performance using column statistics](https://docs.aws.amazon.com/glue/latest/dg/column-statistics.html): AWS Glue User Guide, column-level statistics. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [AWS Glue Data Quality](https://docs.aws.amazon.com/glue/latest/dg/glue-data-quality.html): AWS Glue User Guide, Data Quality. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 ## Courses and training
 

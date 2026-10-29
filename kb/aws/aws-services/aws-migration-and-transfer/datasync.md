@@ -41,7 +41,7 @@ It's optimized for moving **large volumes of file-based and object data** to, fr
                            (hourly, only new or changed files)
   ```
 
-  The whole scenario is in [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md).
+  The whole scenario is in the ingest section of [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md).
 
 ## Related
 
@@ -51,5 +51,5 @@ It's optimized for moving **large volumes of file-based and object data** to, fr
 - [s3.md](../aws-general-services/s3.md): DataSync copies on-premises files into AWS storage such as the S3 data lake.
 - [choosing-ingestion-services.md](../../aws-data-engineering/choosing-ingestion-services.md): compares DataSync with DMS, Transfer Family and Snow Family: NFS/SMB/HDFS and scheduled sync point to DataSync.
 - [ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/ingest-on-aws.md): DataSync is the ingest-stage service for on-premises files.
-- [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md): DataSync copies Example Corp's website clicks from an on-premises NAS into the raw zone every hour.
+- [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): in its ingest section, DataSync copies Example Corp's website clicks from an on-premises NAS into the raw zone every hour.
 - [site-to-site-vpn.md](../aws-networking/site-to-site-vpn.md): a Site-to-Site VPN encrypts the path the DataSync agent copies files over, from the data center to AWS.

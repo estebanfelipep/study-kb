@@ -28,7 +28,7 @@ AWS Site-to-Site VPN creates a **secure, encrypted tunnel over the public intern
 
 ## Example
 
-Example Corp sets up a Site-to-Site VPN so that DMS (replicating its on-premises MySQL database) and the DataSync agent (copying files from its NAS) send data to AWS through an encrypted tunnel. See [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md).
+Example Corp sets up a Site-to-Site VPN so that DMS (replicating its on-premises MySQL database) and the DataSync agent (copying files from its NAS) send data to AWS through an encrypted tunnel. See the ingest section of [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md).
 
 ## Related
 
@@ -36,4 +36,4 @@ Example Corp sets up a Site-to-Site VPN so that DMS (replicating its on-premises
 - [dms.md](../aws-databases/dms.md): DMS replicates an on-premises database to AWS through the VPN tunnel.
 - [datasync.md](../aws-migration-and-transfer/datasync.md): the on-premises DataSync agent copies files to AWS through the VPN tunnel.
 - [data-security-and-monitoring.md](../../../data-engineering/data-security-and-monitoring.md): the VPN provides encryption in transit between the data center and AWS, part of data and network security.
-- [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md): Example Corp's on-premises MySQL data and NAS files reach AWS through a Site-to-Site VPN.
+- [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): in its ingest section, Example Corp's on-premises MySQL data and NAS files reach AWS through a Site-to-Site VPN.

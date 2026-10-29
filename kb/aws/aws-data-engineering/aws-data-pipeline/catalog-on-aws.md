@@ -18,3 +18,4 @@ data lands in S3 ─► crawlers catalog it ─► discoverable and queryable
 - [choosing-security-and-monitoring-services.md](../choosing-security-and-monitoring-services.md): compares the Glue Data Catalog (technical metadata) with DataZone (business metadata).
 - [store-on-aws.md](store-on-aws.md): the previous stage; crawlers scan what lands in S3.
 - [process-on-aws.md](process-on-aws.md): the next stage; processing engines read and write tables registered here.
+- [example-corp-pipeline-on-aws.md](example-corp-pipeline-on-aws.md): its catalog section applies this stage to a real lake: three crawlers write the raw zone to the database `db_raw`.

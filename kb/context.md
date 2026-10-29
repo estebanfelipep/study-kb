@@ -16,7 +16,11 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **CIA triad**: Confidentiality, integrity and availability, the three goals of data security. See [data-security-and-monitoring.md](data-engineering/data-security-and-monitoring.md).
 
+**Classifier**: The part of a Glue crawler that infers a data store's format and schema, built in (JSON, CSV, Avro, …) or custom. The first classifier in the list that recognizes the data wins. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
 **Cleaned zone**: The data lake zone that holds each source after filtering anomalies, standardizing formats and correcting invalid values, still not combined with other sources. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
+
+**Column statistics**: Per-column minimum, maximum, null count and distinct-value count computed for a Data Catalog table, to optimize queries. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Columnar format**: A file or storage layout that stores each column together, so queries read only the columns they need. Parquet and ORC are columnar file formats. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
@@ -42,7 +46,11 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Data warehouse**: A columnar SQL analytics database for curated, modeled data, with schema-on-write. On AWS, Redshift. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**Database (Data Catalog)**: A container of tables in the Glue Data Catalog, such as `db_raw`. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
 **DataSync agent**: The software DataSync runs on premises, next to the storage, to read files and copy them to AWS. See [datasync.md](aws/aws-services/aws-migration-and-transfer/datasync.md).
+
+**DDL**: Data definition language. SQL statements that define tables, such as `CREATE EXTERNAL TABLE`, one way to populate the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Directory bucket**: The S3 bucket type that S3 Express One Zone stores data in. It lives in one AZ and supports hundreds of thousands of requests per second. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 
@@ -67,6 +75,8 @@ _Avoid:_ record linkage, identity resolution
 
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
+
+**Incremental crawl**: A crawler run that scans only new subfolders and adds only the new partitions. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Insert-only CDC**: CDC for append-only data, such as logs, where rows are only added. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
@@ -96,7 +106,11 @@ _Avoid:_ customer 360, single customer view
 
 **Orchestration**: Coordinating multiple services and their dependencies through a series of steps. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
-**Partition key**: A producer-chosen value that decides which shard or partition a stream record goes to, keeping one key's records in order. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
+**Partition (table)**: One combination of partition-key values of a lake table, stored under its own path, such as `year=2024/month=3/day=13/`. See [partitioning.md](data-engineering/partitioning.md).
+
+**Partition key (stream)**: A producer-chosen value that decides which shard or partition a stream record goes to, keeping one key's records in order. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
+
+**Partition key (table)**: A column a lake table is partitioned by, such as `year` or `day`. Queries that filter on it skip the other partitions. See [partitioning.md](data-engineering/partitioning.md).
 
 **PII**: Personally identifiable information. See [macie.md](aws/aws-services/aws-security/macie.md).
 
@@ -119,6 +133,8 @@ _Avoid:_ SCD type 2
 
 **Schema-on-read / schema-on-write**: Applying structure when data is read (lakes) vs defining it before loading (warehouses, databases). See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**SerDe**: Serializer/deserializer. The library a table's storage descriptor names for reading and writing its file format. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
 **Serverless**: Building and running applications without managing infrastructure, paying only while code runs. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Shard**: An ordered unit of a Kinesis stream, with about 1 MB/s in and 2 MB/s out. See [kinesis-data-streams.md](aws/aws-services/aws-analytics/kinesis-data-streams.md).
@@ -130,6 +146,8 @@ _Avoid:_ SCD type 2
 **Spectrum**: Redshift Spectrum, which queries files in S3 from Redshift without loading them. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
 **State machine**: A Step Functions workflow made of states such as task, choice, parallel, wait and map. See [step-functions.md](aws/aws-services/aws-application-coordination/step-functions.md).
+
+**Storage descriptor**: The part of a Data Catalog table that defines its physical storage: format, S3 location, SerDe and schema. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Stream**: A continuous, ordered sequence of small records, appended as events happen and kept for a retention period. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 

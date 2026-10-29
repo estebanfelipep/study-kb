@@ -56,4 +56,4 @@ With a landing zone, the flow starts one step earlier:
 - [unified-customer-data.md](unified-customer-data.md): a worked example through all three zones: CRM changes land in raw, each source is standardized into cleaned, and the matched, merged `customer_360` is curated.
 - [data-security-and-monitoring.md](data-security-and-monitoring.md): zones are also access boundaries, and the landing zone is where PII is masked before anyone downstream sees it.
 - [s3.md](../aws/aws-services/aws-general-services/s3.md): on AWS each zone is commonly its own S3 bucket, with a storage class and lifecycle rules chosen per zone.
-- [example-corp-store-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/example-corp-store-on-aws.md): an AWS example with one S3 bucket per zone, and a storage class and lifecycle rules chosen for each.
+- [example-corp-pipeline-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): an AWS example with one S3 bucket per zone, a storage class and lifecycle rules chosen for each, and the raw zone cataloged by Glue crawlers.

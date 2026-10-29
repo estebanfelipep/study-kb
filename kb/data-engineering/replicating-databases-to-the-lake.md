@@ -192,3 +192,4 @@ Its limits:
 - [s3.md](../aws/aws-services/aws-general-services/s3.md): on AWS the lake's files live in S3, where each table "folder" is only a key prefix, and S3 lifecycle rules decide how long the raw history is kept.
 - [dms.md](../aws/aws-services/aws-databases/dms.md): DMS implements full load + CDC on AWS and writes the change files to S3 with the `Op` column.
 - [choosing-ingestion-services.md](../aws/aws-data-engineering/choosing-ingestion-services.md): maps each way to get RDS data out onto an AWS service.
+- [example-corp-pipeline-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): Example Corp replicates two tables this way, full load then CDC with DMS, into its raw bucket, where lifecycle rules expire the files, and the history they keep, in year 10.

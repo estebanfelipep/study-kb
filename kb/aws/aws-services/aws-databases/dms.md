@@ -84,7 +84,7 @@ DMS migrates database to database, or database to other storage such as Amazon S
 
   The task writes one `LOAD` file per table, then change files as the app works. What those files contain, row by row, and how they're merged into current tables is the three-table example in [replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md).
 
-- Example Corp replicates two databases into its S3 raw zone: a marketing campaigns table from an on-premises MySQL database and a sales table from Aurora. One replication instance, two source endpoints, two target endpoints (one per dataset) and one task per source. Each task does a full load, then CDC. The whole scenario is in [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md).
+- Example Corp replicates two databases into its S3 raw zone: a marketing campaigns table from an on-premises MySQL database and a sales table from Aurora. One replication instance, two source endpoints, two target endpoints (one per dataset) and one task per source. Each task does a full load, then CDC. The whole scenario is in the ingest section of [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md).
 
 ## Related
 
@@ -95,6 +95,6 @@ DMS migrates database to database, or database to other storage such as Amazon S
 - [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md): DMS covers two ingest modes defined here: batch (full load) and ongoing replication (change data capture).
 - [choosing-ingestion-services.md](../../aws-data-engineering/choosing-ingestion-services.md): compares DMS with DataSync (files, not databases), with an RDS read replica (a file copy in the lake vs a second live database), and with Aurora zero-ETL and Glue jobs. Zero-ETL needs no code but only supports specific pairs; DMS covers migrations and unsupported pairs; Glue handles heavy transformation.
 - [ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/ingest-on-aws.md): DMS is the ingest-stage service for relational and non-relational databases.
-- [example-corp-ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-ingest-on-aws.md): DMS ingests Example Corp's MySQL and Aurora tables into the raw zone, by full load then CDC.
+- [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): in its ingest section, DMS ingests Example Corp's MySQL and Aurora tables into the raw zone, by full load then CDC.
 - [site-to-site-vpn.md](../aws-networking/site-to-site-vpn.md): a Site-to-Site VPN carries DMS traffic from an on-premises database to AWS over an encrypted tunnel.
 - [glue.md](../aws-analytics/glue.md): DMS can fill the Glue Data Catalog automatically with the tables it writes to S3.
