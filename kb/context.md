@@ -24,6 +24,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Columnar format**: A file or storage layout that stores each column together, so queries read only the columns they need. Parquet and ORC are columnar file formats. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**Connector (Glue)**: Code that lets Glue communicate with a data store, as a source or a target. Built in, from AWS Marketplace, or custom. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
 **Crawler**: A Glue component that scans data, infers format and schema, and writes tables to the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **CTAS**: `CREATE TABLE AS SELECT`. An Athena statement that writes a query's results to S3 as new files and registers them as a table. See [athena.md](aws/aws-services/aws-analytics/athena.md).
@@ -40,23 +42,33 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Data lake**: A centralized repository for structured, semi-structured and unstructured data at scale, stored without extensive preprocessing. On AWS, built on S3. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
+**Data quality at rest**: Checking the quality of data already stored and cataloged. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Data quality in transit**: Checking data inside an ETL job, so bad data is filtered out before it's loaded. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
 **Data silo**: An isolated, incompatible data store optimized for one department or use case. See [modern-data-architecture.md](data-engineering/modern-data-architecture.md).
 
 **Data swamp**: A data lake without a catalog: files nobody can find or trust. See [modern-data-architecture.md](data-engineering/modern-data-architecture.md).
 
 **Data warehouse**: A columnar SQL analytics database for curated, modeled data, with schema-on-write. On AWS, Redshift. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
-**Database (Data Catalog)**: A container of tables in the Glue Data Catalog, such as `db_raw`. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+**Database (Data Catalog)**: A container of tables in the Glue Data Catalog, such as `db_raw`. The convention is one database per data lake zone. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **DataSync agent**: The software DataSync runs on premises, next to the storage, to read files and copy them to AWS. See [datasync.md](aws/aws-services/aws-migration-and-transfer/datasync.md).
 
 **DDL**: Data definition language. SQL statements that define tables, such as `CREATE EXTERNAL TABLE`, one way to populate the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Detect PII**: The Glue transform that detects sensitive data in a job and masks or removes it. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Directory bucket**: The S3 bucket type that S3 Express One Zone stores data in. It lives in one AZ and supports hundreds of thousands of requests per second. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 
 **DLQ**: Dead-letter queue. Holds messages that failed processing too many times, so they don't block the queue. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 
 **DPU**: Data processing unit. The capacity and billing unit of Glue jobs. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**DQDL**: Data Quality Definition Language. The language Glue Data Quality rules are written in. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**DynamicFrame**: The Glue ETL library's data structure for messy data, where the same field can be inconsistent across a dataset. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Entity resolution**: Matching records that refer to the same real-world entity, such as one customer under different IDs in different systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ record linkage, identity resolution
@@ -79,6 +91,8 @@ _Avoid:_ customer 360, single customer view
 **Incremental crawl**: A crawler run that scans only new subfolders and adds only the new partitions. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Insert-only CDC**: CDC for append-only data, such as logs, where rows are only added. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+
+**Interactive session (Glue)**: On-demand interactive access to a remote Spark runtime, from a notebook or IDE. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Job bookmark**: Glue's record of data a job already processed, so each run handles only new data. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -163,6 +177,8 @@ _Avoid:_ SCD type 2
 _Avoid:_ VPN gateway
 
 **Visibility timeout**: How long an SQS message stays hidden from other consumers while one processes it. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
+
+**Visual ETL**: Building an ETL job by drag and drop, without code: sources, transforms, targets. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **VPC endpoint**: Private access from a VPC to AWS services such as S3, Glue or KMS without the internet. See [vpc.md](aws/aws-services/aws-networking/vpc.md).
 

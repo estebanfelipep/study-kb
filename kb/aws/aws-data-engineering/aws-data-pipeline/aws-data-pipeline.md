@@ -63,7 +63,7 @@ The Glue Data Catalog and Glue crawlers make lake data findable and queryable; D
 
 Glue (managed ETL), EMR (open-source frameworks) and Managed Service for Apache Flink (real time) transform the data, moving it between the lake's zones.
 
-- [process-on-aws.md](process-on-aws.md): the processing services, their modes, and how they move data from raw to cleaned to curated. Read when: you need which AWS service transforms data, batch or real time.
+- [process-on-aws.md](process-on-aws.md): the processing services, what each is for, and how they move data from raw to cleaned to curated, plus the services that schedule and orchestrate transforms. Read when: you need which AWS service transforms data, batch or real time, or what orchestrates the transforms.
 
 ## 5. Deliver
 
@@ -73,7 +73,7 @@ Redshift, Athena, EMR, OpenSearch, QuickSight and SageMaker serve the data to co
 
 ## Worked example
 
-- [example-corp-pipeline-on-aws.md](example-corp-pipeline-on-aws.md): Example Corp's pipeline, one section per stage: ingesting an on-premises MySQL table and an Aurora table with DMS and NAS files with DataSync over a Site-to-Site VPN; three zone buckets with S3 Standard plus lifecycle rules on raw and cleaned and Intelligent-Tiering on curated; and three Glue crawlers cataloging the raw zone into the database `db_raw`. Read when: you need a worked example of a stage, such as setting up DMS endpoints and tasks, a DataSync agent, storage classes and lifecycle rules per zone, or a Glue database and crawlers.
+- [example-corp-pipeline-on-aws.md](example-corp-pipeline-on-aws.md): Example Corp's pipeline, one section per stage: ingesting an on-premises MySQL table and an Aurora table with DMS and NAS files with DataSync over a Site-to-Site VPN; three zone buckets with S3 Standard plus lifecycle rules on raw and cleaned and Intelligent-Tiering on curated; three Glue crawlers cataloging the raw zone into the database `db_raw`; and two Glue Studio visual ETL jobs, scheduled with job bookmarks, taking raw to cleaned (nulls filled, sensitive data redacted, names standardized, CSV to Parquet) and cleaned to curated (joins and aggregates). Read when: you need a worked example of a stage, such as setting up DMS endpoints and tasks, a DataSync agent, storage classes and lifecycle rules per zone, a Glue database and crawlers, or Glue ETL jobs from raw to curated.
 
 ## Security and governance, across the stages
 

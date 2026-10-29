@@ -70,6 +70,8 @@ Service details are in each service's file in [aws-services](../aws-services/aws
 | If the question says… | Pick |
 | --- | --- |
 | "Serverless ETL", "least operational overhead", "crawl and catalog", "visual ETL editor" | [Glue](../aws-services/aws-analytics/glue.md) |
+| "Small dataset", "single node", "latency doesn't matter", "Python script" | [Glue Python shell](../aws-services/aws-analytics/glue.md) |
+| "Impromptu log analysis", "report generation", "basic transformations", "serverless SQL" | [Athena](../aws-services/aws-analytics/athena.md) |
 | "Existing **Spark/Hadoop/Hive/Presto** jobs", "migrate on-premises Hadoop", "full control over the cluster", "petabyte-scale batch", "custom frameworks" | [EMR](../aws-services/aws-analytics/emr.md) |
 | "Analyze streaming data in **real time**", "windowed aggregations on a stream", "Apache Flink" | [Managed Service for Apache Flink](../aws-services/aws-analytics/managed-service-for-apache-flink.md) |
 

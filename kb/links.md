@@ -25,6 +25,10 @@ Each entry looks like this:
 - [Data discovery and cataloging in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/catalog-and-crawler.html): AWS Glue User Guide, the Data Catalog and crawlers. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [Optimizing query performance using column statistics](https://docs.aws.amazon.com/glue/latest/dg/column-statistics.html): AWS Glue User Guide, column-level statistics. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [AWS Glue Data Quality](https://docs.aws.amazon.com/glue/latest/dg/glue-data-quality.html): AWS Glue User Guide, Data Quality. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Using custom connectors and connections with AWS Glue Studio](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html): AWS Glue Studio User Guide, connectors. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [DynamicFrame class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html): AWS Glue Developer Guide, DynamicFrame. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Data Quality Definition Language (DQDL) reference](https://docs.aws.amazon.com/glue/latest/dg/dqdl.html): AWS Glue Developer Guide, DQDL. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Detect and process sensitive data](https://docs.aws.amazon.com/glue/latest/dg/detect-PII.html): AWS Glue Developer Guide, the Detect PII transform. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 ## Courses and training
 

@@ -1,6 +1,6 @@
 # AWS Glue
 
-AWS Glue: serverless data integration, covering jobs, crawlers and classifiers, the Data Catalog, workflows, Glue Studio, Data Quality and sensitive data detection.
+AWS Glue: serverless data integration, covering connectors, jobs (engines, authoring, the ETL library, interactive sessions), crawlers and classifiers, the Data Catalog, workflows, Glue Studio, Data Quality and sensitive data detection.
 
 ## Sources
 
@@ -8,6 +8,10 @@ AWS Glue: serverless data integration, covering jobs, crawlers and classifiers, 
 - [Data discovery and cataloging in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/catalog-and-crawler.html): AWS Glue User Guide, the Data Catalog and crawlers.
 - [Optimizing query performance using column statistics](https://docs.aws.amazon.com/glue/latest/dg/column-statistics.html): AWS Glue User Guide, computing column-level statistics.
 - [AWS Glue Data Quality](https://docs.aws.amazon.com/glue/latest/dg/glue-data-quality.html): AWS Glue User Guide, Data Quality.
+- [Using custom connectors and connections with AWS Glue Studio](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html): AWS Glue Studio User Guide, connectors and connections.
+- [DynamicFrame class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html): AWS Glue Developer Guide, the ETL library's DynamicFrame.
+- [Data Quality Definition Language (DQDL) reference](https://docs.aws.amazon.com/glue/latest/dg/dqdl.html): AWS Glue Developer Guide, the language of Data Quality rules.
+- [Detect and process sensitive data](https://docs.aws.amazon.com/glue/latest/dg/detect-PII.html): AWS Glue Developer Guide, the Detect PII transform.
 
 ## What it is
 
@@ -19,6 +23,8 @@ AWS Glue is a serverless data integration service and a fully managed ETL servic
 
 It **consolidates data integration capabilities into a single service**: connecting to different data sources, discovering data, cataloging, ensuring data quality and transforming the data.
 
+You can develop jobs in Glue Studio (visual ETL, notebooks, script editor), in Amazon SageMaker Studio notebooks, or in local notebooks and IDEs. Wherever the code is written, it runs on Glue's **serverless distributed Spark engine**.
+
 It appears in five of the six data engineer functions (infrastructure, ingest, prepare, catalog, automate) and across the whole flow: jobs for ingestion, crawlers and the Data Catalog for cataloging, ETL for processing, and workflows for automation. It's the central service of the training.
 
 **In one line: Glue turns raw files in S3 into data you can find, trust and query, without running servers.** 
@@ -26,6 +32,21 @@ It appears in five of the six data engineer functions (infrastructure, ingest, p
 It's a family of tools under one name that share one hub, the Data Catalog: crawlers and the catalog **describe** the data, and jobs **transform** it. Glue is mainly a cataloging and processing service, not an orchestrator: workflows are its only orchestration, and they chain only Glue's own crawlers and jobs.
 
 ## Characteristics
+
+### Capabilities at a glance
+
+```
+ AWS Glue
+ ├─ Connectors          data warehouses, lakes, databases, streams
+ ├─ Discover, catalog   Data Catalog, crawlers, classifiers
+ ├─ Prepare, transform  ETL jobs, ETL library, interactive
+ │                      sessions, Glue Studio (visual ETL,
+ │                      notebook, script editor, job monitoring)
+ ├─ Data management     Data Quality, sensitive data detection
+ └─ Engines             Python shell, Apache Spark
+```
+
+Most of Glue's functionality is in preparing, cleansing and transforming: that's where ETL jobs are configured and run.
 
 ### Problems each part solves
 
@@ -38,19 +59,68 @@ It's a family of tools under one name that share one hub, the Data Catalog: craw
 | Bad rows or PII would reach analysts | Silent bad data, exposed contact details | **Data Quality** rules and **sensitive data detection** | Process, security |
 | Crawler, then job, then the next job | Manual runs or cron | **Workflows and triggers** | Automation |
 
-- **Serverless:** jobs scale automatically; you don't manage infrastructure and pay only per use.
+- **Serverless:** Glue provisions, configures and scales the resources a job needs, so there's no infrastructure to manage. You pay only for the resources consumed while jobs run.
 - Part of the **security and auditability** story: KMS encryption, data masking, and the Data Catalog's table history.
+
+### Connectors
+
+A connector is **code that lets Glue communicate with a data store**, whether it's a source or a target. You can use built-in connectors, connectors from AWS Marketplace, or custom connectors you build.
+
+| Kind of store | Examples |
+| --- | --- |
+| Data warehouses | Amazon Redshift |
+| Data lakes | Amazon S3 |
+| Relational databases | JDBC, Amazon Aurora, MariaDB, MySQL, Microsoft SQL Server, Oracle Database, PostgreSQL |
+| Non-relational databases | Amazon DocumentDB, MongoDB, Amazon OpenSearch |
+| Streams | Apache Kafka, Amazon Kinesis |
+| Other cloud providers | |
 
 ### Jobs
 
-- Ingest and transform data. Run on **Apache Spark**, or **Python shell** for small tasks (also Ray).
+- Ingest and transform data. Good for **complex transformations**: flexible and customizable. Run on one of the engines below (also Ray).
 - Capacity is measured in **DPUs** (data processing units), billed per second while a job runs.
 - Mostly batch; also **streaming ETL**.
-- **Job bookmarks** remember what was already processed, so each run handles only new data.
+- **Job bookmarks** remember what was already processed, so a run doesn't reprocess the entire dataset when new data arrives or after the job was interrupted.
 - Connectors to many sources.
 - Run for hours on GB to TB of data (distributed Spark), so they suit transformations that would time out in [Lambda](../aws-compute/lambda.md).
 - The usual pattern is **S3 to S3**: a job reads objects from one zone's prefix or bucket and writes **new** objects to the next zone: `raw/` → `cleaned/` (filter, standardize, correct), then `cleaned/` → `curated/` (join, aggregate). Lake files are written once, so the raw objects stay unchanged as the source of truth. The zones are in [data-lake-zones.md](../../../data-engineering/data-lake-zones.md).
 - S3 isn't the only target: jobs can also write to Redshift or to databases over JDBC.
+
+#### Engines
+
+| Engine | How it runs | Best for |
+| --- | --- | --- |
+| **Python shell** | A single-node, serverless Python engine | Small datasets, workloads that don't depend on low latency |
+| **Apache Spark** | A serverless, distributed computing environment | Ingesting, processing and integrating data at scale, batch and streaming |
+
+#### Authoring a job
+
+| Approach | How | Best for |
+| --- | --- | --- |
+| **Script editor** | Write the transformation logic in **Python or Scala**, or upload your own script | Complex transformations; the most flexibility and customization |
+| **Notebooks** | Run code a section at a time with immediate feedback, then promote the notebook to a Glue ETL job | Developing a job step by step |
+| **Visual ETL** | Build the job in a visual interface: define sources, apply transforms, define targets | No code |
+
+The tools behind each approach are in "Glue Studio" below.
+
+#### ETL library and DynamicFrames
+
+- The **Glue ETL library** extends Apache Spark with extra data types and operations that streamline ETL.
+- It's built on **DynamicFrames**, which help with **messy data, where the same field can be inconsistent across a dataset**.
+
+#### Interactive sessions
+
+On-demand, interactive access to a **remote Spark runtime**, from Jupyter notebooks, SageMaker Studio notebooks, or IDEs such as Visual Studio Code, IntelliJ and PyCharm.
+
+#### Registering a job's output
+
+A job that writes new files to the next zone also needs tables for them. The raw zone's tables aren't repointed: they keep describing the raw files, and the cleaned and curated files get tables of their own ("One database per zone", under Data Catalog). There are three ways to create them:
+
+| Way | How |
+| --- | --- |
+| **The job registers them** | In Glue Studio, the S3 target can create a table in the Data Catalog, and on later runs update its schema and add new partitions. You choose an existing database for it. |
+| **A crawler on the next zone** | Runs after the job, over the cleaned or curated bucket, as the raw zone's crawlers do. |
+| **DDL or by hand** | For example `CREATE EXTERNAL TABLE … LOCATION 's3://cleaned/…'` in [Athena](athena.md). |
 
 ### Crawlers
 
@@ -126,6 +196,22 @@ Data Catalog         one per AWS account per Region
          └─ table type           EXTERNAL_TABLE, ...
 ```
 
+#### One database per zone
+
+There's **one Data Catalog** per account per Region, not one per bucket. Inside it, the convention is **one database per data lake zone**, each holding the tables that point to that zone's bucket:
+
+```
+ Data Catalog (one per account per Region)
+ ├─ db_raw       ─► tables pointing to the raw bucket (CSV)
+ ├─ db_cleaned   ─► tables pointing to the cleaned bucket (Parquet)
+ └─ db_curated   ─► tables pointing to the curated bucket (Parquet)
+```
+
+- **A database is only a grouping of tables**, not tied to a bucket. A table is what points to a location, in any bucket or prefix.
+- **It's a convention, not a rule.** A database per zone keeps the zones apart and makes permissions simple, such as letting analysts read `db_curated` but not `db_raw`. Other layouts work too, such as a database per domain (`sales_raw`, `sales_cleaned`).
+- **Both sets of tables stay.** The raw tables still serve audits, reprocessing, data scientists and the jobs that read them, and each table records its own format, so engines parse CSV and Parquet correctly.
+- How a job's output gets its tables is in "Registering a job's output", under Jobs.
+
 #### What a table holds
 
 | Entry | What it holds | Example |
@@ -151,8 +237,8 @@ Partitions of a table partitioned by day, after two days of data:
 ```
 Data Catalog: db_raw.website_clicks        S3: raw/website_clicks/
 ┌──────────────────────────────────┐
-│ location: s3://raw/website_clicks│──points to──► the JSON files
-│ format:   JSON (JSON SerDe)      │               (the only copy
+│ location: s3://raw/website_clicks│──points to──► the CSV files
+│ format:   CSV (CSV SerDe)        │               (the only copy
 │ columns:  user_id int, page      │                of the data)
 │           string, ts string      │
 │ partition keys: year, month, day │
@@ -195,23 +281,36 @@ The crawler doesn't run queries. It **records** the partitions, and the engine u
 
 ### Workflows
 
-- Orchestrate a chain of Glue crawlers, jobs and triggers. Only Glue; serverless. (defined in the Glue console or API)
+- Chain Glue crawlers, jobs and triggers into a workflow, in the Glue console or programmatically through the API. Only Glue components; serverless.
 
 ### Glue Studio
 
-- The visual editor for building ETL jobs. It answers discovery step 5's "Do you have a visual editor?"
+A graphical interface to **create, run and monitor** data integration jobs. Its visual editor answers discovery step 5's "Do you have a visual editor?"
+
+| Component | What it does |
+| --- | --- |
+| **Visual ETL** | Drag and drop to build ETL pipelines. Shows the data after each transform step, and infers the schema in real time, without cataloging the data first. |
+| **Notebook** | Based on Jupyter. Explore and visualize data, write code and see its output without running a full job, organize it with markdown cells, run it in a serverless distributed environment, and run the notebook as a Glue ETL job. |
+| **Script editor** | Edit a job's script, or upload your own. |
+| **Job monitoring** | Monitor thousands of jobs from one screen, view debugging recommendations and logs, track resource usage to find expensive jobs, and filter by job details and time period. |
 
 ### Data Quality
 
-- Measures and monitors the quality of data with rules.
-- **In a job:** rules check the data as the job runs, for example failing the job when too many rows break a rule.
-- **On Data Catalog tables:** rules measure and monitor the quality of cataloged data.
+Measures data quality throughout the ETL process, and acts on it.
+
+| Where | Called | What it does |
+| --- | --- | --- |
+| **Data Catalog tables** | Data quality **at rest** | Evaluates the quality of cataloged data |
+| **ETL jobs** | Data quality **in transit** | Finds and filters out bad data before it's loaded into the lake, for example by failing the job when too many rows break a rule |
+
+- Rules are written in **DQDL** (Data Quality Definition Language).
+- You can get **rule recommendations** or build custom rules.
 
 ### Sensitive data protection
 
 - Protects sensitive data with **encryption with KMS** and **data masking**.
 - **Security configurations** encrypt job output in S3, CloudWatch logs and job bookmarks with KMS.
-- **Sensitive data detection** finds PII in a job's data while the job processes it, and can **redact, hash or partially mask** it.
+- **Sensitive data detection:** the **Detect PII transform** finds sensitive data in a job's data while the job processes it, and can **mask** it (redact, hash or partially mask) or **remove** it. It detects **250 sensitive entity types from over 50 countries**, plus your own patterns, defined by a regex you provide.
 
 ## Example
 
@@ -232,7 +331,7 @@ sources ─► S3 raw/ ─► crawler ─► Data Catalog ◄─ Athena, EMR and
 Glue workflow: crawler → job → crawler, in order
 ```
 
-- **Example Corp** catalogs its raw zone with three crawlers into the database `db_raw`, with the tables `sales`, `marketing_campaigns` and `website_clicks`. See the catalog section of [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md).
+- **Example Corp** catalogs its raw zone with three crawlers into the database `db_raw`, with the tables `sales`, `marketing_campaigns` and `website_clicks`. It then processes the data with two Glue Studio visual ETL jobs, both scheduled and using job bookmarks: raw to cleaned (fill nulls, redact, rename, CSV to Parquet), then cleaned to curated (join and aggregate). See sections 3 and 4 of [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md).
 - Nightly ETL: a Glue job reads only new JSON order files from S3 (job bookmarks), joins them with the customer table from the Data Catalog, drops test orders, standardizes country codes, and writes partitioned Parquet back to S3. A data-quality rule fails the job if more than 1% of orders have no customer ID. Nothing is billed between nights.
 - Masking: a job copies customer records from the `landing/` zone to `raw/`, replaces emails with a hash and keeps only the last four digits of phone numbers. Analysts can count unique customers but can't see contact details.
 - Table versions: a source adds a `discount_code` column; the next crawler run creates version 7 of `orders`. When a report breaks, the team compares versions 6 and 7.
@@ -257,4 +356,7 @@ Glue workflow: crawler → job → crawler, in order
 - [dms.md](../aws-databases/dms.md): DMS can populate the Glue Data Catalog automatically with the tables it writes to S3.
 - [partitioning.md](../../../data-engineering/partitioning.md): a catalog table's partition keys implement partitioning, with one partition per S3 path, and crawlers detect that structure automatically.
 - [iam.md](../aws-identity/iam.md): each crawler runs with an IAM role that grants it access to the data it scans, and each job runs as its own scoped role.
-- [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): its catalog section is a worked example of a Glue database and three crawlers over a raw zone.
+- [example-corp-pipeline-on-aws.md](../../aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): a worked example of a Glue database and three crawlers over a raw zone (section 3), and of two visual ETL jobs taking it to the cleaned and curated zones (section 4).
+- [redshift.md](redshift.md): Glue reaches Redshift through a built-in connector, as a source or a target.
+- [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): Glue jobs convert lake data to Parquet, the columnar format that file explains.
+- [data-lake-zones.md](../../../data-engineering/data-lake-zones.md): Glue jobs move data between the zones it defines, and the Data Catalog usually holds one database per zone.

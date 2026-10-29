@@ -137,6 +137,8 @@ A data catalog is designed to be the **single source of truth about the contents
 
 After data is **cataloged**, it's **processed or transformed** into formats more useful for analysis and insights. This is the **T** in ETL ("make it useful").
 
+The actions in this stage are called **preparation, cleansing and transforming**, and they're performed with ETL functions. Raw data typically arrives in different formats and of varying quality.
+
 ### Types of transformation
 
 | Transformation | Example |
@@ -146,6 +148,12 @@ After data is **cataloged**, it's **processed or transformed** into formats more
 | **Aggregation** | Raw orders → daily revenue per region |
 | **Standardization** | `US`, `U.S.A.`, `United States` → `US`; consistent units and time zones |
 | **Normalizing** | Split repeated data into related tables, or scale values to a common range |
+| **File format conversion** | CSV files → columnar Parquet |
+| **Handling missing values** | Fill a null `country` with a default, or drop the row |
+| **Deduplication** | The same order ingested twice → one row |
+| **Renaming** | `cust_nm` → `customer_name` |
+| **Joining** | Orders + customers on `customer_id` |
+| **Redacting sensitive data** | `ana@example.com` → a hash or `***` |
 
 ### Kinds of processing engine
 

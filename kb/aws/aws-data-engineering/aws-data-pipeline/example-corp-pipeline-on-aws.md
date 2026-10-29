@@ -1,6 +1,6 @@
 # Example Corp: a data pipeline on AWS
 
-This file follows Example Corp through the stages of its data pipeline on AWS, one section per stage: ingesting two databases and a NAS folder with DMS, DataSync and a Site-to-Site VPN, storing them in three zone buckets with storage classes and lifecycle rules per zone, and cataloging the raw zone with Glue crawlers.
+This file follows Example Corp through the stages of its data pipeline on AWS, one section per stage: ingesting two databases and a NAS folder with DMS, DataSync and a Site-to-Site VPN, storing them in three zone buckets with storage classes and lifecycle rules per zone, cataloging the raw zone with Glue crawlers, and processing it with two Glue ETL jobs into the cleaned and curated zones.
 
 ## The whole pipeline
 
@@ -15,6 +15,10 @@ This file follows Example Corp through the stages of its data pipeline on AWS, o
                                  │
                                  ▼
                             3. Catalog  Glue crawlers ─► db_raw
+                                 │
+                                 ▼
+                            4. Process  Glue job 1: raw ─► cleaned
+                                        Glue job 2: cleaned ─► curated
 ```
 
 Example Corp **builds the lake first**: the three buckets of section 2 exist before anything is ingested. The sections follow the pipeline's stage order.
@@ -155,17 +159,81 @@ The solution is to catalog all incoming data in the Glue Data Catalog, with one 
 
 Once cataloged, the raw data is ready to be queried and transformed consistently by purpose-built AWS data services. [Athena](../../aws-services/aws-analytics/athena.md) relies on the catalog for the tables, columns and data types it queries, and [EMR](../../aws-services/aws-analytics/emr.md) reads it for the structure and location of the data it processes. The tables hold only metadata: queries read the files in the raw bucket directly ([glue.md](../../aws-services/aws-analytics/glue.md), "How a query uses a table").
 
+## 4. Process
+
+Once the raw zone is cataloged, data scientists can already use the raw data. Data analysts and business analysts need it prepared, cleaned and transformed first. Example Corp has five goals for this stage:
+
+1. **Convert** the raw data from CSV to the columnar **Apache Parquet** format.
+2. **Handle missing or null values.**
+3. **Redact sensitive data.**
+4. **Standardize** column names and data types.
+5. **Aggregate and join** tables to gain business insights.
+
+### Two jobs, built in Glue Studio visual ETL
+
+Example Corp builds its jobs with **Glue Studio visual ETL**, without writing code. Each job is built in three steps: define the data sources, apply transformations to them, and define the data targets. The other ways to author a job are in [glue.md](../../aws-services/aws-analytics/glue.md), "Authoring a job".
+
+```
+ S3 raw bucket (CSV)                     S3 cleaned bucket (Parquet)
+ sales ───────────────┐   job 1         ┌─► sales
+ marketing campaigns ─┼─► fill nulls ───┼─► marketing campaigns
+ website_clicks ──────┘   redact        └─► website_clicks
+                          rename
+                          CSV ─► Parquet
+
+ S3 cleaned bucket                       S3 curated bucket
+ marketing + sales ───────► job 2 ─────► campaign impact on sales
+ marketing + website_clicks   join,  ──► campaign impact on
+                              aggregate   website traffic
+```
+
+**Job 1, raw to cleaned:** several transforms combined in a single job, in this order.
+
+| Step | Transform | Goal |
+| --- | --- | --- |
+| 1 | Populate missing and null values | 2 |
+| 2 | Redact sensitive data ([glue.md](../../aws-services/aws-analytics/glue.md), "Sensitive data protection") | 3 |
+| 3 | Standardize column names | 4 |
+| 4 | Convert the format from CSV to Parquet | 1 |
+| 5 | Write the results to the cleaned bucket, and register them as tables in a cleaned-zone database of the Data Catalog | |
+
+The raw tables in `db_raw` keep pointing to the raw files. The cleaned files get tables of their own, in their own database, inside the same Data Catalog ([glue.md](../../aws-services/aws-analytics/glue.md), "One database per zone").
+
+**Job 2, cleaned to curated:** it calculates the impact of the marketing campaigns, and writes the results to the curated bucket.
+
+| Question | Joins | Aggregated by |
+| --- | --- | --- |
+| What's the campaigns' impact on sales? | Marketing campaigns + sales | Product category |
+| What's the campaigns' impact on website traffic? | Marketing campaigns + website clicks | Not stated |
+
+### Keeping it running
+
+```
+ raw ──job 1, on a schedule──► cleaned ──job 2, on a schedule──► curated
+     bookmark: only new data           bookmark: only new data
+```
+
+- **Each job runs on a repeating schedule**, so new data keeps moving from raw to cleaned and from cleaned to curated.
+- **Job bookmarks** stop a job from reprocessing the entire dataset each time new data arrives, or after the job is interrupted ([glue.md](../../aws-services/aws-analytics/glue.md), "Jobs").
+
+### What it unlocks
+
+The data is cleaned and transformed, ready for data analysts, data scientists and other stakeholders. The personas are in [data-personas.md](../../../data-engineering/data-personas.md).
+
 ## Related
 
 - [ingest-on-aws.md](ingest-on-aws.md): the stage section 1 works through. DMS and DataSync are two of its services, applied here to real sources.
 - [store-on-aws.md](store-on-aws.md): the stage section 2 works through. S3 is the lake, with one bucket per zone.
 - [catalog-on-aws.md](catalog-on-aws.md): the stage section 3 works through. The Glue Data Catalog and crawlers make the lake's data findable and queryable.
+- [process-on-aws.md](process-on-aws.md): the stage section 4 works through. Glue jobs move data from raw to cleaned to curated.
 - [data-lake-zones.md](../../../data-engineering/data-lake-zones.md): defines the raw, cleaned and curated zones the three buckets implement. Every source is ingested into raw, and the crawlers catalog raw.
+- [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): why job 1 converts CSV to Parquet. Columnar files mean engines read only the columns a query needs.
+- [data-personas.md](../../../data-engineering/data-personas.md): who uses each zone. Data scientists can use raw data, and analysts need the cleaned and curated zones.
 - [replicating-databases-to-the-lake.md](../../../data-engineering/replicating-databases-to-the-lake.md): the two DMS tasks are the full load + CDC that file describes, so their raw files still need its merge step to become current tables in the cleaned zone. Expiring the raw files in year 10 also deletes the change history they keep.
 - [dms.md](../../aws-services/aws-databases/dms.md): the DMS components and task phases section 1 configures.
 - [datasync.md](../../aws-services/aws-migration-and-transfer/datasync.md): the agent, task and schedule section 1 configures for the NAS.
 - [site-to-site-vpn.md](../../aws-services/aws-networking/site-to-site-vpn.md): the encrypted tunnel the on-premises data travels through.
 - [choosing-ingestion-services.md](../choosing-ingestion-services.md): why the databases go to DMS and the NAS files to DataSync.
 - [s3.md](../../aws-services/aws-general-services/s3.md): the storage classes, lifecycle rules and Intelligent-Tiering section 2 chooses between, and the minimum storage durations to watch for.
-- [glue.md](../../aws-services/aws-analytics/glue.md): the crawler parameters section 3 sets (source, target, IAM role, schedule), what each run does, and what each Data Catalog table holds.
+- [glue.md](../../aws-services/aws-analytics/glue.md): the crawler parameters section 3 sets (source, target, IAM role, schedule), what each run does, and what each Data Catalog table holds; and the visual ETL jobs, transforms and job bookmarks section 4 uses.
 - [iam.md](../../aws-services/aws-identity/iam.md): each crawler runs with an IAM role that grants access to the data lake.
