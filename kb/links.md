@@ -29,6 +29,7 @@ Each entry looks like this:
 - [DynamicFrame class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html): AWS Glue Developer Guide, DynamicFrame. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [Data Quality Definition Language (DQDL) reference](https://docs.aws.amazon.com/glue/latest/dg/dqdl.html): AWS Glue Developer Guide, DQDL. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [Detect and process sensitive data](https://docs.aws.amazon.com/glue/latest/dg/detect-PII.html): AWS Glue Developer Guide, the Detect PII transform. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+- [Using the Delta Lake framework in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-format-delta-lake.html): AWS Glue User Guide, Delta Lake in Glue. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
 
 ## Courses and training
 
@@ -41,6 +42,8 @@ _None yet._
 ## Videos and articles
 
 - [Create an AWS Glue Data Catalog with AWS DMS](https://aws.amazon.com/blogs/database/create-an-aws-glue-data-catalog-with-aws-dms/): AWS Database Blog, DMS populating the Glue Data Catalog. See [dms.md](aws/aws-services/aws-databases/dms.md).
+- [Understanding Apache Iceberg on AWS with the new technical guide](https://aws.amazon.com/blogs/big-data/understanding-apache-iceberg-on-aws-with-the-new-technical-guide/): AWS Big Data Blog, Iceberg on AWS. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
+- [Build your Apache Hudi data lake on AWS using Amazon EMR – Part 1](https://aws.amazon.com/blogs/big-data/part-1-build-your-apache-hudi-data-lake-on-aws-using-amazon-emr/): AWS Big Data Blog, Hudi on EMR. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
 
 ## Code and repos
 

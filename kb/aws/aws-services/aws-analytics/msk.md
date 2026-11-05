@@ -35,3 +35,4 @@ Amazon MSK provides fully managed **Apache Kafka** clusters for real-time stream
 - [choosing-storage-and-processing-services.md](../../aws-data-engineering/choosing-storage-and-processing-services.md): compares MSK Serverless, provisioned MSK and KDS on-demand: MSK Serverless is Kafka without operations; provisioned MSK gives full control and very high steady throughput; KDS on-demand is serverless but not Kafka.
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): MSK Serverless is the serverless option for Kafka streaming, replacing provisioned MSK.
 - [ingest-on-aws.md](../../aws-data-engineering/aws-data-pipeline/ingest-on-aws.md): MSK is a stage 1 (ingest) service for real-time streaming on Apache Kafka.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): MSK is a streaming source whose topics EMR, Glue or Flink write into Iceberg tables.

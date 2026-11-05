@@ -14,9 +14,11 @@ This file holds the DEA-C01 keyword-to-service table, the older service names ex
 | Partners upload via SFTP | [Transfer Family](../aws-services/aws-migration-and-transfer/transfer-family.md) | Ingest |
 | Petabytes, limited bandwidth, offline transfer | [Snow Family](../aws-services/aws-migration-and-transfer/snow-family.md) | Ingest |
 | Store any data type cheaply at any scale, data lake | [S3](../aws-services/aws-general-services/s3.md) | Store |
+| Update or delete rows in the lake, ACID on S3, time travel | [Apache Iceberg on S3](transactional-data-lake-on-aws.md) | Store |
 | Transactions, ACID, the app's database | [RDS / Aurora](../aws-services/aws-databases/rds.md) | Source |
 | Discover schema automatically | [Glue crawler](../aws-services/aws-analytics/glue.md) | Catalog |
 | Central metadata repository, make S3 data queryable | [Glue Data Catalog](../aws-services/aws-analytics/glue.md) | Catalog |
+| Iceberg table created in Athena, query it from other engines | [Glue Data Catalog](transactional-data-lake-on-aws.md), already registered at creation. No crawler needed | Catalog |
 | Serverless ETL, least operational overhead | [Glue](../aws-services/aws-analytics/glue.md) | Process |
 | Existing Spark/Hadoop, full cluster control | [EMR](../aws-services/aws-analytics/emr.md) | Process |
 | Real-time stream analytics | [Managed Service for Apache Flink](../aws-services/aws-analytics/managed-service-for-apache-flink.md) | Process |

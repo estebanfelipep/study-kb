@@ -64,7 +64,7 @@ cleaned/customers/           ← one row per customer, current state
 There are two common ways to do it:
 
 - **Rebuild:** a job periodically rewrites the cleaned table from the full load plus all the changes. It's simple, but slow for big tables.
-- **Merge with an open table format:** store the cleaned table in a format such as **Apache Iceberg**, which adds `MERGE`, `UPDATE` and `DELETE` on top of lake files. Each batch of changes is applied directly. This is the modern approach.
+- **Merge with an open table format:** store the cleaned table in an [open table format](open-table-formats.md) such as **Apache Iceberg**, which adds `MERGE`, `UPDATE` and `DELETE` on top of lake files. Each batch of changes is applied directly. This is the modern approach.
 
 ## Example: three tables, from full load to current state
 
@@ -169,7 +169,7 @@ Its limits:
 - **History starts at the full load.** Changes made before replication began aren't there.
 - **It lasts only as long as the files are kept.** Lifecycle rules that expire old raw files delete that history.
 - **The cleaned table (and anything built from it) keeps only the current state** unless it's designed to keep history. Two common ways:
-  - **Table snapshots ("time travel")** in an open table format such as Iceberg: query the table as of a past snapshot.
+  - **Table snapshots ("time travel")** in an [open table format](open-table-formats.md) such as Iceberg: query the table as of a past snapshot.
   - **A history table** with one row per version and `valid_from` / `valid_to` columns, so a query can ask "where did Ana live on day 1 at 10:00?". This is called a **slowly changing dimension, type 2** (SCD2).
 
 ## Other ways to get database data out
@@ -193,3 +193,4 @@ Its limits:
 - [dms.md](../aws/aws-services/aws-databases/dms.md): DMS implements full load + CDC on AWS and writes the change files to S3 with the `Op` column.
 - [choosing-ingestion-services.md](../aws/aws-data-engineering/choosing-ingestion-services.md): maps each way to get RDS data out onto an AWS service.
 - [example-corp-pipeline-on-aws.md](../aws/aws-data-engineering/aws-data-pipeline/example-corp-pipeline-on-aws.md): Example Corp replicates two tables this way, full load then CDC with DMS, into its raw bucket, where lifecycle rules expire the files, and the history they keep, in year 10.
+- [open-table-formats.md](open-table-formats.md): explains the table formats this file relies on, whose `MERGE` applies the change files and whose snapshots keep the cleaned table's history.

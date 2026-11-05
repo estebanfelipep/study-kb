@@ -23,6 +23,7 @@ Amazon Redshift is a managed, columnar SQL analytics database (a data warehouse)
 - Runs SQL directly over files in S3 without loading them, so Redshift acts as a query layer over the lake. This is the lake house idea: S3 holds everything, Redshift serves the curated, high-performance part.
 - It's a feature of Redshift: it needs a cluster or workgroup. Use it to join S3 data with tables already in the warehouse.
 - Reads table definitions from the [Glue Data Catalog](glue.md).
+- Queries **Apache Iceberg** tables in S3.
 
 ### Streaming ingestion
 
@@ -69,3 +70,4 @@ Amazon Redshift is a managed, columnar SQL analytics database (a data warehouse)
 - [choosing-storage-and-processing-services.md](../../aws-data-engineering/choosing-storage-and-processing-services.md): compares Redshift with S3 (warehouse vs lake) and RDS (OLAP vs OLTP), and Redshift Serverless with provisioned Redshift (variable workloads vs steady 24/7 load).
 - [choosing-delivery-services.md](../../aws-data-engineering/choosing-delivery-services.md): compares Redshift with Athena (frequent, complex, concurrent queries vs serverless ad hoc SQL) and Spectrum with Athena (joining S3 with warehouse tables vs standalone queries).
 - [choosing-ingestion-services.md](../../aws-data-engineering/choosing-ingestion-services.md): compares the ways to load Redshift: streaming ingestion vs Firehose → Redshift, auto copy vs manual `COPY`, and Aurora zero-ETL vs DMS vs a Glue job.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): Redshift Spectrum queries the Iceberg tables of a transactional data lake, and Redshift consumes the dataset.

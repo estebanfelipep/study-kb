@@ -13,6 +13,7 @@ Exam material may use the older name **Kinesis Data Analytics**.
 - Works in **real time**, not batch.
 - Supports **Java, Scala and Python** as well as SQL.
 - Typically reads from [Kinesis Data Streams](kinesis-data-streams.md) or [MSK](msk.md), and computes things like **windowed aggregations** (for example, per 1-minute window).
+- Can stream data into **Apache Iceberg** tables in S3.
 - Fully managed: AWS runs the Flink infrastructure.
 
 ## Example
@@ -28,3 +29,4 @@ A video service needs to monitor playback quality. Every player sends a heartbea
 - [process-on-aws.md](../../aws-data-engineering/aws-data-pipeline/process-on-aws.md): Flink is the real-time service in stage 4 (process).
 - [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md): Flink processes data in motion as described here, consuming a stream record by record instead of reading stored files.
 - [exam-traps.md](../../aws-data-engineering/exam-traps.md): exam material may call this service Kinesis Data Analytics.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): Flink is the streaming ingest path into the Iceberg tables of a transactional data lake.

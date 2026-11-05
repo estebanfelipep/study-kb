@@ -6,6 +6,10 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **ACM**: AWS Certificate Manager. Provisions and renews the SSL/TLS certificates behind encryption in transit. See [acm.md](aws/aws-services/aws-apis/acm.md).
 
+**Apache Hudi**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Apache Iceberg**: The open table format most widely adopted on AWS, developed at Netflix. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
@@ -23,6 +27,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **Column statistics**: Per-column minimum, maximum, null count and distinct-value count computed for a Data Catalog table, to optimize queries. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Columnar format**: A file or storage layout that stores each column together, so queries read only the columns they need. Parquet and ORC are columnar file formats. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
+
+**Compaction**: Merging many small data files into fewer, larger ones so queries open fewer files, a feature of open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Connector (Glue)**: Code that lets Glue communicate with a data store, as a source or a target. Built in, from AWS Marketplace, or custom. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -57,6 +63,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **DataSync agent**: The software DataSync runs on premises, next to the storage, to read files and copy them to AWS. See [datasync.md](aws/aws-services/aws-migration-and-transfer/datasync.md).
 
 **DDL**: Data definition language. SQL statements that define tables, such as `CREATE EXTERNAL TABLE`, one way to populate the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Delta Lake**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Detect PII**: The Glue transform that detects sensitive data in a job and masks or removes it. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -116,7 +124,7 @@ _Avoid:_ customer 360, single customer view
 
 **Ongoing replication**: The DMS phase that applies changes from the source's transaction log to the target in near real time. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
-**Open table format**: A table layer over lake files, such as Apache Iceberg, that adds updates, deletes and merges. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+**Open table format**: An open-source library, such as Apache Iceberg, Apache Hudi or Delta Lake, that organizes a data lake's files into tables with database-like functionality: record updates and deletes, consistent concurrent reads and writes, safe failed writes, and schema evolution. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Orchestration**: Coordinating multiple services and their dependencies through a series of steps. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -171,7 +179,9 @@ _Avoid:_ SCD type 2
 
 **Target endpoint**: The DMS connection to the data store it migrates to. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
-**Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+**Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Virtual private gateway**: The AWS end of a Site-to-Site VPN, attached to a VPC. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 _Avoid:_ VPN gateway

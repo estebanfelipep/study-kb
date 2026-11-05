@@ -28,3 +28,4 @@ Watch or purchase history goes through a pipeline into a model. The model's outp
 - [data-personas.md](../../../data-engineering/data-personas.md): SageMaker serves the data scientist persona, whose interests include ML pipelines.
 - [data-engineer-role.md](../../../data-engineering/data-engineer-role.md): SageMaker models are an example of operational use of data: a recommendation model's output drives what users see in the product.
 - [exam-traps.md](../../aws-data-engineering/exam-traps.md): exam material may say Amazon SageMaker for the ML service, which is now SageMaker AI; "SageMaker" alone now means the broader platform.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): SageMaker consumes the Iceberg dataset of a transactional data lake.

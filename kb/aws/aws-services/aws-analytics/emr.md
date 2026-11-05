@@ -13,6 +13,7 @@ Amazon EMR runs big data processing with open-source frameworks such as Spark, H
 - **Full control** over the cluster on EC2: instance types, Spot, configuration, SSH, custom software, long-running clusters.
 - Wider range of frameworks than Glue: Spark, Hive, Presto, HBase, Flink and more.
 - Reads table definitions from the [Glue Data Catalog](glue.md).
+- Ingests into **Apache Iceberg** tables in batch or streaming, and reads them. A common place to build an **Apache Hudi** lake.
 - Usual exam triggers: existing Spark/Hadoop/Hive/Presto jobs, migrating on-premises Hadoop.
 - Run clusters in private subnets of a [VPC](../aws-networking/vpc.md).
 
@@ -37,3 +38,4 @@ Amazon EMR runs big data processing with open-source frameworks such as Spark, H
 - [choosing-delivery-services.md](../../aws-data-engineering/choosing-delivery-services.md): EMR is the delivery pick when a question says "Spark/Hive/Presto" or "full control" for analyzing data, rather than SQL on S3 (Athena) or a warehouse (Redshift).
 - [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline/aws-data-pipeline.md): EMR appears in two stages: stage 4 (process, batch) and stage 5 (deliver, for data scientists and engineers).
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): EMR Serverless is the serverless option for Spark/Hive processing, replacing EMR on EC2 clusters.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): EMR ingests into and consumes the Iceberg tables of a transactional data lake.

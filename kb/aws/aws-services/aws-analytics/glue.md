@@ -274,6 +274,7 @@ The crawler doesn't run queries. It **records** the partitions, and the engine u
 - **Tracks how data has changed over time**, including metadata changes as data moves between stores such as S3 and Redshift. This helps trace the flow of data.
 - Lets you search for data sources by attributes such as name, owner and business terms, and add business-relevant attributes. Supports owners, descriptions and custom table properties; the full business glossary lives in [DataZone](datazone.md).
 - **One catalog, many engines:** [Athena](athena.md) relies on it to store and retrieve the metadata (tables, columns, data types) of what it queries, [EMR](emr.md) reads it to understand the structure and location of the data it processes, and Redshift Spectrum and Glue jobs read it too. Compatible with the **Apache Hive metastore**.
+- **Open table formats:** an Iceberg table created in Athena or another tool is available in the Data Catalog, so every engine sees it. Glue ETL jobs ingest into Iceberg tables, and Glue supports the Delta Lake framework too. See [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md).
 - **Athena has no catalog of its own.** Tables created in Athena are stored here too, so Athena uses the Data Catalog even when no crawler or job is involved.
 - [Lake Formation](lake-formation.md) permissions are applied to Data Catalog resources (databases, tables, columns), so the catalog is the anchor for governance.
 - The catalog and connection passwords can be encrypted with KMS.
@@ -360,3 +361,4 @@ Glue workflow: crawler → job → crawler, in order
 - [redshift.md](redshift.md): Glue reaches Redshift through a built-in connector, as a source or a target.
 - [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): Glue jobs convert lake data to Parquet, the columnar format that file explains.
 - [data-lake-zones.md](../../../data-engineering/data-lake-zones.md): Glue jobs move data between the zones it defines, and the Data Catalog usually holds one database per zone.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): the Data Catalog registers the Iceberg tables of a transactional data lake, and Glue ETL ingests into them.

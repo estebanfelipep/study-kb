@@ -39,3 +39,4 @@ The lake's zones (raw, cleaned, curated, and optional landing, logs, archived an
 - [ingest-on-aws.md](ingest-on-aws.md): the previous stage; its services write into this lake.
 - [catalog-on-aws.md](catalog-on-aws.md): the next stage; crawlers catalog what lands here.
 - [example-corp-pipeline-on-aws.md](example-corp-pipeline-on-aws.md): its store section is a worked example of this stage: three zone buckets, with storage classes and lifecycle rules chosen per zone.
+- [transactional-data-lake-on-aws.md](../transactional-data-lake-on-aws.md): the S3 lake of this stage holding Iceberg tables, and the services that create, ingest into and query them.

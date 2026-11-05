@@ -34,3 +34,4 @@ Analysts in marketing can query the `customers` table in Athena but only see the
 - [store-on-aws.md](../../aws-data-engineering/aws-data-pipeline/store-on-aws.md): Lake Formation is one of the services that build and govern a lake on S3, and a security and governance service in the store, catalog and deliver stages.
 - [modern-data-architecture.md](../../../data-engineering/modern-data-architecture.md): Lake Formation provides the end-to-end governance that a modern data architecture adds on top of the lake and its catalog.
 - [data-personas.md](../../../data-engineering/data-personas.md): Lake Formation is the data security officer's tool for fine-grained access control and masking.
+- [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): Lake Formation governs the Iceberg tables of a transactional data lake, together with the Glue Data Catalog.
