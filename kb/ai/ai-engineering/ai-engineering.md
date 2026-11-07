@@ -1,0 +1,21 @@
+- Resources
+	- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881)
+## Generative AI
+
+Generative AI produces original content including text, images, audio, video, and code based on patterns learned from training data. Foundation models serve as the underlying technology, providing general intelligence that you can adapt for specific use cases through techniques like fine-tuning, prompt engineering, and retrieval-augmented generation.
+
+## The role: AI engineer/generative AI engineer 
+
+### Responsibilities
+
+- **Solution architecture and design**
+	- As a generative AI developer, you design comprehensive solutions that integrate foundation models with existing systems and data sources. You evaluate different architectural patterns, select appropriate models, and plan deployment strategies that meet business requirements and technical constraints.
+
+- **Integration and implementation**
+	- You implement generative AI solutions by using AWS services like Amazon Bedrock, Amazon SageMaker AI, and supporting infrastructure services. This includes configuring APIs, setting up data pipelines, and implementing secure, scalable deployments.
+
+- **Performance optimization**
+	- You monitor and optimize generative AI applications for performance, cost, and accuracy. This involves tuning model parameters, implementing caching strategies, and optimizing resource utilization across the solution stack.
+
+- **Security and compliance**
+	- You verify that generative AI solutions meet security requirements and regulatory compliance standards. This includes implementing proper access controls, data encryption, and audit logging while maintaining data privacy and governance.
