@@ -26,3 +26,4 @@ This file covers partitioning a lake table: splitting its files by the values of
 - [glue.md](../aws/aws-services/aws-analytics/glue.md): the Glue Data Catalog stores a table's partition keys and one partition per S3 path, and Glue crawlers detect the partition structure automatically.
 - [s3.md](../aws/aws-services/aws-general-services/s3.md): on S3, a partition is only key text, such as `day=2026-10-27`, which engines read as a partition value.
 - [athena.md](../aws/aws-services/aws-analytics/athena.md): Athena scans less, and costs less, when a query filters on partition keys.
+- [apache-spark.md](apache-spark.md): Spark writes partitioned tables with `partitionBy`; its own in-memory partitions are a different thing, the chunks a job is split into.

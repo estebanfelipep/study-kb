@@ -10,6 +10,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Apache Iceberg**: The open table format most widely adopted on AWS, developed at Netflix. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
+**Apache Spark**: The open-source distributed engine for processing data too big for one machine, in batch and streaming. Runs under Glue and EMR. See [apache-spark.md](data-engineering/apache-spark.md).
+
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
@@ -76,7 +78,13 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **DQDL**: Data Quality Definition Language. The language Glue Data Quality rules are written in. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Driver (Spark)**: The process that turns a Spark job's code into a plan and hands the work out to executors. See [apache-spark.md](data-engineering/apache-spark.md).
+
+**Dynamic allocation**: A Spark setting that adds executors when tasks queue up and releases idle ones. See [apache-spark.md](data-engineering/apache-spark.md).
+
 **DynamicFrame**: The Glue ETL library's data structure for messy data, where the same field can be inconsistent across a dataset. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**EMR managed scaling**: Resizing an EMR on EC2 cluster to its workload, within limits you set. See [emr.md](aws/aws-services/aws-analytics/emr.md).
 
 **Entity resolution**: Matching records that refer to the same real-world entity, such as one customer under different IDs in different systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ record linkage, identity resolution
@@ -85,6 +93,8 @@ _Avoid:_ record linkage, identity resolution
 
 **ETL**: Extract, transform, load. Get data from sources, make it useful, and serve it to stakeholders. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
+**Executor (Spark)**: A worker process that runs a Spark job's work on its partitions of the data. See [apache-spark.md](data-engineering/apache-spark.md).
+
 **Fan-out**: Delivering one message to many consumers, often SNS to several SQS queues. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
@@ -92,6 +102,8 @@ _Avoid:_ record linkage, identity resolution
 **Full CDC**: CDC that captures updates and deletes as well as inserts. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **Full load**: Copying every row of a database's tables once, usually before CDC takes over. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
+
+**Glue auto scaling**: Adding and removing a Glue job's workers during a run, up to a maximum you set. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
@@ -107,6 +119,8 @@ _Avoid:_ customer 360, single customer view
 **Lake house**: A lake and a warehouse used together: the lake holds everything, and the warehouse serves the curated, high-performance part and can query the lake in place. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **Landing zone (data lake)**: An optional first zone for sensitive data such as PII, where it is masked before moving into the raw zone. Not the same as a Control Tower landing zone. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
+
+**Lazy evaluation**: Spark transformations only build a plan; nothing runs until an action, such as writing output. See [apache-spark.md](data-engineering/apache-spark.md).
 
 **Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
 
@@ -138,6 +152,8 @@ _Avoid:_ customer 360, single customer view
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**PySpark**: Spark's Python API. See [apache-spark.md](data-engineering/apache-spark.md).
+
 **Raw zone**: The data lake zone that holds data as ingested, in its original format, kept for auditing and reprocessing. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
@@ -161,11 +177,15 @@ _Avoid:_ SCD type 2
 
 **Shard**: An ordered unit of a Kinesis stream, with about 1 MB/s in and 2 MB/s out. See [kinesis-data-streams.md](aws/aws-services/aws-analytics/kinesis-data-streams.md).
 
+**Shuffle**: Redistributing rows across Spark executors by key, for a join or group by. The expensive part of a job. See [apache-spark.md](data-engineering/apache-spark.md).
+
 **Site-to-Site VPN**: An encrypted tunnel over the public internet between an on-premises network and AWS. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 
 **Source endpoint**: The DMS connection to the data store it migrates from. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Spectrum**: Redshift Spectrum, which queries files in S3 from Redshift without loading them. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
+
+**Spark UI**: The web interface that shows a Spark job's stages, tasks and shuffles, used to find bottlenecks. See [apache-spark.md](data-engineering/apache-spark.md).
 
 **State machine**: A Step Functions workflow made of states such as task, choice, parallel, wait and map. See [step-functions.md](aws/aws-services/aws-application-coordination/step-functions.md).
 
@@ -180,6 +200,8 @@ _Avoid:_ SCD type 2
 **Target endpoint**: The DMS connection to the data store it migrates to. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
 **Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
 

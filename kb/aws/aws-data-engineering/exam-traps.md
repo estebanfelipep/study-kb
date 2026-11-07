@@ -61,3 +61,5 @@ Services that are new or gone:
 - **Systems Manager:** the course calls it "application-level monitoring for EC2". It's mainly an **operations management** toolkit; most metrics and alarms come from CloudWatch.
 - **Control Tower:** the course lists it under data and network security. It's really an **account governance** service.
 - **XML:** the course lists XML as both structured and semi-structured. Plain XML is structured; **XML with attributes** is semi-structured.
+- **Kinesis as a data store:** the course says to "use purpose-built data stores like Amazon Kinesis" for real-time data. Kinesis Data Streams is a **streaming service** that keeps records for a limited retention period, not a data store. The point stands: send real-time, high-velocity data to a stream rather than to batch files in the lake.
+- **Lake Formation and the catalog:** the course says to "use Lake Formation to create a centralized data catalog". The catalog is the **Glue Data Catalog**. Lake Formation governs it, with granular permissions on its databases, tables and columns.

@@ -79,6 +79,9 @@ A connector is **code that lets Glue communicate with a data store**, whether it
 
 - Ingest and transform data. Good for **complex transformations**: flexible and customizable. Run on one of the engines below (also Ray).
 - Capacity is measured in **DPUs** (data processing units), billed per second while a job runs.
+- **Job logs** hold the error messages and stack traces that explain a failed job.
+- **Auto scaling** adds and removes a job's workers during a run, up to the maximum you set, so the job isn't sized for its peak.
+- The **Spark UI** shows a job's processing flow (stages, tasks, shuffles), to find bottlenecks.
 - Mostly batch; also **streaming ETL**.
 - **Job bookmarks** remember what was already processed, so a run doesn't reprocess the entire dataset when new data arrives or after the job was interrupted.
 - Connectors to many sources.
@@ -362,3 +365,5 @@ Glue workflow: crawler → job → crawler, in order
 - [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): Glue jobs convert lake data to Parquet, the columnar format that file explains.
 - [data-lake-zones.md](../../../data-engineering/data-lake-zones.md): Glue jobs move data between the zones it defines, and the Data Catalog usually holds one database per zone.
 - [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): the Data Catalog registers the Iceberg tables of a transactional data lake, and Glue ETL ingests into them.
+- [apache-spark.md](../../../data-engineering/apache-spark.md): Glue jobs run Spark, so how Spark splits a job across executors and shuffles data applies to every Glue ETL job.
+- [troubleshooting-data-lakes-on-aws.md](../../aws-data-engineering/troubleshooting-data-lakes-on-aws.md): how to troubleshoot a failing or slow Glue job: logs, script, workers, upstream jobs, endpoints, permissions and the Spark UI.

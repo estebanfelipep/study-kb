@@ -218,3 +218,4 @@ The **entire data analytics system depends on data being secured** and accessibl
 - [orchestration-and-automation.md](orchestration-and-automation.md): orchestration chains the stages into one workflow (crawl, transform, load, notify, with retries), and automation runs each repetitive task in them. Zero-ETL removes some of the ingest and process steps altogether.
 - [unified-customer-data.md](unified-customer-data.md): a worked example of these stages removing silos, from CDC on a sales CRM to one merged customer record that every department reads.
 - [replicating-databases-to-the-lake.md](replicating-databases-to-the-lake.md): explains the databases row of the ingest stage in depth: full load + CDC into the lake, and the merge that turns change files into a current table.
+- [apache-spark.md](apache-spark.md): the engine under most managed ETL and big data frameworks in the process stage: how it works, and a worked job from raw to curated.

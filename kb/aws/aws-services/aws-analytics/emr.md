@@ -11,7 +11,10 @@ Amazon EMR runs big data processing with open-source frameworks such as Spark, H
 - Runs on **customized EC2 clusters, EKS, Outposts or EMR Serverless**.
 - Runs **batch jobs**. Petabyte-scale batch.
 - **Full control** over the cluster on EC2: instance types, Spot, configuration, SSH, custom software, long-running clusters.
+- **Managed scaling** resizes an EMR on EC2 cluster to the workload, within limits you set.
+- The **Spark UI** shows a job's processing flow, to find bottlenecks.
 - Wider range of frameworks than Glue: Spark, Hive, Presto, HBase, Flink and more.
+- **Apache Spark** is the distributed engine EMR runs most often, for data too big for one machine. How it works, with a worked example, is in [apache-spark.md](../../../data-engineering/apache-spark.md).
 - Reads table definitions from the [Glue Data Catalog](glue.md).
 - Ingests into **Apache Iceberg** tables in batch or streaming, and reads them. A common place to build an **Apache Hudi** lake.
 - Usual exam triggers: existing Spark/Hadoop/Hive/Presto jobs, migrating on-premises Hadoop.
@@ -39,3 +42,5 @@ Amazon EMR runs big data processing with open-source frameworks such as Spark, H
 - [aws-data-pipeline.md](../../aws-data-engineering/aws-data-pipeline/aws-data-pipeline.md): EMR appears in two stages: stage 4 (process, batch) and stage 5 (deliver, for data scientists and engineers).
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): EMR Serverless is the serverless option for Spark/Hive processing, replacing EMR on EC2 clusters.
 - [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): EMR ingests into and consumes the Iceberg tables of a transactional data lake.
+- [apache-spark.md](../../../data-engineering/apache-spark.md): the engine EMR runs most often: what Spark is for, how it splits a job across executors, and a worked example.
+- [troubleshooting-data-lakes-on-aws.md](../../aws-data-engineering/troubleshooting-data-lakes-on-aws.md): rightsizing EMR Serverless workers and EC2 instances, managed scaling, and reading the Spark UI for slow jobs.

@@ -83,3 +83,4 @@ Queues are covered in [orchestration-and-automation.md](orchestration-and-automa
 
 - [data-discovery.md](data-discovery.md): in discovery step 3, every data source is classified by data type, data source and **ingest mode**. The ingest modes defined here are that third line, and they decide which ingestion service fits.
 - [choosing-ingestion-services.md](../aws/aws-data-engineering/choosing-ingestion-services.md): maps each source and ingest mode to an AWS service. Streaming goes to Firehose, MSK or IoT Core, scheduled batch files to DataSync, and offline batch to Snow Family. It also compares Kinesis (a stream) with S3 (data at rest).
+- [apache-spark.md](apache-spark.md): Spark is mainly a batch engine whose Structured Streaming processes streams as micro-batches, unlike Flink's record-by-record processing.

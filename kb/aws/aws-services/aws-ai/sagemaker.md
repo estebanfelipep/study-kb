@@ -4,7 +4,11 @@ This file covers Amazon SageMaker: the ML service (SageMaker AI), the broader Sa
 
 ## What it is
 
-At the delivery stage, the course lists **machine learning** for building, training and deploying models for **predictive analytics, computer vision, NLP, recommendation systems** and more. The course doesn't name the service. On AWS that's **Amazon SageMaker**. Its typical users are data scientists.
+It is a fully managed cloud service from [Amazon Web Services (AWS)](https://aws.amazon.com/es/sagemaker/) that enables developers and data scientists to build, train, and deploy machine learning and AI models at scale without manually managing underlying infrastructure
+
+The primary difference between Amazon SageMaker and Amazon Bedrock ([bedrock](bedrock.md)) is that SageMaker is an end-to-end platform for building custom machine learning models from scratch, whereas Bedrock is a serverless API service designed for consuming and customizing existing foundation models.
+
+Think of SageMaker as a fully equipped professional workshop where you build, tune, and maintain your own machinery, and Bedrock as a vending machine for world-class, pre-built engines that you can instantly plug into your app.
 
 ## Characteristics
 
@@ -13,9 +17,6 @@ At the delivery stage, the course lists **machine learning** for building, train
 - **SageMaker Lakehouse** unifies S3 data lakes and Redshift warehouses under one catalog and one set of permissions. That's the lake house idea.
 - Data scientists' models often end up as product features, for example recommendations.
 
-## Example
-
-Watch or purchase history goes through a pipeline into a model. The model's output drives the "Recommended for you" row users see.
 
 ## Related
 
@@ -27,5 +28,4 @@ Watch or purchase history goes through a pipeline into a model. The model's outp
 - [data-lakes-and-warehouses.md](../../../data-engineering/data-lakes-and-warehouses.md): SageMaker Lakehouse is an AWS implementation of the lake house concept described here.
 - [data-personas.md](../../../data-engineering/data-personas.md): SageMaker serves the data scientist persona, whose interests include ML pipelines.
 - [data-engineer-role.md](../../../data-engineering/data-engineer-role.md): SageMaker models are an example of operational use of data: a recommendation model's output drives what users see in the product.
-- [exam-traps.md](../../aws-data-engineering/exam-traps.md): exam material may say Amazon SageMaker for the ML service, which is now SageMaker AI; "SageMaker" alone now means the broader platform.
 - [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): SageMaker consumes the Iceberg dataset of a transactional data lake.

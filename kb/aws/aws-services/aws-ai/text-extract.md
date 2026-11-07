@@ -1,0 +1,3 @@
+Amazon Textract enables automated text detection and extraction from various document types (including handwritten text, forms, tables, and structured data) through different APIs, with specialized features for processing financial documents, ID documents, mortgage packages, and custom queries.
+
+Through Amazon Textract, text is extracted from a .pdf document stored in Amazon Simple Storage Service (Amazon S3) to process for further analysis.

@@ -10,3 +10,4 @@ Machine learning and AI services.
 ## Files
 
 - [sagemaker.md](sagemaker.md): Amazon SageMaker: SageMaker AI (build, train and deploy ML models), the broader platform, and SageMaker Lakehouse. Read when: you need ML at the delivery stage, or the lake house service.
+- [bedrock](bedrock.md): Serverless API service designed for consuming and customizing existing foundation models.
