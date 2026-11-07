@@ -10,7 +10,8 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 	- Anthropic
 	- Meta
 	- Google (Gemini)
-	- …
+	- Amazon Nova Pro is a multi-modal Amazon model, able to analyze data and images together, such as sensor data and equipment images.
+	- and more ...
 - Evaluations with different FM
 - It is serverless
 	- Amazon Bedrock is fully managed and serverless, so there is no model to deploy and no endpoint to manage. You call the model on demand through the Bedrock Runtime API.
@@ -35,3 +36,7 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 	- UI in amazon
 		- See how you can set up guardrails based on categories. This is a high-level abstraction of setting up guardrails through aws.
 		![](images/bedrock-guardrails-2026-09-20.png)
+
+## Related
+
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): Bedrock is the central AI engine of the predictive maintenance example there: it retrieves context from an OpenSearch RAG knowledge base and answers technicians' natural-language questions.

@@ -38,7 +38,7 @@ Each entry looks like this:
 
 ## Courses and training
 
-- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881): AWS Skill Builder learning plan for generative AI developers. See [ai-engineering.md](ai/ai-engineering/ai-engineering.md).
+- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881): AWS Skill Builder learning plan for generative AI developers. See [ai-engineering.md](ai/ai-engineering/ai-engineering.md) and [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
 - [Chunking intro (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/chunking-intro-2lxwn): AI Hero retrieval workshop lesson, introduction to chunking. See [core-concepts.md](ai/core-concepts.md).
 - [Fixed-size chunks (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/fixed-size-chunks-dsxci): AI Hero retrieval workshop lesson, fixed-size chunking. See [core-concepts.md](ai/core-concepts.md).
 - [Structural chunking (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/structural-chunking-h4xti): AI Hero retrieval workshop lesson, structural chunking. See [core-concepts.md](ai/core-concepts.md).
@@ -57,6 +57,9 @@ _None yet._
 - [Build your Apache Hudi data lake on AWS using Amazon EMR – Part 1](https://aws.amazon.com/blogs/big-data/part-1-build-your-apache-hudi-data-lake-on-aws-using-amazon-emr/): AWS Big Data Blog, Hudi on EMR. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
 - [Okapi BM25 (Wikipedia)](https://en.wikipedia.org/wiki/Okapi_BM25): Wikipedia article on the BM25 ranking function. See [core-concepts.md](ai/core-concepts.md).
 - [Clarification loop (YouTube)](https://youtu.be/xc63tFIIfeA?si=4tuG4M-HB6KnE_QO&t=227): video on the clarification loop in RAG. See [core-concepts.md](ai/core-concepts.md).
+- [Building effective agents (Anthropic)](https://www.anthropic.com/engineering/building-effective-agents): Anthropic engineering article on workflow types and agents, with examples and use cases. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+- [What is an agent? (AI Hero)](https://www.aihero.dev/what-is-an-agent): AI Hero article on what makes a system an agent. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+- [Agents vs workflows (YouTube)](https://www.youtube.com/watch?v=F8NKVhkZZWI): video on agents and workflows. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 
 ## Code and repos
 

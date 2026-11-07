@@ -37,6 +37,7 @@ Exam material may use the older name **Amazon Elasticsearch Service**.
 
 ## Related
 
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): OpenSearch stores the RAG knowledge base in the predictive maintenance example, combining semantic search, time-series similarity and hybrid search so Bedrock can retrieve context.
 - [kinesis-data-streams.md](../aws-analytics/kinesis-data-streams.md): Kinesis Data Streams is one of the sources OpenSearch analyzes data from.
 - [s3.md](../aws-general-services/s3.md): OpenSearch analyzes data from S3, and with the zero-ETL integration it queries logs directly in S3 without ingesting them.
 - [dynamodb.md](dynamodb.md): DynamoDB is one of the sources OpenSearch analyzes data from.

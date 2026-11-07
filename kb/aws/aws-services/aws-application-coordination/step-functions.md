@@ -15,6 +15,10 @@ Step Functions is a **visual workflow service** that orchestrates and automates 
 - **Processes streaming data** by connecting Lambda functions that process data from Kinesis Data Streams or Data Firehose, for real-time analytics.
 - [EventBridge](eventbridge.md) events and [SNS](sns.md) messages can start workflows. A workflow then coordinates Glue, Redshift and Athena.
 
+### In generative AI
+
+- **Orchestrates multi-step AI workflows** that coordinate several services, such as a chain of model calls, with built-in error handling, retries, state management and monitoring.
+
 ### Key features
 
 - Workflows are **state machines**. Each step is a state: run a task, choose a branch, run steps in parallel, wait, or loop over items.
@@ -45,6 +49,7 @@ A nightly sales pipeline:
 - [redshift.md](../aws-analytics/redshift.md): the example workflow loads data into Redshift once the checks pass.
 - [eventbridge.md](eventbridge.md): EventBridge rules and schedules start Step Functions workflows.
 - [sns.md](sns.md): SNS messages can start workflows, and a workflow can publish to SNS to alert the data team.
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): Step Functions is the AWS service for complex multi-step AI workflows, running a model chain as a state machine.
 - [mwaa.md](mwaa.md): the alternative orchestrator. MWAA runs Python Airflow DAGs and suits existing Airflow code; Step Functions is AWS-native, serverless and visual.
 - [orchestration-and-automation.md](../../../data-engineering/orchestration-and-automation.md): Step Functions is AWS's orchestration service, coordinating many automated tasks, and its workflows are the state machines described there.
 - [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares Step Functions with MWAA, Glue workflows and Lambda: Step Functions for AWS-native multi-step workflows with retries, MWAA for Airflow, Glue workflows for Glue-only pipelines, Lambda for one small task.

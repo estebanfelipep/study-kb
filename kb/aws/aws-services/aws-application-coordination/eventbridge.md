@@ -15,6 +15,7 @@ EventBridge is a **serverless** service for building **event-driven applications
 - **Input transformer:** reshapes the event before it goes to the target.
 - **EventBridge Scheduler:** runs targets on a schedule (cron or rate). This is the usual way to start a pipeline every night or every hour.
 - **Archive and replay:** keep events and replay them later, for example after fixing a bug.
+- **In generative AI,** events trigger model chains that connect several AI services, keeping the components loosely coupled and the processing asynchronous.
 - It's the usual path for alerts: Glue job state changes, Macie findings, GuardDuty findings and Config compliance changes are routed through EventBridge to Lambda or SNS.
 
 ## Example
@@ -32,5 +33,6 @@ Three rules on one event bus:
 - [sns.md](sns.md): both push events to several targets, and EventBridge often hands alerts to SNS to notify people. EventBridge adds content-based rules, SaaS events, scheduling and replay; SNS is simpler, higher-throughput fan-out that can email or text people.
 - [glue.md](../aws-analytics/glue.md): Glue job state changes (such as `FAILED`) arrive as events that EventBridge rules act on.
 - [s3.md](../aws-general-services/s3.md): S3 event notifications can go to EventBridge, whose rules match them by bucket and key prefix.
-- [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares EventBridge with SNS and SQS: EventBridge routes events by rules, SNS pushes one message to many subscribers, SQS stores work for one consumer.
+- [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares EventBridge with SNS and SQS (EventBridge routes events by rules, SNS pushes one message to many subscribers, SQS stores work for one consumer) and with Lambda (EventBridge routes events, Lambda runs code on them).
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): EventBridge triggers AI model chains when events arrive, for loosely coupled, asynchronous processing.
 - [orchestration-and-automation.md](../../../data-engineering/orchestration-and-automation.md): EventBridge is the AWS event bus in the pub/sub vs queue vs event bus patterns described there.

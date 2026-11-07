@@ -6,6 +6,11 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **ACM**: AWS Certificate Manager. Provisions and renews the SSL/TLS certificates behind encryption in transit. See [acm.md](aws/aws-services/aws-apis/acm.md).
 
+**Agent (AI)**: An LLM that uses tools in a loop, deciding from each result whether to call another tool or stop. It directs its own process. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ agentic AI, autonomous agent
+
+**Agentic system**: Any system that combines LLMs and tools: either a workflow or an agent. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
 **Apache Hudi**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Apache Iceberg**: The open table format most widely adopted on AWS, developed at Netflix. See [open-table-formats.md](data-engineering/open-table-formats.md).
@@ -103,6 +108,9 @@ _Avoid:_ record linkage, identity resolution
 
 **ETL**: Extract, transform, load. Get data from sources, make it useful, and serve it to stakeholders. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
+**Evaluator-optimizer**: A workflow pattern where one LLM generates a response and another evaluates it and gives feedback, in a loop. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ feedback loop
+
 **Executor (Spark)**: A worker process that runs a Spark job's work on its partitions of the data. See [apache-spark.md](data-engineering/apache-spark.md).
 
 **Fan-out**: Delivering one message to many consumers, often SNS to several SQS queues. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
@@ -121,6 +129,8 @@ _Avoid:_ record linkage, identity resolution
 
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
+
+**Hybrid search**: Retrieval that combines several relevance signals, such as keyword (BM25) and semantic search, into one ranking. See [core-concepts.md](ai/core-concepts.md).
 
 **Incremental crawl**: A crawler run that scans only new subfolders and adds only the new partitions. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -142,6 +152,8 @@ _Avoid:_ customer 360, single customer view
 
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
+**Model chaining**: The AWS course's name for workflows: connecting models or services in fixed, predetermined steps. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
+
 **MPP**: Massively parallel processing. Spreading a query's work across many nodes, as Redshift does. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **MTTD / MTTR**: Mean time to detection and mean time to recovery. See [data-discovery.md](data-engineering/data-discovery.md).
@@ -156,6 +168,11 @@ _Avoid:_ customer 360, single customer view
 
 **Orchestration**: Coordinating multiple services and their dependencies through a series of steps. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**Orchestrator-workers**: A workflow pattern where a central LLM breaks a task down at run time, delegates the pieces to worker LLMs and synthesizes their results. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
+**Parallelization**: A workflow pattern where several LLM calls run at once and code aggregates their outputs, by sectioning or voting. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ parallel processing
+
 **Partition (table)**: One combination of partition-key values of a lake table, stored under its own path, such as `year=2024/month=3/day=13/`. See [partitioning.md](data-engineering/partitioning.md).
 
 **Partition key (stream)**: A producer-chosen value that decides which shard or partition a stream record goes to, keeping one key's records in order. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
@@ -163,6 +180,9 @@ _Avoid:_ customer 360, single customer view
 **Partition key (table)**: A column a lake table is partitioned by, such as `year` or `day`. Queries that filter on it skip the other partitions. See [partitioning.md](data-engineering/partitioning.md).
 
 **PII**: Personally identifiable information. See [macie.md](aws/aws-services/aws-security/macie.md).
+
+**Prompt chaining**: A workflow pattern where each LLM call processes the previous call's output, in a fixed sequence. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ sequential chaining
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -182,6 +202,9 @@ _Avoid:_ customer 360, single customer view
 
 **Reverse ETL**: Pushing cleaned data back into operational tools, such as a CRM. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
+**Routing**: A workflow pattern where the input is classified and sent to a specialized follow-up task. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ conditional branching
+
 **RPU**: Redshift Processing Unit. The capacity unit of Redshift Serverless. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
 **RRF**: Reciprocal rank fusion. Fusing the rankings of keyword and semantic search by scoring each chunk with the sum of `1 / (k + rank)` over the rankings it appears in. See [core-concepts.md](ai/core-concepts.md).
@@ -192,6 +215,8 @@ _Avoid:_ customer 360, single customer view
 _Avoid:_ SCD type 2
 
 **Schema-on-read / schema-on-write**: Applying structure when data is read (lakes) vs defining it before loading (warehouses, databases). See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
+
+**Sectioning**: The parallelization variant that splits a task into independent subtasks run in parallel. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 
 **SerDe**: Serializer/deserializer. The library a table's storage descriptor names for reading and writing its file format. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -223,6 +248,8 @@ _Avoid:_ SCD type 2
 
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
+**Time-series similarity**: Retrieval that matches sensor readings to past readings with a similar shape, such as vibration patterns that preceded a failure. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
+
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
 **Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
@@ -234,7 +261,12 @@ _Avoid:_ VPN gateway
 
 **Visual ETL**: Building an ETL job by drag and drop, without code: sources, transforms, targets. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Voting**: The parallelization variant that runs the same task several times to get diverse outputs. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
 **VPC endpoint**: Private access from a VPC to AWS services such as S3, Glue or KMS without the internet. See [vpc.md](aws/aws-services/aws-networking/vpc.md).
+
+**Workflow (AI)**: An agentic system where code orchestrates LLMs and tools through predefined steps; the code, not the LLM, is in control. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+_Avoid:_ model chaining
 
 **Zero-ETL**: Querying or replicating data without building ETL pipelines. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 

@@ -15,9 +15,11 @@ AWS IoT Core connects IoT devices to AWS and routes their messages to other AWS 
 ## Example
 
 - Sensor readings flow IoT Core → [Data Firehose](../aws-analytics/data-firehose.md) → S3, where they land in the data lake.
+- Pump and motor sensors send readings through IoT Core to S3, where Lambda processes them for a predictive maintenance AI that warns technicians of likely failures.
 
 ## Related
 
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): IoT Core ingests equipment sensor readings into S3 for the predictive maintenance example, where Bedrock turns them into troubleshooting guidance.
 - [data-firehose.md](../aws-analytics/data-firehose.md): IoT Core often routes device messages to Firehose, which delivers them to S3.
 - [data-discovery.md](../../../data-engineering/data-discovery.md): IoT Core is the ingestion service for the "IoT devices" data source defined there (sensor data, device metadata, time-series data).
 - [batch-and-streaming.md](../../../data-engineering/batch-and-streaming.md): IoT devices are a streaming source, one of the ingest modes defined there.

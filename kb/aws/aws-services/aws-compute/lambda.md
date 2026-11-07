@@ -12,6 +12,7 @@ Lambda runs code (**Lambda functions**) **without provisioning or managing serve
 - **Orchestrated:** [Step Functions](../aws-application-coordination/step-functions.md) can orchestrate multiple Lambda functions, with **error handling, retries and visualizations**. Combined with Step Functions, Lambda functions can invoke AWS services and microservices as steps in a workflow.
 - **Decoupled:** Lambda works in event-driven architectures with [SNS](../aws-application-coordination/sns.md) and [SQS](../aws-application-coordination/sqs.md), which decouple and coordinate analytics tasks. A message in an SQS queue can invoke a function, which chains functions together asynchronously.
 - Can sit behind [API Gateway](../aws-apis/api-gateway.md), where it runs the business logic of a serverless API.
+- **In AI pipelines,** Lambda connects AI services, processes data between model calls and runs custom logic. Being event-driven and billed only while it runs, it's cost-effective for intermittent AI workloads.
 - **Maximum run time: 15 minutes** per invocation.
 - Memory goes up to **10 GB**, and CPU scales with memory.
 - You pay per request and per millisecond of run time, and nothing when idle.
@@ -38,6 +39,7 @@ It runs in seconds, once per file, and no server runs between uploads. That's **
 - [kinesis-data-streams.md](../aws-analytics/kinesis-data-streams.md): Kinesis Data Streams records invoke Lambda functions to process incoming data in real time.
 - [api-gateway.md](../aws-apis/api-gateway.md): API Gateway invokes Lambda, which runs the business logic of a serverless API.
 - [glue.md](../aws-analytics/glue.md): when a transformation is too big for Lambda's 15-minute limit, it belongs in a Glue job instead.
-- [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares Lambda with Step Functions and Glue jobs: Lambda does one small task (up to 15 minutes), Step Functions coordinates many tasks, Glue does heavy distributed ETL.
+- [choosing-orchestration-services.md](../../aws-data-engineering/choosing-orchestration-services.md): compares Lambda with Step Functions and Glue jobs (Lambda does one small task up to 15 minutes, Step Functions coordinates many tasks, Glue does heavy distributed ETL) and with EventBridge (EventBridge routes events, Lambda runs code on them).
+- [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): Lambda runs the custom logic and data processing between the model calls of an AI model chain.
 - [zero-etl-and-serverless-on-aws.md](../../aws-data-engineering/zero-etl-and-serverless-on-aws.md): Lambda is the primary serverless AWS service, the "run code" role in the serverless list.
 - [orchestration-and-automation.md](../../../data-engineering/orchestration-and-automation.md): Lambda is the example of automation (one task, triggered by an event) and of serverless (pay only while code runs).
