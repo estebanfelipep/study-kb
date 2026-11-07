@@ -53,6 +53,10 @@ Folder and file paths in this section are relative to `kb/`, except `docs/`, whi
 - **Extract, don't paste.** For an external resource, record the durable facts in your own words and link back to the original. Add the link to [links.md](kb/links.md).
 - **New content arrives through the `kb-intake` skill,** which applies all of the above.
 
+## Obsidian setup
+
+`.obsidian/` and `.claudian/` are partly committed so a fresh checkout opens with the same setup. Before changing them or the plugin rules in `.gitignore`, deciding whether to commit a file under them, or setting up a new machine, read [docs/obsidian-setup/obsidian-setup.md](docs/obsidian-setup/obsidian-setup.md).
+
 ## Scratch files
 
 When asked to create a file that isn't KB content, save it under `scratch/` at the repo root (gitignored), never inside `kb/`. Examples are flashcard drafts, practice answers, or a one-off doc.

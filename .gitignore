@@ -3,7 +3,6 @@ scratch/
 .DS_Store
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
-.obsidian/workspace*.json
 .obsidian/cache
 .trash/
 # Community plugin code stays local; commit only the enabled list

@@ -1,0 +1,284 @@
+{
+  "main": {
+    "id": "64adabc771424fcd",
+    "type": "split",
+    "children": [
+      {
+        "id": "81565bb9448289c7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "19f819319faebd2f",
+            "type": "leaf",
+            "state": {
+              "type": "split-diff-view",
+              "state": {
+                "aFile": ".obsidian/plugins/obsidian-git/styles.css",
+                "bFile": ".obsidian/plugins/obsidian-git/styles.css",
+                "aRef": ""
+              },
+              "icon": "diff",
+              "title": "Diff: styles.css  (Working Tree)"
+            }
+          },
+          {
+            "id": "1468857bc88ddb91",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AGENTS.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AGENTS"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "066f17d48390c62a",
+    "type": "split",
+    "children": [
+      {
+        "id": "85fd5805b3371216",
+        "type": "tabs",
+        "dimension": 58.83441258094357,
+        "children": [
+          {
+            "id": "c3360430361217b7",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "57d2f9a73e68287f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "iceber",
+                "matchingCase": true,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f4c056e842d9a760",
+            "type": "leaf",
+            "state": {
+              "type": "git-history-view",
+              "state": {},
+              "icon": "history",
+              "title": "History"
+            }
+          },
+          {
+            "id": "ac007c3197d90db4",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 3
+      },
+      {
+        "id": "a3b04c4d89d429cf",
+        "type": "tabs",
+        "dimension": 41.16558741905643,
+        "children": [
+          {
+            "id": "81e6d6dea3aebca4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "AGENTS.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "c9c9ecf4b0725d88",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "AGENTS.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": false,
+                  "showArrow": true,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 0.7024537709293798,
+                  "close": true
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "Local graph"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 326.85479736328125
+  },
+  "right": {
+    "id": "bd8f8fe875871927",
+    "type": "split",
+    "children": [
+      {
+        "id": "abfb27a5d58cf2d0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "011caa94bd268984",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "4ab5cc0c34677ebe",
+            "type": "leaf",
+            "state": {
+              "type": "claudian-view",
+              "state": {
+                "tabWorkspace": {
+                  "version": 1,
+                  "openTabs": [
+                    {
+                      "tabId": "tab-1794093410930-kwurim4",
+                      "conversationId": "conv-1794094411945-w58jyqqvc"
+                    },
+                    {
+                      "tabId": "tab-1794093988332-r0cd7r7",
+                      "conversationId": "conv-1794094302630-w3wuq1i96"
+                    }
+                  ],
+                  "activeTabId": "tab-1794093410930-kwurim4"
+                }
+              },
+              "icon": "bot",
+              "title": "Claudian"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 590.29296875
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "realclaudian:Open Claudian": false
+    }
+  },
+  "active": "1468857bc88ddb91",
+  "lastOpenFiles": [
+    "docs/obsidian-setup/new-machine-setup.md",
+    "docs/obsidian-setup/plugins.md",
+    "docs/obsidian-setup/what-is-tracked.md",
+    "docs/obsidian-setup/obsidian-setup.md",
+    "docs/obsidian-setup",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "scratch/to-do-list.md",
+    "kb/ai/ai-engineering/ai-engineering.md",
+    "kb/ai/ai-engineering/agent-orchestration.md",
+    "study-kb/scratch/data-lake-troubleshooti.md",
+    "Untitled",
+    "scratch/glue-etl-process-draft.md",
+    "scratch/open-table-formats-intake-plan.md",
+    "scratch/glue-catalog-crawlers-draft.md",
+    "scratch/dms-datasync-vpn-ingestion-draft.md",
+    "scratch/data-lake-troubleshooting-intake-plan.md",
+    "scratch/data-lake-security-intake-plan.md",
+    "scratch/athena-quicksight-deliver-draft.md",
+    "scratch/images/dms-architecture-2026-10-28.png",
+    "kb/ai/ai-engineering/claude-api-foundations.md",
+    "kb/ai/ai-engineering/design-document-and-llm-judge.md",
+    "kb/ai/ai-engineering/prompt-and-context-engineering.md",
+    "kb/ai/ai-engineering/prompt-engineering.md",
+    "kb/ai/ai-engineering/context-engineering.md",
+    "kb/ai/ai-engineering/genai-poc.md",
+    "kb/ai/ai-engineering/evals-and-judges.md",
+    "kb/aws/aws-ai-engineering/bedrock-poc.md",
+    "kb/ai/ai-engineering/genai-poc/genai-poc.md",
+    "kb/ai/ai-engineering/genai-poc",
+    "images",
+    "kb/ai/ai-engineering/images",
+    "kb/aws/aws-ai-engineering",
+    "kb/ai/images/core-concepts-2026-11-07.png",
+    "kb/index.md.tmp.33768.3ead46883994",
+    "kb/ai/rag/semantic-search.md.tmp.33768.1ec54b9d8baa",
+    "kb/ai/rag/what-is-rag.md.tmp.33768.45d29a739b01",
+    "kb/ai/rag",
+    "kb/ai/images/Screenshot 2026-11-07 at 11.49.28 AM.png",
+    "kb/aws/aws-services/aws-ai/images/bedrock-guardrails-2026-09-20.png",
+    "kb/aws/aws-services/aws-ai/images/Screenshot 2026-09-20 at 10.30.48 AM.png",
+    "kb/aws/aws-services/aws-databases/images/dms-architecture-2026-10-28.png",
+    "love2.canvas"
+  ]
+}
