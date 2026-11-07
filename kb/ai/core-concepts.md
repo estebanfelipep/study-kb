@@ -74,7 +74,7 @@ There are different ways to integrate a foundation model in a system, depending 
 ### Model customization approaches 
 
 - **Fine-tuning** adjusts model parameters using your specific training data to improve performance for domain-specific tasks. Requires training and validation datasets. On Amazon Bedrock, a fine-tuned model typically needs Provisioned Throughput for deployment.
-- **Prompt / Context engineering** optimizes input prompts to achieve better outputs without modifying the model itself. This cost-effective approach uses iterative refinement of prompts, examples, and instructions. The techniques are in [prompt-engineering.md](ai-engineering/prompt-engineering.md).
+- **Prompt / Context engineering** optimizes input prompts to achieve better outputs without modifying the model itself. This cost-effective approach uses iterative refinement of prompts, examples, and instructions. The techniques are in [prompt-and-context-engineering.md](ai-engineering/prompt-and-context-engineering.md), which also covers managing what goes into the context on each turn.
 - **Continued Pre-Training (CPT)** extends foundation models by training on domain-specific data before fine-tuning, helping models grasp specialized terminology and concepts. 
 	- Requires either the model's weights (open-weight models such as Llama, Mistral or Qwen, trained on SageMaker or your own GPUs) or a provider that runs it for you (Nova on SageMaker or Bedrock). Closed models such as Claude can't be continually pre-trained; customize them with prompt/context engineering or RAG instead.
 	- Trains on **unlabeled** domain text (manuals, tickets, code) with the same objective as the original pre-training: predict the next token. Fine-tuning is the step that needs labeled pairs.

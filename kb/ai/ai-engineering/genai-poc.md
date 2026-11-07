@@ -128,7 +128,7 @@ Demonstrating business value secures PoC approval and justifies full-scale imple
 
 ## Related
 
-- [prompt-engineering.md](prompt-engineering.md): prompts are refined during iterative testing, so each candidate model is judged with good prompts rather than naive ones.
+- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): prompts are refined during iterative testing, so each candidate model is judged with good prompts rather than naive ones.
 - [agent-orchestration.md](agent-orchestration.md): model-based evaluation is the same idea as the evaluator in the evaluator-optimizer pattern, one LLM judging another's output.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): applies this method on Amazon Bedrock, with a healthcare example that used de-identified, HIPAA-compliant data and set out to cut processing time and cost against manual extraction.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's Model Evaluation runs the comparative evaluation and offers all three evaluation types.

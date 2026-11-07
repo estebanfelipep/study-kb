@@ -31,7 +31,7 @@ _Avoid:_ agentic AI, autonomous agent
 
 **CDO**: Chief data officer. The executive who builds a data-driven culture and owns data and AI strategy. See [data-personas.md](data-engineering/data-personas.md).
 
-**Chain-of-thought prompting**: Instructing a model to show its reasoning step by step before answering, for more accurate and transparent results on complex reasoning. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+**Chain-of-thought prompting**: Instructing a model to show its reasoning step by step before answering, for more accurate and transparent results on complex reasoning. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 _Avoid:_ CoT
 
 **Chunking**: Splitting large content into smaller pieces, so it is easier to search and doesn't fill the context window. Fixed-size or structural. See [core-concepts.md](ai/core-concepts.md).
@@ -46,9 +46,15 @@ _Avoid:_ CoT
 
 **Columnar format**: A file or storage layout that stores each column together, so queries read only the columns they need. Parquet and ORC are columnar file formats. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
-**Compaction**: Merging many small data files into fewer, larger ones so queries open fewer files, a feature of open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
+**Compaction (context)**: Shrinking a long conversation history to fit the context window, by keeping the last N turns, truncating by tokens or recursively summarizing older messages. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
+
+**Compaction (table)**: Merging many small data files into fewer, larger ones so queries open fewer files, a feature of open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Connector (Glue)**: Code that lets Glue communicate with a data store, as a source or a target. Built in, from AWS Marketplace, or custom. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Context engineering**: Assembling and managing the information an LLM sees on every turn: history, retrieved documents and memories. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
+
+**Context window**: The maximum amount of text an LLM can process at once. A history that exceeds it makes the API call fail. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **CPT**: Continued Pre-Training. Training a foundation model further on unlabeled domain text, with the same next-token objective as the original pre-training, before fine-tuning. See [core-concepts.md](ai/core-concepts.md).
 
@@ -120,11 +126,13 @@ _Avoid:_ feedback loop
 
 **Executor (Spark)**: A worker process that runs a Spark job's work on its partitions of the data. See [apache-spark.md](data-engineering/apache-spark.md).
 
+**Exemplar**: An example of how the answer should look, included in a prompt. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
+
 **Fan-out**: Delivering one message to many consumers, often SNS to several SQS queues. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
 
-**Few-shot prompting**: Including several examples, typically two to five, in a prompt to show the desired format and behavior. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+**Few-shot prompting**: Including several examples, typically two to five, in a prompt to show the desired format and behavior. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Fine-tuning**: Adjusting a model's parameters with your own training data to improve performance for domain-specific tasks. See [core-concepts.md](ai/core-concepts.md).
 
@@ -176,7 +184,7 @@ _Avoid:_ LLM-as-a-judge
 
 **OLTP**: Online transaction processing. Many small reads and writes for an application, on row-based storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
-**One-shot prompting**: Including a single example in a prompt to set the pattern the model follows. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+**One-shot prompting**: Including a single example in a prompt to set the pattern the model follows. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Ongoing replication**: The DMS phase that applies changes from the source's transaction log to the target in near real time. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
@@ -213,6 +221,8 @@ _Avoid:_ sequential chaining
 **Raw zone**: The data lake zone that holds data as ingested, in its original format, kept for auditing and reprocessing. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
+
+**Readability modeling**: Telling a model how simple or complex its answer should be, as opposed to structured output, which controls the format. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
@@ -292,7 +302,7 @@ _Avoid:_ model chaining
 
 **Zero-ETL**: Querying or replicating data without building ETL pipelines. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
-**Zero-shot prompting**: A prompt with no examples, relying only on the model's pre-trained knowledge. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+**Zero-shot prompting**: A prompt with no examples, relying only on the model's pre-trained knowledge. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 ## Service names
 

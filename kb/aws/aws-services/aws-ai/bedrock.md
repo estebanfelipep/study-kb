@@ -72,5 +72,5 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 - [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): Bedrock is the central AI engine of the predictive maintenance example there: it retrieves context from an OpenSearch RAG knowledge base and answers technicians' natural-language questions.
 - [bedrock-poc.md](../../aws-ai-engineering/bedrock-poc.md): how to build a PoC on Bedrock, starting from the Inference API and comparing models with Model Evaluation, with a healthcare extraction example.
 - [genai-poc.md](../../../ai/ai-engineering/genai-poc.md): Model Evaluation implements the PoC's comparative evaluation stage and the three evaluation types described there.
-- [prompt-engineering.md](../../../ai/ai-engineering/prompt-engineering.md): prompt management versions the prompts built with those techniques.
+- [prompt-and-context-engineering.md](../../../ai/ai-engineering/prompt-and-context-engineering.md): prompt management versions the prompts built with those techniques.
 - [kms.md](../aws-security/kms.md): a customer managed KMS key replaces Bedrock's default AWS-owned key for encryption at rest.
