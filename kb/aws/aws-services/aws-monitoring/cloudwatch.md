@@ -31,3 +31,4 @@ An alarm on the Kinesis `GetRecords.IteratorAgeMilliseconds` metric fires when c
 - [sns.md](../aws-application-coordination/sns.md): CloudWatch alarms publish to SNS to notify the on-call engineer.
 - [managed-grafana.md](managed-grafana.md): Managed Grafana pulls CloudWatch metrics into dashboards that combine them with other sources.
 - [kinesis-data-streams.md](../aws-analytics/kinesis-data-streams.md): CloudWatch tracks the Kinesis `GetRecords.IteratorAgeMilliseconds` metric to alarm when consumers fall behind, before records expire.
+- [bedrock-poc.md](../../aws-ai-engineering/bedrock-poc.md): CloudWatch monitors Bedrock usage and performance in a PoC.

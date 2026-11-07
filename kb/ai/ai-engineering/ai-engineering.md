@@ -23,3 +23,5 @@ Generative AI produces original content including text, images, audio, video, an
 ## Files (in reading order)
 
 - [agent-orchestration.md](agent-orchestration.md): agentic systems: workflows vs agents, the agent loop, and the five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), with use cases. Read when: you need whether a task calls for a workflow or an agent, or which workflow pattern fits.
+- [genai-poc.md](genai-poc.md): building a generative AI proof of concept: scoping, model selection and evaluation, performance testing, and value calculation. Read when: you need how to scope, evaluate or justify a generative AI PoC.
+- [design-document-and-llm-judge.md](design-document-and-llm-judge.md): from Anthropic's Claude course: the design document (success criteria, failure handling, cost and latency budget, trust boundary) and calibrating an LLM judge. Read when: you need what to write down before building an LLM feature, or how to make an LLM judge's scores trustworthy.

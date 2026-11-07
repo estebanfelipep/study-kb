@@ -30,3 +30,4 @@ A table in the data lake was deleted overnight. CloudTrail shows a `DeleteTable`
 - [audit-manager.md](../aws-security/audit-manager.md): Audit Manager uses CloudTrail logs as evidence for its compliance reports.
 - [guardduty.md](../aws-security/guardduty.md): GuardDuty analyzes CloudTrail events with ML and threat intelligence to detect suspicious API activity.
 - [kms.md](../aws-security/kms.md): every use of a KMS customer managed key is recorded in CloudTrail.
+- [bedrock-poc.md](../../aws-ai-engineering/bedrock-poc.md): CloudTrail logs Bedrock API usage for security auditing in a PoC.

@@ -123,3 +123,5 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
 
 - [core-concepts.md](../core-concepts.md): the LLMs these systems orchestrate are foundation models, and RAG's query rewriter is one step such a system can run before retrieval.
 - [ai-orchestration-on-aws.md](../../aws/aws-ai-engineering/ai-orchestration-on-aws.md): how AWS implements these patterns, with Step Functions, Lambda and EventBridge running model chains, and example pipelines.
+- [genai-poc.md](genai-poc.md): model-based evaluation in a PoC is the evaluator-optimizer idea applied to choosing a model: one LLM judges another's outputs.
+- [design-document-and-llm-judge.md](design-document-and-llm-judge.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores.

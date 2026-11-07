@@ -33,3 +33,4 @@ Default bucket encryption with a customer managed key, plus a bucket policy that
 - [glue.md](../aws-analytics/glue.md): Glue security configurations use KMS to encrypt job output, logs, job bookmarks, the Data Catalog and connection passwords.
 - [s3.md](../aws-general-services/s3.md): S3 buckets use KMS keys for default encryption; with a customer managed key, the key policy decides who can read objects even if they can download them.
 - [iam.md](../aws-identity/iam.md): a job's IAM role needs `kms:Decrypt` on a bucket's key to read encrypted data, in addition to the key policy allowing it.
+- [bedrock-poc.md](../../aws-ai-engineering/bedrock-poc.md): Bedrock encrypts data at rest with AWS-owned keys by default; a customer managed KMS key gives more control.

@@ -12,7 +12,34 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 	- Google (Gemini)
 	- Amazon Nova Pro is a multi-modal Amazon model, able to analyze data and images together, such as sensor data and equipment images.
 	- and more ...
-- Evaluations with different FM
+	- The models fall into families by task:
+
+		| Family | What it does | Examples on Bedrock |
+		|---|---|---|
+		| Text generation | Generates text; models differ in capabilities, performance and cost | Claude (Anthropic), Amazon Titan |
+		| Multimodal | Processes text, images and documents together | Amazon Nova, Claude (vision) |
+		| Embedding | Converts text into vectors that capture meaning, for semantic search, document comparison and recommendations | Amazon Titan Embeddings |
+		| Code generation | Programming assistance: developer tools, code reviews, documentation from code | Several models |
+
+	- Amazon Nova 2 comes in tiers that match performance and cost to the requirement:
+
+		| Tier | For |
+		|---|---|
+		| Nova 2 Pro | Complex tasks |
+		| Nova 2 Lite | Cost-effective use cases |
+		| Nova 2 Sonic | Real-time conversations |
+		| Nova 2 Omni | Multimodal capabilities |
+- Integration options, from simplest to most complex:
+	- **Inference API:** the Bedrock Runtime gives direct access to models through REST calls: send a prompt, get a response, with minimal setup. Ideal for PoCs and rapid prototyping.
+	- **Knowledge Bases:** RAG without managing vector databases or embedding pipelines (see RAG below).
+	- **Agents:** orchestrate multi-step workflows that combine models with external tools and APIs.
+	- **Model Evaluation:** compares models systematically on your own datasets and criteria (see below).
+- Evaluations with different FM (Model Evaluation, also called Bedrock Evaluations)
+	- Compares models on your own data and evaluation criteria, which streamlines model selection in a PoC and keeps measuring quality after it.
+	- Evaluation types:
+		- **Human evaluation:** human evaluators give direct feedback on outputs.
+		- **Model-based evaluation:** an AI model evaluates another model's outputs.
+		- **Metrics-based evaluation:** quantitative metrics calculated automatically.
 - It is serverless
 	- Amazon Bedrock is fully managed and serverless, so there is no model to deploy and no endpoint to manage. You call the model on demand through the Bedrock Runtime API.
 - Supports fine-tuning natively: you give Bedrock labeled training and validation data, and it produces a custom version of a supported model. A fine-tuned model typically needs Provisioned Throughput to run. For lower-level control over training, use [sagemaker](sagemaker.md) instead.
@@ -33,6 +60,9 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 - Guardrails
 	- Guardrails implement safeguards customized to your application requirements and responsible AI policies.
 	- You can set up guardrails for inputs and outputs of models.
+- Encryption
+	- **In transit:** automatic. TLS 1.2+ over HTTPS endpoints, and every API request is SigV4-signed. Traffic between AWS services is protected, and AWS PrivateLink adds optional private connectivity from a VPC.
+	- **At rest:** automatic, with AWS-owned keys by default; customer managed [KMS](../aws-security/kms.md) keys when more control is needed.
 	- UI in amazon
 		- See how you can set up guardrails based on categories. This is a high-level abstraction of setting up guardrails through aws.
 		![](images/bedrock-guardrails-2026-09-20.png)
@@ -40,3 +70,6 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 ## Related
 
 - [ai-orchestration-on-aws.md](../../aws-ai-engineering/ai-orchestration-on-aws.md): Bedrock is the central AI engine of the predictive maintenance example there: it retrieves context from an OpenSearch RAG knowledge base and answers technicians' natural-language questions.
+- [bedrock-poc.md](../../aws-ai-engineering/bedrock-poc.md): how to build a PoC on Bedrock, starting from the Inference API and comparing models with Model Evaluation, with a healthcare extraction example.
+- [genai-poc.md](../../../ai/ai-engineering/genai-poc.md): Model Evaluation implements the PoC's comparative evaluation stage and the three evaluation types described there.
+- [kms.md](../aws-security/kms.md): a customer managed KMS key replaces Bedrock's default AWS-owned key for encryption at rest.

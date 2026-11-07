@@ -4,7 +4,7 @@ Inside `kb/`, knowledge is filed in one folder per subject (`aws/`, `data-engine
 
 Because the KB is also studied by a person, each index is a reading guide too: what to read before the folder, why its files are in the order they're listed, and where to go next. Questions that span folders, such as a concept in `data-engineering/` and its AWS service in `aws/`, are bridged by each file's Related links and by the indexes' Before and After lines, not by the root.
 
-Every topic gets its own file as soon as it comes up, even a small one. Small files keep each topic findable by name and each graph node meaningful. When a file grows too big, it becomes a folder named after the topic, and the folder index guides the reader through the split-out files.
+Every topic gets its own file as soon as it comes up, even a small one. Small files keep each topic findable by name and each graph node meaningful. A topic's subtopics stay as sections in its file, so a self-contained topic reads on one page. Only when a file grows too big to read in one sitting does it become a folder named after the topic, and the folder index guides the reader through the split-out files.
 
 The cost is one or two extra index reads before reaching a file, and no single entry for a subject that spans folders. In exchange the root stays short and never goes stale when deeper files move.
 

@@ -21,6 +21,8 @@ _Avoid:_ agentic AI, autonomous agent
 
 **BM25**: A keyword search algorithm: the ranking function search engines use to estimate how relevant documents are to a search query. See [core-concepts.md](ai/core-concepts.md).
 
+**Break-even analysis**: Finding the usage volume that justifies a PoC's one-time development and ongoing operational costs. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
+
 **Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Catastrophic forgetting**: The main risk of Continued Pre-Training: the model loses general skills. Mixing in general text and evaluating on general tasks guard against it. See [core-concepts.md](ai/core-concepts.md).
@@ -80,6 +82,8 @@ _Avoid:_ agentic AI, autonomous agent
 **DDL**: Data definition language. SQL statements that define tables, such as `CREATE EXTERNAL TABLE`, one way to populate the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Delta Lake**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Design document**: A written record, made before production code, of an LLM feature's success criteria, failure handling, cost and latency budget and trust boundary. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
 
 **Detect PII**: The Glue transform that detects sensitive data in a job and masks or removes it. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -148,11 +152,16 @@ _Avoid:_ customer 360, single customer view
 
 **Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
 
+**LLM judge**: A second model call that grades an output against a rubric, asked for strengths, weaknesses and reasoning alongside the score so scores don't drift toward a safe middle number. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
+_Avoid:_ LLM-as-a-judge
+
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
 **Model chaining**: The AWS course's name for workflows: connecting models or services in fixed, predetermined steps. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
+
+**Model-based evaluation**: Using an AI model to evaluate another model's outputs. See [genai-poc.md](ai/ai-engineering/genai-poc.md). A calibrated LLM judge is one way to do it.
 
 **MPP**: Massively parallel processing. Spreading a query's work across many nodes, as Redshift does. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
@@ -180,6 +189,8 @@ _Avoid:_ parallel processing
 **Partition key (table)**: A column a lake table is partitioned by, such as `year` or `day`. Queries that filter on it skip the other partitions. See [partitioning.md](data-engineering/partitioning.md).
 
 **PII**: Personally identifiable information. See [macie.md](aws/aws-services/aws-security/macie.md).
+
+**PoC**: Proof of concept. A time-boxed build, typically 2 to 8 weeks, that validates technical feasibility, measures performance and demonstrates business value before full-scale deployment. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
 
 **Prompt chaining**: A workflow pattern where each LLM call processes the previous call's output, in a fixed sequence. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ sequential chaining
@@ -246,6 +257,8 @@ _Avoid:_ SCD type 2
 
 **Target endpoint**: The DMS connection to the data store it migrates to. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
+**TCO**: Total cost of ownership. Inference, infrastructure, development time and ongoing maintenance, compared against the current process. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
+
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Time-series similarity**: Retrieval that matches sensor readings to past readings with a similar shape, such as vibration patterns that preceded a failure. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
@@ -253,6 +266,8 @@ _Avoid:_ SCD type 2
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
 **Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
 
 **Virtual private gateway**: The AWS end of a Site-to-Site VPN, attached to a VPC. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 _Avoid:_ VPN gateway
