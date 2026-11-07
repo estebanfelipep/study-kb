@@ -10,3 +10,6 @@ scratch/
 # (community-plugins.json) and each plugin's settings (data.json).
 .obsidian/plugins/*/*
 !.obsidian/plugins/*/data.json
+
+# Claudian chat session metadata is per-device runtime state.
+.claudian/sessions/
