@@ -61,7 +61,7 @@ Don't change the user's prose, bullet style, indentation or headings, even when 
 These all need the user's judgment, or they lose or move content:
 
 - **Redundancy.** The same fact in two files breaks `AGENTS.md`'s "record each fact once" rule. For each one, quote both passages with their paths, say which file should own the fact by the KB's rules (concept file vs vendor file, service file vs `choosing-*` file), and propose the fix. Not every near-duplicate is a problem: a `choosing-*` file restating a service's characteristic to explain a pick is often fine. Say which kind each one is.
-- **Duplicate or competing folders,** such as `kb/ai/` beside an `ai-engineering/` the conventions name, or `aws/aws-ai/` beside `aws/aws-services/aws-ai/`. Propose which one survives and what moves.
+- **Duplicate or competing folders,** such as a new top-level folder covering a subject `kb/index.md` already lists, or `aws/aws-ai/` beside `aws/aws-services/aws-ai/`. Propose which one survives and what moves.
 - **Content in the wrong place,** such as a comparison or analogy inside a service file that belongs in a `choosing-*` file.
 - **Notes outside the file shape:** no title, no Related section, raw bullets.
 - **Collection items named but not described,** such as a service the KB names with nothing said about it. List each with where it's named, so the user can add it through `kb-intake`.
@@ -97,5 +97,5 @@ The user committed `bedrock.md`, `polly.md` and `text-extract.md` by hand, and s
 
 - **Done:** added `textract.md` and `polly.md` to `aws-ai.md`, and put the Bedrock entry in the index format. Updated the `aws-ai/` line in `aws-services.md`. Renamed `text-extract.md` to `textract.md` with `git mv`. Renamed `Screenshot 2026-09-20 at 10.30.48 AM.png` to `bedrock-guardrails-2026-09-20.png`, and updated its link in `bedrock.md`. `textract.md` says extracted text can be passed to Amazon Comprehend for entity detection, and Comprehend has no file, so created `aws-ai/comprehend.md` from that sentence, listed it in `aws-ai.md`, and linked the mention to it.
 - **Redundancies:** the Comprehend sentence now lives in `textract.md` and `comprehend.md`. Suggest trimming `textract.md` to the link.
-- **Needs your call:** `polly.md` names Amazon Transcribe but says nothing about it, so no file was created; add it through `kb-intake`. `sagemaker.md` now holds a SageMaker vs Bedrock comparison, which belongs in `choosing-delivery-services.md`. `bedrock.md` says fine-tuning goes "through SageMaker", but Bedrock fine-tunes natively. `kb/ai/` competes with the `ai-engineering/` folder name `AGENTS.md` uses.
+- **Needs your call:** `polly.md` names Amazon Transcribe but says nothing about it, so no file was created; add it through `kb-intake`. `sagemaker.md` now holds a SageMaker vs Bedrock comparison, which belongs in `choosing-delivery-services.md`. `bedrock.md` says fine-tuning goes "through SageMaker", but Bedrock fine-tunes natively. A new top-level folder competes with a subject `kb/index.md` already lists.
 - **Not done:** rewriting the notes into service-file shape, or adding facts about Bedrock. The user didn't ask for either.
