@@ -24,7 +24,7 @@ Every service file has the same shape: **What it is**, **Characteristics**, **Ex
 - [aws-iot/](aws-iot/aws-iot.md): IoT Core. Read when: you need to ingest data from devices.
 - [aws-databases/](aws-databases/aws-databases.md): RDS and Aurora, DMS, DynamoDB and OpenSearch Service. Read when: you need an operational database, search, or database migration.
 - [aws-analytics/](aws-analytics/aws-analytics.md): Kinesis Data Streams, Data Firehose, MSK, Glue, EMR, Managed Service for Apache Flink, Entity Resolution, Athena, Redshift, QuickSight, Lake Formation and DataZone. Read when: you need streaming, ETL, warehousing, querying, BI, or data lake governance.
-- [aws-ai/](aws-ai/aws-ai.md): SageMaker. Read when: you need machine learning.
+- [aws-ai/](aws-ai/aws-ai.md): SageMaker, Bedrock, Textract and Polly. Read when: you need machine learning, generative AI, text extraction from documents, or text to speech.
 
 **Glue between steps**
 

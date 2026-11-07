@@ -34,4 +34,4 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 	- You can set up guardrails for inputs and outputs of models.
 	- UI in amazon
 		- See how you can set up guardrails based on categories. This is a high-level abstraction of setting up guardrails through aws.
-		![](images/Screenshot%202026-09-20%20at%2010.30.48%20AM.png)
+		![](images/bedrock-guardrails-2026-09-20.png)
