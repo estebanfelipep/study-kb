@@ -19,3 +19,7 @@ Generative AI produces original content including text, images, audio, video, an
 
 - **Security and compliance**
 	- You verify that generative AI solutions meet security requirements and regulatory compliance standards. This includes implementing proper access controls, data encryption, and audit logging while maintaining data privacy and governance.
+
+## Files (in reading order)
+
+- [agent-orchestration.md](agent-orchestration.md): agentic systems: workflows vs agents, the agent loop, and the five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), with use cases. Read when: you need whether a task calls for a workflow or an agent, or which workflow pattern fits.
