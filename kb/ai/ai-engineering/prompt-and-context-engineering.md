@@ -202,3 +202,4 @@ Validating an agent with memory measures three things:
 - [genai-poc.md](genai-poc.md): prompts are tuned while testing candidate models in a PoC, so a model is judged with good prompts rather than naive ones.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): the healthcare PoC there used structured prompts and few-shot examples to extract medical conditions more accurately.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's prompt management saves and versions the prompts written this way.
+- [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples.

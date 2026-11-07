@@ -170,6 +170,8 @@ _Avoid:_ LLM-as-a-judge
 
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
+**Message Batches API**: Claude's API for bulk offline work: submit many requests in one call, get an identifier and poll for completion. Takes up to 24 hours, at a lower per-token cost. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
 **Model chaining**: The AWS course's name for workflows: connecting models or services in fixed, predetermined steps. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
@@ -224,6 +226,8 @@ _Avoid:_ sequential chaining
 
 **Readability modeling**: Telling a model how simple or complex its answer should be, as opposed to structured output, which controls the format. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
+**Reasoning mode**: A per-request setting for whether Claude reasons before answering. Worth the cost on hard multi-step problems, wasted on lookups and classification. Separate from model choice. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
 **Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Reranking**: Passing a larger set of search results, such as 30 chunks, to a reranking model that returns only the truly relevant ones. See [core-concepts.md](ai/core-concepts.md).
@@ -241,6 +245,8 @@ _Avoid:_ conditional branching
 
 **SCD2**: Slowly changing dimension, type 2. A history table with one row per version of a record and `valid_from` / `valid_to` columns, so you can query any past state. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 _Avoid:_ SCD type 2
+
+**Sampling**: How an LLM picks each next token, which makes generation non-deterministic: the same prompt can return different wording each run, so exact-text tests are unreliable. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Schema-on-read / schema-on-write**: Applying structure when data is read (lakes) vs defining it before loading (warehouses, databases). See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
@@ -268,6 +274,8 @@ _Avoid:_ SCD type 2
 
 **Stream**: A continuous, ordered sequence of small records, appended as events happen and kept for a retention period. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
+**Streaming (LLM)**: Sending a model's response in pieces as it is generated, over the same HTTP connection using server-sent events, so output appears immediately. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
 
 **Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
@@ -279,6 +287,8 @@ _Avoid:_ SCD type 2
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Time-series similarity**: Retrieval that matches sensor readings to past readings with a similar shape, such as vibration patterns that preceded a failure. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
+
+**Token**: The unit an LLM reads and writes, and what the API meters for input, output and cost. The context window is measured in tokens. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
