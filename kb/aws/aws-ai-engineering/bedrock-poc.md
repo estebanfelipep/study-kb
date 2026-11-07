@@ -56,6 +56,7 @@ Security is built into the PoC from the beginning, so practices are in place bef
 
 - [genai-poc.md](../../ai/ai-engineering/genai-poc.md): this file applies that vendor-neutral PoC method on Bedrock.
 - [bedrock.md](../aws-services/aws-ai/bedrock.md): the service whose models, integration options, Model Evaluation and encryption this PoC uses.
+- [prompt-engineering.md](../../ai/ai-engineering/prompt-engineering.md): the structured prompts and few-shot examples in the healthcare example are techniques from there.
 - [iam.md](../aws-services/aws-identity/iam.md): IAM roles with least privilege control who can call Bedrock during the PoC.
 - [kms.md](../aws-services/aws-security/kms.md): customer managed KMS keys replace Bedrock's default AWS-owned keys when the PoC needs control over encryption at rest.
 - [cloudtrail.md](../aws-services/aws-monitoring/cloudtrail.md): CloudTrail logs every Bedrock API call for security auditing.

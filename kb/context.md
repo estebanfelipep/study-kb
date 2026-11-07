@@ -31,6 +31,9 @@ _Avoid:_ agentic AI, autonomous agent
 
 **CDO**: Chief data officer. The executive who builds a data-driven culture and owns data and AI strategy. See [data-personas.md](data-engineering/data-personas.md).
 
+**Chain-of-thought prompting**: Instructing a model to show its reasoning step by step before answering, for more accurate and transparent results on complex reasoning. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+_Avoid:_ CoT
+
 **Chunking**: Splitting large content into smaller pieces, so it is easier to search and doesn't fill the context window. Fixed-size or structural. See [core-concepts.md](ai/core-concepts.md).
 
 **CIA triad**: Confidentiality, integrity and availability, the three goals of data security. See [data-security-and-monitoring.md](data-engineering/data-security-and-monitoring.md).
@@ -121,6 +124,8 @@ _Avoid:_ feedback loop
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
 
+**Few-shot prompting**: Including several examples, typically two to five, in a prompt to show the desired format and behavior. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
+
 **Fine-tuning**: Adjusting a model's parameters with your own training data to improve performance for domain-specific tasks. See [core-concepts.md](ai/core-concepts.md).
 
 **FM**: Foundation model. A large deep learning neural network trained on massive datasets, used as the starting point for new applications and adapted to specific needs. See [core-concepts.md](ai/core-concepts.md).
@@ -170,6 +175,8 @@ _Avoid:_ LLM-as-a-judge
 **OLAP**: Online analytical processing. Large scans and aggregations for analytics, on columnar storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **OLTP**: Online transaction processing. Many small reads and writes for an application, on row-based storage. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
+
+**One-shot prompting**: Including a single example in a prompt to set the pattern the model follows. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
 
 **Ongoing replication**: The DMS phase that applies changes from the source's transaction log to the target in near real time. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
@@ -284,6 +291,8 @@ _Avoid:_ VPN gateway
 _Avoid:_ model chaining
 
 **Zero-ETL**: Querying or replicating data without building ETL pipelines. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
+
+**Zero-shot prompting**: A prompt with no examples, relying only on the model's pre-trained knowledge. See [prompt-engineering.md](ai/ai-engineering/prompt-engineering.md).
 
 ## Service names
 
