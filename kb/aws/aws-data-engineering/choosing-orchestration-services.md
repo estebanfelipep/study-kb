@@ -53,6 +53,30 @@ Both push events to several targets.
 - **EventBridge:** rich content-based filtering, SaaS and AWS service events built in, input transformation, scheduling, archive and replay. Best for **routing events between systems**.
 - **SNS:** simpler, higher-throughput **fan-out**, and can notify **people** directly (email, SMS, mobile push).
 
+### EventBridge vs Lambda
+
+Both are event-driven, but they do different jobs, and they're usually used together (EventBridge → Lambda).
+
+- **EventBridge is the router:** it decides **where** an event goes. Rules match events by content and deliver them to targets. It runs no code of yours.
+- **Lambda is the worker:** it decides **what to do** with an event, by running your code.
+
+Lambda being event-driven means an event can **invoke** it, but something must deliver that event. S3, SQS, Kinesis and DynamoDB invoke Lambda directly. Schedules, SaaS events and many AWS service events (Glue job state changes, GuardDuty findings) reach Lambda only through EventBridge. A "scheduled Lambda" is an EventBridge rule that invokes the function.
+
+Routing with Lambda alone means rebuilding EventBridge in code:
+
+|  | **EventBridge** | **A "router" Lambda function** |
+| --- | --- | --- |
+| Filtering | Content-based rules, set up as configuration | `if/else` code; changing a route means redeploying |
+| Fan-out | Up to 5 targets per rule | Your code calls each target and handles partial failures |
+| Reshaping events | Input transformer | Your code |
+| Sources | AWS service, custom and SaaS partner buses | Only what can invoke Lambda |
+| Schedules | EventBridge Scheduler | Still needs EventBridge |
+| Archive and replay | Built in | Store events and write the replay logic yourself |
+| Cost | Per event published | Every event invokes the function, even ones it discards |
+| Coupling | Producers send to a bus, not knowing the consumers | Producers depend on the router function |
+
+**Pick:** EventBridge to decide where an event goes, Lambda to act on it. Lambda alone is enough when one source invokes one function, such as an S3 upload invoking a file-processing function.
+
 ### SNS vs SQS
 
 - **SNS pushes** one message to **many** subscribers immediately and doesn't store it.
