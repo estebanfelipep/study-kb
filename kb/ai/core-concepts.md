@@ -120,12 +120,164 @@ Mixing your data in at an earlier stage is why Nova Forge forgets less: the doma
 
 **Problem:** Foundation models have knowledge cutoffs and lack access to your specific or proprietary information, leading to outdated responses or hallucinations.
 
-***Solution:*** RAG connects foundation models with external knowledge sources, retrieving relevant information to ground responses in factual sources.
+***Solution:*** RAG connects foundation models with external knowledge sources, retrieving relevant information to ground responses in factual sources. It's a system that relies on a vector database, and it is used to enrich the context of an LLM.
 
 **Components:*** RAG systems rely on five essential components that work together to transform raw information into contextually relevant responses.
 
-- Document processing: Chunks knowledge while maintaining context
-- Embedding models: Converts text to mathematical vectors
-- Vector storage: Efficiently stores and searches vectors
-- Query processing: Matches user questions to relevant content
-- Response generation: Combines retrieved context with queries
+1. Document processing: Chunks knowledge while maintaining context (see [Chunking](#chunking))
+2. Embedding models: Converts text to mathematical vectors (see [Semantic search](#2-semantic-search-embeddings))
+3. Vector storage: Efficiently stores and searches vectors
+4. Query processing: Matches user questions to relevant content (see [Searching](#searching) and [Reranking](#reranking))
+5. Response generation: Combines retrieved context with queries
+
+### The RAG pipeline
+
+```
+ INGESTION (ahead of time; results are cached)
+
+   documents --> chunking --+--> embedding model --> vector store
+                            |
+                            +--> keyword index (for BM25)
+
+ QUERY (on every user request)
+
+   user query
+       |
+       v
+   query rewriter-------------------------|
+       |                                  |
+       | semantic query                   | keywords
+       v                                  v
+   embedding search                   BM25 search
+       |                                  |
+       +--------------+-------------------+
+                      v
+          reciprocal rank fusion
+                      |
+                      v
+          reranking (e.g. 30 chunks -> a few)
+                      |
+                      v
+          LLM answers using the chunks
+```
+
+### Chunking
+
+- Chunking is a strategy to split large content that might be useful for an LLM. We chunk the large document to make it easier to search, and to avoid injecting a lot of content into the context window.
+- The chunking strategy you choose depends on the content you are about to chunk. If you know that the content has a specific structure, you can be confident with the structural chunking approach.
+- LangChain provides a package for doing different types of chunking: [LangChain text splitters](https://docs.langchain.com/oss/javascript/integrations/splitters)
+
+| Strategy   | Splits by                                                                | When to use                                | LangChain splitter                                                                                            |
+| ---------- | ------------------------------------------------------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Fixed-size | A set number of characters. The most basic strategy                      | Content with no reliable structure         | [Length-based](https://docs.langchain.com/oss/javascript/integrations/splitters#length-based)                 |
+| Structural | The document's own structure, such as headings, paragraphs and sentences | Content with a known, consistent structure | [Text-structure-based](https://docs.langchain.com/oss/javascript/integrations/splitters#text-structure-based) |
+
+- Sources
+	- [Chunking intro (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/chunking-intro-2lxwn)
+	- [Fixed-size chunks (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/fixed-size-chunks-dsxci)
+	- [Structural chunking (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/structural-chunking-h4xti)
+	- [Structural chunking in action: chunks.ts](https://github.com/estebanfelipep/ai-hero-cohort-002-skill-building/blob/main/exercises/03-retrieval-day-2-skill-building/03.03-structural-chunking/problem/api/chunks.ts)
+
+### Searching
+
+These are different approaches for retrieving relevant information based on the user query.
+
+#### Query rewriting
+
+- Usually, whenever you are retrieving information, you want the original user query to be parsed (processed) by a **query rewriter**: an agent whose job is to produce:
+	- the specific query the semantic search runs with (embeddings)
+	- a list of keywords the keyword search runs with (BM25)
+
+```
+ user query:     "hey, why does my laptop keep shutting down
+                  since I installed last week's update?"
+                          |
+                    query rewriter
+                 +--------+--------+
+                 v                 v
+ semantic query:                keywords:
+ "laptop shuts down after       ["laptop", "shutdown",
+  installing a system update"    "update"]
+```
+
+#### 1. BM25 algorithm (keyword-based matching)
+
+- A keyword search algorithm.
+- It is a ranking function used by search engines to estimate the relevance of documents to a given search query.
+- Really useful when you want to do keyword matching, when you say "I want to find this keyword in this document".
+- Sources
+	- [Okapi BM25 (Wikipedia)](https://en.wikipedia.org/wiki/Okapi_BM25)
+	- [Overview of the BM25 algorithm (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-kmlhc/overview-of-the-bm-25-algorithm~qrr4a)
+	- [Retrieval with BM25 exercise](https://github.com/estebanfelipep/poland-vercel-ai-sdk-workshop/tree/main/exercises/08-retrieval/08.1-retrieval-with-bm25/problem)
+
+#### 2. Semantic search (embeddings)
+
+- Better for broader semantic and meaningful connections between a document and a query.
+- Embeddings are usually used to search the semantic similarity between a query and an array of embeddings.
+- For example, to answer a user query based on a given set of private documents (imagine your company's private documents):
+
+```
+ 1. embed the user query            ---> query embedding
+ 2. embed the documents' chunks     ---> chunk embeddings
+    (cached ahead of time, not          |
+     regenerated on each request)       |
+ 3. compare the query embedding to every chunk embedding
+                    |
+                    v
+ 4. sort the chunks by their similarity scores
+                    |
+                    v
+    at this point you only have the list of the
+    most relevant chunks for the user query
+                    |
+                    v
+ 5. give those chunks (the sources) to the LLM,
+    so it can answer the user query
+```
+
+#### 3. Reciprocal rank fusion (RRF)
+
+- Taking the results of keyword search (BM25) and semantic search (embeddings) and fusing those ranking systems together is the most productive way of getting the best results.
+
+| | Keyword search (BM25) | Semantic search (embeddings) |
+|---|---|---|
+| Matches | Exact keywords | Meaning |
+| Strong when | You want to find this keyword in this document | The query and document are related in meaning, not wording |
+
+- **How it scores:** each chunk's score is the sum, over every ranking it appears in, of `1 / (k + rank)`. `k` is a constant that softens the gap between top ranks; Elastic's default is 60. A chunk ranked well by both methods beats one ranked first by only one.
+
+| Chunk | BM25 rank | Embedding rank | RRF score (k = 60) | Fused rank |
+|---|---|---|---|---|
+| B | 2 | 1 | 1/62 + 1/61 = 0.0325 | 1 |
+| A | 1 | 3 | 1/61 + 1/63 = 0.0323 | 2 |
+| C | not found | 2 | 1/62 = 0.0161 | 3 |
+
+- Sources
+	- [Rank fusion explainer](https://github.com/estebanfelipep/poland-vercel-ai-sdk-workshop/tree/main/exercises/08-retrieval/08.3-rank-fusion/explainer)
+	- [Rank fusion (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-kmlhc/rank-fusion-r3fg2)
+	- [Reciprocal rank fusion (Elasticsearch docs)](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion)
+
+### Reranking
+
+- Reranking is about passing a larger set of search results (like 30 chunks) to a reranking model, which evaluates them against your query and returns only the truly relevant ones.
+- The reranking process works in stages:
+
+```
+ 1. retrieve a larger set of results   [30 chunks]
+                    |
+                    v
+ 2. an LLM evaluates which ones are truly
+    relevant to the user's searchQuery
+                    |
+                    v
+ 3. only the most relevant chunks are  [a few chunks]
+    returned
+```
+
+- Sources
+	- [Reranking (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/reranking-tgdxs)
+	- [Ranking and reranking (Elastic docs)](https://www.elastic.co/docs/solutions/search/ranking)
+
+### Clarification loop
+
+- [Clarification loop (YouTube)](https://youtu.be/xc63tFIIfeA?si=4tuG4M-HB6KnE_QO&t=227)
