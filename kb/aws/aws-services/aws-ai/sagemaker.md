@@ -29,3 +29,5 @@ Think of SageMaker as a fully equipped professional workshop where you build, tu
 - [data-personas.md](../../../data-engineering/data-personas.md): SageMaker serves the data scientist persona, whose interests include ML pipelines.
 - [data-engineer-role.md](../../../data-engineering/data-engineer-role.md): SageMaker models are an example of operational use of data: a recommendation model's output drives what users see in the product.
 - [transactional-data-lake-on-aws.md](../../aws-data-engineering/transactional-data-lake-on-aws.md): SageMaker consumes the Iceberg dataset of a transactional data lake.
+- [ai-factories.md](ai-factories.md): AI Factories runs SageMaker AI on AWS-owned hardware inside the customer's data center.
+- [core-concepts.md](../../../ai/core-concepts.md): SageMaker AI is the self-host way to integrate a foundation model, a lower level of abstraction than Bedrock, suited to fine-tuning.

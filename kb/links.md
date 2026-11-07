@@ -30,10 +30,21 @@ Each entry looks like this:
 - [Data Quality Definition Language (DQDL) reference](https://docs.aws.amazon.com/glue/latest/dg/dqdl.html): AWS Glue Developer Guide, DQDL. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [Detect and process sensitive data](https://docs.aws.amazon.com/glue/latest/dg/detect-PII.html): AWS Glue Developer Guide, the Detect PII transform. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 - [Using the Delta Lake framework in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-format-delta-lake.html): AWS Glue User Guide, Delta Lake in Glue. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
+- [LangChain text splitters](https://docs.langchain.com/oss/javascript/integrations/splitters): LangChain docs, the package for chunking documents. See [core-concepts.md](ai/core-concepts.md).
+- [LangChain length-based splitter](https://docs.langchain.com/oss/javascript/integrations/splitters#length-based): LangChain docs, fixed-size chunking. See [core-concepts.md](ai/core-concepts.md).
+- [LangChain text-structure-based splitter](https://docs.langchain.com/oss/javascript/integrations/splitters#text-structure-based): LangChain docs, structural chunking. See [core-concepts.md](ai/core-concepts.md).
+- [Reciprocal rank fusion (Elasticsearch docs)](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion): Elasticsearch reference, RRF and its `k` constant. See [core-concepts.md](ai/core-concepts.md).
+- [Ranking and reranking (Elastic docs)](https://www.elastic.co/docs/solutions/search/ranking): Elastic docs, ranking and reranking search results. See [core-concepts.md](ai/core-concepts.md).
 
 ## Courses and training
 
-_None yet._
+- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881): AWS Skill Builder learning plan for generative AI developers. See [ai-engineering.md](ai/ai-engineering/ai-engineering.md).
+- [Chunking intro (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/chunking-intro-2lxwn): AI Hero retrieval workshop lesson, introduction to chunking. See [core-concepts.md](ai/core-concepts.md).
+- [Fixed-size chunks (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/fixed-size-chunks-dsxci): AI Hero retrieval workshop lesson, fixed-size chunking. See [core-concepts.md](ai/core-concepts.md).
+- [Structural chunking (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/structural-chunking-h4xti): AI Hero retrieval workshop lesson, structural chunking. See [core-concepts.md](ai/core-concepts.md).
+- [Overview of the BM25 algorithm (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-kmlhc/overview-of-the-bm-25-algorithm~qrr4a): AI Hero retrieval workshop lesson, BM25. See [core-concepts.md](ai/core-concepts.md).
+- [Rank fusion (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-kmlhc/rank-fusion-r3fg2): AI Hero retrieval workshop lesson, reciprocal rank fusion. See [core-concepts.md](ai/core-concepts.md).
+- [Reranking (AI Hero)](https://www.aihero.dev/workshops/retrieval-skill-building-day-2-u45nl/reranking-tgdxs): AI Hero retrieval workshop lesson, reranking. See [core-concepts.md](ai/core-concepts.md).
 
 ## Practice exams
 
@@ -44,7 +55,11 @@ _None yet._
 - [Create an AWS Glue Data Catalog with AWS DMS](https://aws.amazon.com/blogs/database/create-an-aws-glue-data-catalog-with-aws-dms/): AWS Database Blog, DMS populating the Glue Data Catalog. See [dms.md](aws/aws-services/aws-databases/dms.md).
 - [Understanding Apache Iceberg on AWS with the new technical guide](https://aws.amazon.com/blogs/big-data/understanding-apache-iceberg-on-aws-with-the-new-technical-guide/): AWS Big Data Blog, Iceberg on AWS. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
 - [Build your Apache Hudi data lake on AWS using Amazon EMR – Part 1](https://aws.amazon.com/blogs/big-data/part-1-build-your-apache-hudi-data-lake-on-aws-using-amazon-emr/): AWS Big Data Blog, Hudi on EMR. See [transactional-data-lake-on-aws.md](aws/aws-data-engineering/transactional-data-lake-on-aws.md).
+- [Okapi BM25 (Wikipedia)](https://en.wikipedia.org/wiki/Okapi_BM25): Wikipedia article on the BM25 ranking function. See [core-concepts.md](ai/core-concepts.md).
+- [Clarification loop (YouTube)](https://youtu.be/xc63tFIIfeA?si=4tuG4M-HB6KnE_QO&t=227): video on the clarification loop in RAG. See [core-concepts.md](ai/core-concepts.md).
 
 ## Code and repos
 
-_None yet._
+- [Structural chunking in action: chunks.ts](https://github.com/estebanfelipep/ai-hero-cohort-002-skill-building/blob/main/exercises/03-retrieval-day-2-skill-building/03.03-structural-chunking/problem/api/chunks.ts): AI Hero cohort exercise, structural chunking code. See [core-concepts.md](ai/core-concepts.md).
+- [Retrieval with BM25 exercise](https://github.com/estebanfelipep/poland-vercel-ai-sdk-workshop/tree/main/exercises/08-retrieval/08.1-retrieval-with-bm25/problem): Vercel AI SDK workshop exercise, retrieval with BM25. See [core-concepts.md](ai/core-concepts.md).
+- [Rank fusion explainer](https://github.com/estebanfelipep/poland-vercel-ai-sdk-workshop/tree/main/exercises/08-retrieval/08.3-rank-fusion/explainer): Vercel AI SDK workshop explainer, rank fusion. See [core-concepts.md](ai/core-concepts.md).

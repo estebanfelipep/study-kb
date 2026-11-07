@@ -1,13 +1,11 @@
 # Core concepts
 
 - Graphic representation of the relationship between some of these concepts
-	![](images/Screenshot%202026-11-07%20at%2011.49.28%20AM.png)
+	![](images/core-concepts-2026-11-07.png)
 
 ## Foundation models
  
  Foundation models are **large deep learning neural networks** trained on massive datasets that have changed how you approach machine learning. Rather than develop AI from scratch, you use foundation models as starting points to develop ML models that power new applications more quickly and cost-effectively.
- 
-They are specialized, so there are foundation models for translations, image generation, video generation, etc.
 
 A unique feature of foundation models is their **adaptability**. These models can perform a wide range of disparate tasks with high accuracy based on input prompts, including 
 
@@ -38,7 +36,7 @@ There are different ways to integrate a foundation model in a system, depending 
 - **Amazon Bedrock integration (unified API):**
 	- [bedrock](../aws/aws-services/aws-ai/bedrock.md) provides a unified API to access multiple foundation models without managing infrastructure.
 	- This might be the easiest way to integrate a foundation model using AWS 
-- **AWS AI Factories integration (on-premises):**
+- **[AWS AI Factories](../aws/aws-services/aws-ai/ai-factories.md) integration (on-premises):**
 	- "On-premises" describes where the hardware sits, not who owns and runs it. AWS ships, installs and operates its own AI infrastructure inside the customer's data center.
 	- Suitable for cases when the company data has 
 		- residency requirements
@@ -66,7 +64,7 @@ There are different ways to integrate a foundation model in a system, depending 
 		```
 	- This is the reverse of a typical hybrid setup. There, on-premises servers send data or workloads up to the cloud. Here, the cloud's hardware comes down to the customer.
 	- That's why it fits data residency, regulated industries and low-latency inference: the data never leaves the building, and the customer still doesn't build or run their own GPU cluster.
-- **Amazon SageMaker AI integration (self-host):**
+- **[Amazon SageMaker AI](../aws/aws-services/aws-ai/sagemaker.md) integration (self-host):**
 	- This might be suitable for cases where we need to fine-tune foundation models 
 	- This offers a lower level of abstraction when it comes to managing the integration, and the deployment of a FM
 - **Direct provider API integration (direct API):**
@@ -75,7 +73,7 @@ There are different ways to integrate a foundation model in a system, depending 
 
 ### Model customization approaches 
 
-- **Fine-tuning** adjusts model parameters using your specific training data to improve performance for domain-specific tasks. Requires training and validation datasets, and typically needs Provisioned Throughput for deployment.
+- **Fine-tuning** adjusts model parameters using your specific training data to improve performance for domain-specific tasks. Requires training and validation datasets. On Amazon Bedrock, a fine-tuned model typically needs Provisioned Throughput for deployment.
 - **Prompt / Context engineering** optimizes input prompts to achieve better outputs without modifying the model itself. This cost-effective approach uses iterative refinement of prompts, examples, and instructions.
 - **Continued Pre-Training (CPT)** extends foundation models by training on domain-specific data before fine-tuning, helping models grasp specialized terminology and concepts. 
 	- Requires either the model's weights (open-weight models such as Llama, Mistral or Qwen, trained on SageMaker or your own GPUs) or a provider that runs it for you (Nova on SageMaker or Bedrock). Closed models such as Claude can't be continually pre-trained; customize them with prompt/context engineering or RAG instead.
@@ -89,7 +87,7 @@ There are different ways to integrate a foundation model in a system, depending 
 		- fine-tune to restore instruction following → 
 		- deploy.
 	- Main risk is **catastrophic forgetting**: the model loses general skills. Mixing in general text and evaluating on general tasks guard against it.
-- **Nova Forge (aws specific)** enables building custom frontier models with Amazon's Nova technology, providing infrastructure and tools **to create large language models from scratch**. Supporting models up to 1 trillion parameters with flexible deployment, it serves organizations needing highly specialized AI capabilities beyond adapting existing models.
+- **[Nova Forge](../aws/aws-services/aws-ai/nova-forge.md) (aws specific)** enables building custom frontier models with Amazon's Nova technology, providing infrastructure and tools **to create large language models from scratch**. Supporting models up to 1 trillion parameters with flexible deployment, it serves organizations needing highly specialized AI capabilities beyond adapting existing models.
 
 #### CPT vs Nova Forge
 
@@ -120,9 +118,9 @@ Mixing your data in at an earlier stage is why Nova Forge forgets less: the doma
 
 **Problem:** Foundation models have knowledge cutoffs and lack access to your specific or proprietary information, leading to outdated responses or hallucinations.
 
-***Solution:*** RAG connects foundation models with external knowledge sources, retrieving relevant information to ground responses in factual sources. It's a system that relies on a vector database, and it is used to enrich the context of an LLM.
+***Solution:*** RAG connects foundation models with external knowledge sources, retrieving relevant information to ground responses in factual sources. It usually relies on a vector database for semantic search, often alongside a keyword index for BM25 (see [The RAG pipeline](#the-rag-pipeline)), and it is used to enrich the context of an LLM.
 
-**Components:*** RAG systems rely on five essential components that work together to transform raw information into contextually relevant responses.
+**Components:** RAG systems rely on five essential components that work together to transform raw information into contextually relevant responses.
 
 1. Document processing: Chunks knowledge while maintaining context (see [Chunking](#chunking))
 2. Embedding models: Converts text to mathematical vectors (see [Semantic search](#2-semantic-search-embeddings))

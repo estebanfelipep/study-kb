@@ -14,11 +14,17 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**BM25**: A keyword search algorithm: the ranking function search engines use to estimate how relevant documents are to a search query. See [core-concepts.md](ai/core-concepts.md).
+
 **Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
+**Catastrophic forgetting**: The main risk of Continued Pre-Training: the model loses general skills. Mixing in general text and evaluating on general tasks guard against it. See [core-concepts.md](ai/core-concepts.md).
 
 **CDC**: Change data capture. Replicating a database's ongoing inserts, updates and deletes rather than reloading it. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
 **CDO**: Chief data officer. The executive who builds a data-driven culture and owns data and AI strategy. See [data-personas.md](data-engineering/data-personas.md).
+
+**Chunking**: Splitting large content into smaller pieces, so it is easier to search and doesn't fill the context window. Fixed-size or structural. See [core-concepts.md](ai/core-concepts.md).
 
 **CIA triad**: Confidentiality, integrity and availability, the three goals of data security. See [data-security-and-monitoring.md](data-engineering/data-security-and-monitoring.md).
 
@@ -33,6 +39,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **Compaction**: Merging many small data files into fewer, larger ones so queries open fewer files, a feature of open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Connector (Glue)**: Code that lets Glue communicate with a data store, as a source or a target. Built in, from AWS Marketplace, or custom. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**CPT**: Continued Pre-Training. Training a foundation model further on unlabeled domain text, with the same next-token objective as the original pre-training, before fine-tuning. See [core-concepts.md](ai/core-concepts.md).
 
 **Crawler**: A Glue component that scans data, infers format and schema, and writes tables to the Data Catalog. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -84,6 +92,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 **DynamicFrame**: The Glue ETL library's data structure for messy data, where the same field can be inconsistent across a dataset. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Embedding**: Text converted to a mathematical vector by an embedding model. Semantic search compares a query's embedding to every chunk's embedding. See [core-concepts.md](ai/core-concepts.md).
+
 **EMR managed scaling**: Resizing an EMR on EC2 cluster to its workload, within limits you set. See [emr.md](aws/aws-services/aws-analytics/emr.md).
 
 **Entity resolution**: Matching records that refer to the same real-world entity, such as one customer under different IDs in different systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
@@ -98,6 +108,10 @@ _Avoid:_ record linkage, identity resolution
 **Fan-out**: Delivering one message to many consumers, often SNS to several SQS queues. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
 **Federated query**: Querying an external database in place from Athena or Redshift, without loading it. See [athena.md](aws/aws-services/aws-analytics/athena.md).
+
+**Fine-tuning**: Adjusting a model's parameters with your own training data to improve performance for domain-specific tasks. See [core-concepts.md](ai/core-concepts.md).
+
+**FM**: Foundation model. A large deep learning neural network trained on massive datasets, used as the starting point for new applications and adapted to specific needs. See [core-concepts.md](ai/core-concepts.md).
 
 **Full CDC**: CDC that captures updates and deletes as well as inserts. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
@@ -154,15 +168,23 @@ _Avoid:_ customer 360, single customer view
 
 **PySpark**: Spark's Python API. See [apache-spark.md](data-engineering/apache-spark.md).
 
+**Query rewriter**: An agent that turns the user query into a semantic query for embedding search and a list of keywords for BM25. See [core-concepts.md](ai/core-concepts.md).
+
+**RAG**: Retrieval-augmented generation. Connecting a foundation model to external knowledge sources and retrieving relevant information to ground its responses. See [core-concepts.md](ai/core-concepts.md).
+
 **Raw zone**: The data lake zone that holds data as ingested, in its original format, kept for auditing and reprocessing. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
 
 **Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
+**Reranking**: Passing a larger set of search results, such as 30 chunks, to a reranking model that returns only the truly relevant ones. See [core-concepts.md](ai/core-concepts.md).
+
 **Reverse ETL**: Pushing cleaned data back into operational tools, such as a CRM. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
 **RPU**: Redshift Processing Unit. The capacity unit of Redshift Serverless. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
+
+**RRF**: Reciprocal rank fusion. Fusing the rankings of keyword and semantic search by scoring each chunk with the sum of `1 / (k + rank)` over the rankings it appears in. See [core-concepts.md](ai/core-concepts.md).
 
 **S3 Express One Zone**: The single-AZ S3 storage class with the lowest latency, for the most frequently accessed data. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 

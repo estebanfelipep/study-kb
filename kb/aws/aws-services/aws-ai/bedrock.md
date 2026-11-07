@@ -14,7 +14,7 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 - Evaluations with different FM
 - It is serverless
 	- Amazon Bedrock is fully managed and serverless, so there is no model to deploy and no endpoint to manage. You call the model on demand through the Bedrock Runtime API.
-- Supports fine-tuning (through [sagemaker](sagemaker.md))
+- Supports fine-tuning natively: you give Bedrock labeled training and validation data, and it produces a custom version of a supported model. A fine-tuned model typically needs Provisioned Throughput to run. For lower-level control over training, use [sagemaker](sagemaker.md) instead.
 - RAG
 	- Vector databases through Amazon OpenSearch Serverless
     - Amazon has a frontier model (“Amazon Titan Embeddings”) to embed data

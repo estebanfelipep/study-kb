@@ -10,7 +10,7 @@ Start here. This file lists only the KB's first layer: the subject folders and t
 ## Subjects
 
 - [data-engineering](data-engineering/data-engineering.md): vendor-neutral data engineering concepts: the role, discovery, the pipeline stages, storage, streaming, orchestration, and security and monitoring. Read when: you need a concept that holds regardless of vendor.
-- [ai-engineering](ai/ai-engineering/ai-engineering.md): generative AI and foundation models, regardless of vendor. Read when: you need what generative AI is or how foundation models are adapted.
+- [ai](ai/ai.md): AI engineering regardless of vendor: generative AI, the AI engineer role, foundation models and how they're integrated and adapted, and RAG. Read when: you need what generative AI is, how foundation models are adapted, or how retrieval works.
 - [aws](aws/aws.md): Amazon Web Services: one file per service, and the AWS certification tracks being studied (DEA-C01). Read when: you need how an AWS service works, which one to pick, or exam prep.
 
 ## Reference
