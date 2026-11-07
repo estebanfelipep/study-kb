@@ -1,0 +1,3 @@
+Amazon Polly is a cloud service that converts text into lifelike speech. Amazon Polly can be used to develop applications that increase engagement and accessibility. Amazon Polly supports multiple languages and includes a variety of lifelike voices.
+
+Through Amazon Polly, text is converted to speech and an .mp3 file is generated and saved in Amazon S3. An interactive audio player in the SageMaker AI notebook instance can be used to listen to the audio file.
