@@ -3,7 +3,7 @@
   "monospaceFontFamily": "",
   "translucency": false,
   "showViewHeader": true,
-  "showRibbon": true,
+  "showRibbon": false,
   "nativeMenus": true,
   "accentColor": "#768cf9"
 }
