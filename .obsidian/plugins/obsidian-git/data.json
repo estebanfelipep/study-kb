@@ -27,7 +27,7 @@
   "gitServerPasswordSecret": "",
   "refreshSourceControl": true,
   "basePath": "",
-  "differentIntervalCommitAndPush": false,
+  "differentIntervalCommitAndPush": true,
   "changedFilesInStatusBar": false,
   "limitToVault": false,
   "showedMobileNotice": true,

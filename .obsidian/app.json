@@ -12,5 +12,6 @@
   "readableLineLength": true,
   "strictLineBreaks": false,
   "foldIndent": true,
-  "rightToLeft": false
+  "rightToLeft": false,
+  "tabSize": 3
 }
