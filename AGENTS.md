@@ -55,7 +55,7 @@ Folder and file paths in this section are relative to `kb/`, except `docs/`, whi
 
 ## Obsidian setup
 
-`.obsidian/` and `.claudian/` are partly committed so a fresh checkout opens with the same setup. Before changing them or the plugin rules in `.gitignore`, deciding whether to commit a file under them, or setting up a new machine, read [docs/obsidian-setup/obsidian-setup.md](docs/obsidian-setup/obsidian-setup.md).
+`.obsidian/` and `.claudian/` are partly committed so a fresh checkout opens with the same setup. Before changing them or the plugin rules in `.gitignore`, deciding whether to commit a file under them (`.obsidian/workspace.json` is rewritten constantly and is committed only for a deliberate layout change), or setting up a new machine, read [docs/obsidian-setup/obsidian-setup.md](docs/obsidian-setup/obsidian-setup.md).
 
 ## Scratch files
 

@@ -24,7 +24,9 @@ A plugin's `main.js` is one minified file, 2.6 MB for Claudian. Every plugin upd
 
 ## Things to keep in mind
 
-- **`workspace.json` changes whenever a tab or pane moves.** Commit it only when the layout is worth keeping, not alongside unrelated changes.
+- **`workspace.json` changes whenever a tab or pane moves, so commit it only for a deliberate layout change.** A layout change is a panel added, removed, moved or resized in the sidebars or main area. Everything else in the file is session state and never a reason to commit: open notes and diff tabs, `lastOpenFiles`, the active tab, regenerated ids, and the Claudian `conversationId`. Opening the obsidian-git diff of `workspace.json` rewrites it, so the file looks modified after you inspect it.
+  - **Layout changed on purpose:** close the diff and note tabs first, so the committed layout opens clean on another machine, then commit `workspace.json` on its own with a message that names the layout change.
+  - **Anything else:** leave it out of the commit, and discard it with `git checkout .obsidian/workspace.json` when it is in the way.
 - **Any plugin's `data.json` is committed automatically**, because `.gitignore` allows every `data.json`. Open a new plugin's `data.json` before committing and check it holds no token or API key.
 - **Plugin versions are not pinned.** A new machine installs the current release.
 
