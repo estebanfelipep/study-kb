@@ -74,3 +74,5 @@ Even though Amazon Bedrock and related tools offer a nice UI to set up some of t
 - [genai-poc.md](../../../ai/ai-engineering/genai-poc.md): Model Evaluation implements the PoC's comparative evaluation stage and the three evaluation types described there.
 - [prompt-and-context-engineering.md](../../../ai/ai-engineering/prompt-and-context-engineering.md): prompt management versions the prompts built with those techniques.
 - [kms.md](../aws-security/kms.md): a customer managed KMS key replaces Bedrock's default AWS-owned key for encryption at rest.
+- [evaluation-plan.md](../../../ai/ai-engineering/evals/evaluation-plan.md): Model Evaluation implements the human, model-based and metrics-based evaluation types that the plan's roadmap steps use, and it keeps measuring quality after the PoC.
+- [hill-climb-lifecycle.md](../../../ai/ai-engineering/evals/hill-climb-lifecycle.md): guardrails are the safeguards that the lifecycle's guardrail test set checks before launch.

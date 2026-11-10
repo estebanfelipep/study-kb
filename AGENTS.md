@@ -42,13 +42,21 @@ Folder and file paths in this section are relative to `kb/`, except `docs/`, whi
 - **Images** go in an `images/` subfolder of the folder that uses them, named `<topic>-<yyyy-mm-dd>.<ext>`. Link them from the topic file. Indexes don't list images.
 - **Moves keep indexes true.** Whenever you add, rename, split, or move a file or folder, update the parent folder's index in the same change. When a subject folder is added or renamed, update `kb/index.md` too.
 
+## Pushing back on structural requests
+
+A request that changes where things live (creating, merging, splitting, moving, renaming or deleting a file or folder, reordering an index, or changing a rule in this file) is not an order to execute blindly. Before acting, say whether it improves the KB's structure against the rules above, and why.
+
+- **If you agree,** say so in a line and do it.
+- **If you disagree, or see a better arrangement,** don't do it. Give your opinion and the alternative, then wait. The user's reply decides, and an explicit "do it anyway" is enough to proceed.
+- **Recording what the user shares** is not covered here. The `kb-intake` skill governs it.
+
 ## Writing content
 
 - **Current facts only.** State what is true now. Never write "(previously X)", "(as of…)", or a changelog section. Git history records it ([ADR 0001](docs/adr/0001-git-history-as-changelog.md)). This applies to study progress too: a progress or weak-spots file states where things stand today. Commit messages must say *why* a change was made and where the information came from.
 - **Every link explains the relationship.** This KB is for studying how concepts connect, so a link never stands alone. In a `## Related` section, write one bullet per linked file: `- [file.md](path): <how this relates to it>`. Say the direction and the mechanism, such as "Lambda is triggered by S3 event notifications to process each new object", not "Related services" or "Serverless summary". For a comparison file, give the one-line gist of the difference. For a concept file, say which concept this implements and how. If you can't state the relationship from what the KB says, drop the link.
 - **Link, don't mention.** Refer to another KB file with a relative markdown link (`[glue.md](../aws-services/glue.md)`), not a backticked path. Never use `[[wikilinks]]`. Relative links are what agents follow, what GitHub renders, and what draws the edges in Obsidian's graph.
-- **Show, don't only tell.** This KB is for studying, so prefer formats that can be understood at a glance. Use a **table** for anything compared across the same attributes (zones, services, options), an **ASCII diagram** for a flow or architecture (data moving between stages, zones or services), a **timeline** for anything that happens over time (lifecycle rules, CDC changes), and a **worked example with sample rows** for what data looks like at each step. Keep prose for the reasoning that ties them together.
-- **Keep diagrams within 72 columns.** Keep every line of an ASCII diagram in a code block at 72 characters or fewer. Obsidian's editor can't scroll a code block sideways, so anything wider wraps and breaks the diagram's alignment.
+- **Show, don't only tell.** This KB is for studying, so prefer formats that can be understood at a glance. Use a **table** for anything compared across the same attributes (zones, services, options), a **diagram** for a flow or architecture (data moving between stages, zones or services), as **Mermaid** when boxes, loops or nesting would be hard to read in ASCII and as an **ASCII diagram** otherwise, a **timeline** for anything that happens over time (lifecycle rules, CDC changes), and a **worked example with sample rows** for what data looks like at each step. Keep prose for the reasoning that ties them together.
+- **Keep ASCII diagrams within 72 columns.** Keep every line of an ASCII diagram in a code block at 72 characters or fewer. Mermaid diagrams are exempt, since Obsidian renders them. Obsidian's editor can't scroll a code block sideways, so anything wider wraps and breaks the diagram's alignment.
 - **Sources are links, at the top.** When a file draws on external resources (a YouTube video, an AWS doc, an article), list them in a `## Sources` section right after the file's one-line statement, one line each: `- [Title](url): what it is.` Add each to [links.md](kb/links.md) too. Don't tag notes the user shares directly as a source, and don't add an empty Sources section.
 - **Extract, don't paste.** For an external resource, record the durable facts in your own words and link back to the original. Add the link to [links.md](kb/links.md).
 - **New content arrives through the `kb-intake` skill,** which applies all of the above.

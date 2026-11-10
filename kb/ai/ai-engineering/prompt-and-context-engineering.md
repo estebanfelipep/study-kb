@@ -203,3 +203,5 @@ Validating an agent with memory measures three things:
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): the healthcare PoC there used structured prompts and few-shot examples to extract medical conditions more accurately.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's prompt management saves and versions the prompts written this way.
 - [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples.
+- [evaluation-plan.md](evals/evaluation-plan.md): the memory-agent measures above (precision and recall, Recall@K, task success) are capability metrics, which the plan derives from organizational KPIs, alongside rubrics for the subjective parts of a prompt's output.
+- [rubric-design.md](evals/rubric-design.md): how to write the rubric that grades a prompt's open-ended output, since a prompt change can only be judged against a defined good answer.

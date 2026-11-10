@@ -19,11 +19,15 @@ _Avoid:_ agentic AI, autonomous agent
 
 **Automation**: Running a single repetitive task without manual effort. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**Autorater**: An automated system, typically a foundation model itself, that evaluates, scores or critiques another generative AI application's outputs against a rubric. The same mechanism as an LLM judge. See [rubric-design.md](ai/ai-engineering/evals/rubric-design.md).
+
 **BM25**: A keyword search algorithm: the ranking function search engines use to estimate how relevant documents are to a search query. See [core-concepts.md](ai/core-concepts.md).
 
 **Break-even analysis**: Finding the usage volume that justifies a PoC's one-time development and ongoing operational costs. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
 
 **Cached changes**: Changes made to a source database while a DMS full load runs. DMS stores them and applies them once the full load finishes, before ongoing replication starts. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
+**Carry-back rule**: With extended thinking on and tools in use, every thinking block must go back to the API exactly as it arrived on the next turn. An edited, summarized or dropped block fails its signature check and the request is rejected. See [extended-thinking.md](ai/ai-engineering/extended-thinking.md).
 
 **Catastrophic forgetting**: The main risk of Continued Pre-Training: the model loses general skills. Mixing in general text and evaluating on general tasks guard against it. See [core-concepts.md](ai/core-concepts.md).
 
@@ -92,7 +96,7 @@ _Avoid:_ CoT
 
 **Delta Lake**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
-**Design document**: A written record, made before production code, of an LLM feature's success criteria, failure handling, cost and latency budget and trust boundary. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
+**Design document**: A written record, made before production code, of an LLM feature's success criteria, failure handling, cost and latency budget and trust boundary. See [design-document.md](ai/ai-engineering/design-document.md).
 
 **Detect PII**: The Glue transform that detects sensitive data in a job and masks or removes it. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -123,12 +127,18 @@ _Avoid:_ record linkage, identity resolution
 
 **ETL**: Extract, transform, load. Get data from sources, make it useful, and serve it to stakeholders. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
+**Eval**: A check of a generative system's output against defined criteria. Needed because sampling makes the same prompt return different wording, so exact-text tests are unreliable. Built from the design document's success criteria. See [core-concepts.md](ai/ai-engineering/evals/core-concepts.md), [design-document.md](ai/ai-engineering/design-document.md) and [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
+
+**Evaluation plan**: A structured document that translates organizational KPIs into system goals, target metrics and evaluation tasks, and serves as the interface between stakeholders and engineers. See [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
+
 **Evaluator-optimizer**: A workflow pattern where one LLM generates a response and another evaluates it and gives feedback, in a loop. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ feedback loop
 
 **Executor (Spark)**: A worker process that runs a Spark job's work on its partitions of the data. See [apache-spark.md](data-engineering/apache-spark.md).
 
 **Exemplar**: An example of how the answer should look, included in a prompt. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
+
+**Extended thinking**: The Claude setting that makes the model write out its step-by-step reasoning before the answer, returned as a thinking block. Thinking tokens cost the same as output tokens. See [extended-thinking.md](ai/ai-engineering/extended-thinking.md).
 
 **Fan-out**: Delivering one message to many consumers, often SNS to several SQS queues. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -146,10 +156,16 @@ _Avoid:_ feedback loop
 
 **Glue auto scaling**: Adding and removing a Glue job's workers during a run, up to a maximum you set. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Golden data (evaluation)**: Historical examples, such as refunds and returns handled by human support agents, used to find edge cases and to build a data simulator. Not the same as a golden record. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
+
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
 
 **GTM**: Go-to-market. The plan for taking a solution to its users: launch, adoption and rollout. It is the third part of the Claude Certified Architect course section "Stakeholder Engagement, Lifecycle & GTM", whose discovery lesson is in [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
+
+**Hill climbing**: Improving a generative system step by step against measurable metrics: change the system, re-run the evaluation suite and keep the changes that raise the scores. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
+
+**Human-in-the-loop (HITL)**: A design where a human confirms or intervenes before the system's output takes effect, such as a support rep confirming a chatbot's refund before it is issued. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md) and [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
 **Hybrid search**: Retrieval that combines several relevance signals, such as keyword (BM25) and semantic search, into one ranking. See [core-concepts.md](ai/core-concepts.md).
 
@@ -161,6 +177,8 @@ _Avoid:_ customer 360, single customer view
 
 **Job bookmark**: Glue's record of data a job already processed, so each run handles only new data. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**KPI**: Key performance indicator. An organizational goal measure, such as auto-resolving 30% of return requests within 2 hours, as opposed to a model metric. See [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
+
 **Lake house**: A lake and a warehouse used together: the lake holds everything, and the warehouse serves the curated, high-performance part and can query the lake in place. See [data-lakes-and-warehouses.md](data-engineering/data-lakes-and-warehouses.md).
 
 **Landing zone (data lake)**: An optional first zone for sensitive data such as PII, where it is masked before moving into the raw zone. Not the same as a Control Tower landing zone. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
@@ -169,7 +187,7 @@ _Avoid:_ customer 360, single customer view
 
 **Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
 
-**LLM judge**: A second model call that grades an output against a rubric, asked for strengths, weaknesses and reasoning alongside the score so scores don't drift toward a safe middle number. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
+**LLM judge**: A second model call that grades an output against a rubric, asked for strengths, weaknesses and reasoning alongside the score so scores don't drift toward a safe middle number. Also called an autorater. See [llm-judge.md](ai/ai-engineering/evals/llm-judge.md).
 _Avoid:_ LLM-as-a-judge
 
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
@@ -224,13 +242,15 @@ _Avoid:_ sequential chaining
 
 **RAG**: Retrieval-augmented generation. Connecting a foundation model to external knowledge sources and retrieving relevant information to ground its responses. See [core-concepts.md](ai/core-concepts.md).
 
+**Ragged edge**: The way a generative model's capabilities don't scale uniformly: getting better at one task doesn't guarantee it gets better at closely related ones. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
+
 **Raw zone**: The data lake zone that holds data as ingested, in its original format, kept for auditing and reprocessing. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Read replica**: A second, live RDS database kept in sync with the primary, for spreading read traffic or failover. Not a copy in the lake. See [choosing-ingestion-services.md](aws/aws-data-engineering/choosing-ingestion-services.md).
 
 **Readability modeling**: Telling a model how simple or complex its answer should be, as opposed to structured output, which controls the format. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
-**Reasoning mode**: A per-request setting for whether Claude reasons before answering. Worth the cost on hard multi-step problems, wasted on lookups and classification. Separate from model choice. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+**Reasoning mode**: A per-request setting for whether Claude reasons before answering. Worth the cost on hard multi-step problems, wasted on lookups and classification. Separate from model choice. Extended thinking turns it on. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
@@ -244,6 +264,8 @@ _Avoid:_ conditional branching
 **RPU**: Redshift Processing Unit. The capacity unit of Redshift Serverless. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
 **RRF**: Reciprocal rank fusion. Fusing the rankings of keyword and semantic search by scoring each chunk with the sum of `1 / (k + rank)` over the rankings it appears in. See [core-concepts.md](ai/core-concepts.md).
+
+**Rubric**: A set of guidelines that defines a high-quality output when many valid outputs exist, used to evaluate subjective, open-ended output. Fixed or adaptive. See [rubric-design.md](ai/ai-engineering/evals/rubric-design.md).
 
 **S3 Express One Zone**: The single-AZ S3 storage class with the lowest latency, for the most frequently accessed data. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 
@@ -260,6 +282,8 @@ _Avoid:_ SCD type 2
 
 **Serverless**: Building and running applications without managing infrastructure, paying only while code runs. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
+**Session (agent)**: The entire multi-turn conversation between a user and an agent, which can contain several traces. See [core-concepts.md](ai/ai-engineering/evals/core-concepts.md).
+
 **Shard**: An ordered unit of a Kinesis stream, with about 1 MB/s in and 2 MB/s out. See [kinesis-data-streams.md](aws/aws-services/aws-analytics/kinesis-data-streams.md).
 
 **Shuffle**: Redistributing rows across Spark executors by key, for a join or group by. The expensive part of a job. See [apache-spark.md](data-engineering/apache-spark.md).
@@ -267,6 +291,8 @@ _Avoid:_ SCD type 2
 **Site-to-Site VPN**: An encrypted tunnel over the public internet between an on-premises network and AWS. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 
 **Source endpoint**: The DMS connection to the data store it migrates from. See [dms.md](aws/aws-services/aws-databases/dms.md).
+
+**Span**: A single timed step in an agent trace, such as a model call or a tool call. See [core-concepts.md](ai/ai-engineering/evals/core-concepts.md).
 
 **Spectrum**: Redshift Spectrum, which queries files in S3 from Redshift without loading them. See [redshift.md](aws/aws-services/aws-analytics/redshift.md).
 
@@ -282,11 +308,15 @@ _Avoid:_ SCD type 2
 
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
 
+**Structured outputs**: A Claude API mode that constrains the response to a schema. It adds first-request latency and input tokens, can still return non-matching output on a refusal or truncation, and can't be combined with prefilling. See [structured-outputs.md](ai/ai-engineering/structured-outputs.md).
+
 **Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
 **Target endpoint**: The DMS connection to the data store it migrates to. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **TCO**: Total cost of ownership. Inference, infrastructure, development time and ongoing maintenance, compared against the current process. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
+
+**Thinking block**: The response block that holds Claude's reasoning under extended thinking, placed just ahead of the answer block and carrying a signature. See [extended-thinking.md](ai/ai-engineering/extended-thinking.md).
 
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
@@ -296,11 +326,17 @@ _Avoid:_ SCD type 2
 
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
+**Trace (agent)**: A factual, immutable record of one agent invocation (a single turn): the model inputs, responses and tool calls, in order, built from spans. See [core-concepts.md](ai/ai-engineering/evals/core-concepts.md).
+
 **Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
 
 **Translation table**: The output of a discovery call: one row per item, holding the stakeholder statement, the constraint it implies, the architectural decision it forces, and the assumption to document. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
-**Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
+**Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. See [design-document.md](ai/ai-engineering/design-document.md).
+
+**User simulation**: Directing an AI to impersonate a user and running it against the real agent under evaluation, to generate multi-turn test data. See [synthetic-data-for-agent-evaluation.md](ai/ai-engineering/evals/synthetic-data-for-agent-evaluation.md).
+
+**Vibe testing**: Exploratory, informal review of a prototype's output to observe early behavior, before formal rubrics and metrics exist. See [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
 
 **Virtual private gateway**: The AWS end of a Site-to-Site VPN, attached to a VPC. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 _Avoid:_ VPN gateway

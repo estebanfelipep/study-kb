@@ -1,10 +1,10 @@
-# Design document and LLM judge
+# Design document
 
-This file covers how to decide what "right" means before building an LLM feature, with a design document, and how to calibrate an LLM judge to grade the feature's output.
+This file covers how to decide what "right" means before building an LLM feature, with a design document: success criteria, failure handling, a cost and latency budget, and a trust boundary.
 
 ## Sources
 
-- [Claude Certified Developer: Foundations (Anthropic Skilljar)](https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations): Anthropic's learning path. This file comes from its "Evals and judges" section, so it reflects Claude's own guidance, unlike [genai-poc.md](genai-poc.md), which comes from an AWS course.
+- [Claude Certified Developer: Foundations (Anthropic Skilljar)](https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations): Anthropic's learning path. This file and [llm-judge.md](evals/llm-judge.md) come from its "Evals and judges" section, so it reflects Claude's own guidance, unlike [genai-poc.md](genai-poc.md), which comes from an AWS course.
 
 ## How it relates to the PoC
 
@@ -21,7 +21,7 @@ This file covers how to decide what "right" means before building an LLM feature
   2  model-based evaluation    <--->  LLM judge, calibrated
 ```
 
-The design document sits **before** the build, next to PoC scoping. The judge is one way to run the PoC's evaluation at scale.
+The design document sits **before** the build, next to PoC scoping. The judge, in [llm-judge.md](evals/llm-judge.md), is one way to run the PoC's evaluation at scale.
 
 ## The design document
 
@@ -48,25 +48,11 @@ A useful design document holds four decisions, each stated concretely enough tha
 	- Write down which content the agent reads that someone else can write, and the smallest set of actions and access the feature needs to do its job.
 	- Naming the boundary on paper turns least privilege into a design decision you can enforce with a hook, rather than a setting you remember to add later.
 
-## Calibrating an LLM as a judge
-
-A **judge** is a second model call guided by a clear rubric. What makes it usable is asking it to provide:
-
-- strengths
-- weaknesses
-- reasoning
-
-alongside the score, rather than returning the score alone.
-
-| Judge asked for | Result |
-|---|---|
-| The score alone | Models drift toward a safe middle number, usually around six, regardless of the output's actual quality |
-| Reasoning first, then the score | The score is anchored to something specific |
-
 ## Related
 
-- [genai-poc.md](genai-poc.md): the AWS-sourced PoC method. Its success metrics (phase 3), requirements analysis, responsible AI controls (phase 4) and model-based evaluation each overlap one part of the design document or the judge, as the diagram above maps. It has no equivalent of failure handling, and it only names model-based evaluation without saying how to calibrate it.
+- [genai-poc.md](genai-poc.md): the AWS-sourced PoC method. Its success metrics (phase 3), requirements analysis, responsible AI controls (phase 4) and model-based evaluation each overlap one part of the design document or the judge, as the diagram above maps. It has no equivalent of failure handling, and it only names model-based evaluation without saying how to calibrate it, which [llm-judge.md](evals/llm-judge.md) does.
 - [stakeholder-discovery.md](stakeholder-discovery.md): the step before this one. A discovery call's translation table supplies the design document's budget ("must cost"), trust boundary ("must not do") and proof obligations, so the document records confirmed constraints rather than assumptions.
-- [agent-orchestration.md](agent-orchestration.md): the evaluator-optimizer pattern uses an LLM to evaluate another LLM's output in a loop, the same mechanism as a judge, here used to grade a feature instead of to refine one response.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): its least-privilege IAM and security-from-day-one steps are one way to enforce a trust boundary on AWS.
+- [llm-judge.md](evals/llm-judge.md): the second model call that grades the feature's output against the success criteria written here, calibrated so its scores can be trusted.
 - [claude-api-foundations.md](claude-api-foundations.md): the sampling it describes (same prompt, different wording each run) is why evals and judges exist, and its tier and reasoning-mode choices are what an eval decides.
+- [evaluation-plan.md](evals/evaluation-plan.md): picks up where the success criteria stop. It turns organizational KPIs into system goals and metrics, then into a roadmap that builds toward calibrated autoraters, where this file stops at the single feature.

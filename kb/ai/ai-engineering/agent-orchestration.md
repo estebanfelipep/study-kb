@@ -125,4 +125,6 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
 - [ai-orchestration-on-aws.md](../../aws/aws-ai-engineering/ai-orchestration-on-aws.md): how AWS implements these patterns, with Step Functions, Lambda and EventBridge running model chains, and example pipelines.
 - [genai-poc.md](genai-poc.md): model-based evaluation in a PoC is the evaluator-optimizer idea applied to choosing a model: one LLM judges another's outputs.
 - [stakeholder-discovery.md](stakeholder-discovery.md): discovery decides which work stays in deterministic code (such as routing by a business rule) and which the model does, the same line this file draws between workflows and agents.
-- [design-document-and-llm-judge.md](design-document-and-llm-judge.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores.
+- [design-document.md](design-document.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores.
+- [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): its refund chatbot example pivots from one prompt to subagents and then to a human-in-the-loop design, the workflows-versus-agents decision made under measurement.
+- [rubric-design.md](evals/rubric-design.md): the evaluator in evaluator-optimizer scores against a rubric, and this file covers how to write one that an autorater applies consistently.

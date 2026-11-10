@@ -105,7 +105,7 @@ The **budget constraint**, expressed in terms the stakeholder controls. Take all
 - A **per-interaction cost ceiling**.
 - A **volume forecast**.
 
-These become crucial design constraints. [design-document-and-llm-judge.md](design-document-and-llm-judge.md) sets the same ceilings in its cost and latency budget, before the architecture is chosen.
+These become crucial design constraints. [design-document.md](design-document.md) sets the same ceilings in its cost and latency budget, before the architecture is chosen.
 
 ### 4. What the system must prove
 
@@ -140,7 +140,9 @@ Each item found in discovery becomes **one row**. A row holds the stakeholder st
 
 ## Related
 
-- [design-document-and-llm-judge.md](design-document-and-llm-judge.md): the design document is where discovery's output lands. The cost and latency budget comes from the "must cost" answers, the trust boundary from "must not do", and the translation table is the record that feeds it before anything is built.
+- [design-document.md](design-document.md): the design document is where discovery's output lands. The cost and latency budget comes from the "must cost" answers, the trust boundary from "must not do", and the translation table is the record that feeds it before anything is built.
 - [genai-poc.md](genai-poc.md): the PoC's scoping and requirements analysis (accuracy, latency, cost targets) need the constraints that discovery uncovers. Discovery sets them from the stakeholder's words, the PoC then tests the model against them.
 - [agent-orchestration.md](agent-orchestration.md): the "keep routing in the rule engine, Claude extracts" row is the workflow side of workflows vs agents: a deterministic business rule belongs in code the system controls, not in the model's judgment.
 - [data-discovery.md](../../data-engineering/data-discovery.md): the data-side counterpart. That file finds and understands an organization's data sources. This one elicits the stakeholder's constraints before designing the AI solution.
+- [evaluation-plan.md](evals/evaluation-plan.md): the matching translation on the evaluation side: it turns an organizational KPI into a system goal and a measurable metric, where a discovery call turns a stated preference into a constraint.
+- [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): the lifecycle starts from the same business-language goal (stages 1 and 2: KPI, then agent capabilities). The "human reviews anyway" constraint is the human-in-the-loop redesign in its refund chatbot.

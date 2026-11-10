@@ -44,7 +44,7 @@ Pick one option per row. The rows don't constrain each other.
 | Ceiling hit mid-generation | The output is truncated and the stop reason is `model_context_window_exceeded`. |
 | Sampling | Generation is non-deterministic: the same prompt can return different wording on each run. |
 
-Because of sampling, testing on exact text is unreliable. That is the problem evals are built for, see [design-document-and-llm-judge.md](design-document-and-llm-judge.md).
+Because of sampling, testing on exact text is unreliable. That is the problem evals are built for: see [design-document.md](design-document.md) for the feature-level eval and [evaluation-plan.md](evals/evaluation-plan.md) for building evals from organizational KPIs.
 
 ## Calling Claude: sync, streaming, async, batch
 
@@ -98,6 +98,9 @@ Worked examples of picking between synchronous and batch:
 ## Related
 
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window.
-- [design-document-and-llm-judge.md](design-document-and-llm-judge.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.
+- [extended-thinking.md](extended-thinking.md): extended thinking is how the reasoning-mode lever is turned on per request. It adds a thinking block before the answer, billed at output-token rates.
+- [structured-outputs.md](structured-outputs.md): constraining the response to a schema adds input tokens and has its own stop reasons (`refusal`, `max_tokens`) beside the one here.
+- [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.
 - [genai-poc.md](genai-poc.md): the PoC's model selection and evaluation step is where the cost, latency and capability trade-off between tiers gets decided.
 - [core-concepts.md](../core-concepts.md): the vendor-neutral view of integrating and adapting foundation models, of which calling Claude over its API is one case.
+- [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): the "smallest model that meets your eval" rule is applied there as thresholds that must be met before launch, then hill climbed.
