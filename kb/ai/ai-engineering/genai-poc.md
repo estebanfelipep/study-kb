@@ -132,4 +132,5 @@ Demonstrating business value secures PoC approval and justifies full-scale imple
 - [agent-orchestration.md](agent-orchestration.md): model-based evaluation is the same idea as the evaluator in the evaluator-optimizer pattern, one LLM judging another's output.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): applies this method on Amazon Bedrock, with a healthcare example that used de-identified, HIPAA-compliant data and set out to cut processing time and cost against manual extraction.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's Model Evaluation runs the comparative evaluation and offers all three evaluation types.
+- [stakeholder-discovery.md](stakeholder-discovery.md): how to elicit the constraints (latency, cost, human review, proof obligations) that scoping and requirements analysis then document and test against.
 - [design-document-and-llm-judge.md](design-document-and-llm-judge.md): Anthropic's feature-level counterpart, from a Claude course. Its design document (success criteria, budget, trust boundary, failure handling) maps onto scoping, and its calibrated LLM judge is one way to run model-based evaluation.

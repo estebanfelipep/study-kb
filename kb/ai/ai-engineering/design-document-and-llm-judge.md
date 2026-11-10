@@ -66,6 +66,7 @@ alongside the score, rather than returning the score alone.
 ## Related
 
 - [genai-poc.md](genai-poc.md): the AWS-sourced PoC method. Its success metrics (phase 3), requirements analysis, responsible AI controls (phase 4) and model-based evaluation each overlap one part of the design document or the judge, as the diagram above maps. It has no equivalent of failure handling, and it only names model-based evaluation without saying how to calibrate it.
+- [stakeholder-discovery.md](stakeholder-discovery.md): the step before this one. A discovery call's translation table supplies the design document's budget ("must cost"), trust boundary ("must not do") and proof obligations, so the document records confirmed constraints rather than assumptions.
 - [agent-orchestration.md](agent-orchestration.md): the evaluator-optimizer pattern uses an LLM to evaluate another LLM's output in a loop, the same mechanism as a judge, here used to grade a feature instead of to refine one response.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): its least-privilege IAM and security-from-day-one steps are one way to enforce a trust boundary on AWS.
 - [claude-api-foundations.md](claude-api-foundations.md): the sampling it describes (same prompt, different wording each run) is why evals and judges exist, and its tier and reasoning-mode choices are what an eval decides.

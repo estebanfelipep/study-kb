@@ -98,6 +98,8 @@ _Avoid:_ CoT
 
 **Directory bucket**: The S3 bucket type that S3 Express One Zone stores data in. It lives in one AZ and supports hundreds of thousands of requests per second. See [s3.md](aws/aws-services/aws-general-services/s3.md).
 
+**Discovery call (AI)**: A structured elicitation with a stakeholder: listen to the business goal, translate it into requirements, assumptions and constraints, and write them down before the design starts. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
+
 **DLQ**: Dead-letter queue. Holds messages that failed processing too many times, so they don't block the queue. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 
 **DPU**: Data processing unit. The capacity and billing unit of Glue jobs. See [glue.md](aws/aws-services/aws-analytics/glue.md).
@@ -146,6 +148,8 @@ _Avoid:_ feedback loop
 
 **Golden record**: The single trusted, merged record for one entity, built by matching and survivorship rules. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 _Avoid:_ customer 360, single customer view
+
+**GTM**: Go-to-market. The plan for taking a solution to its users: launch, adoption and rollout. It is the third part of the Claude Certified Architect course section "Stakeholder Engagement, Lifecycle & GTM", whose discovery lesson is in [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
 **Hybrid search**: Retrieval that combines several relevance signals, such as keyword (BM25) and semantic search, into one ranking. See [core-concepts.md](ai/core-concepts.md).
 
@@ -293,6 +297,8 @@ _Avoid:_ SCD type 2
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 
 **Transactional data lake**: A data lake whose tables use an open table format, so they support transactions, record updates and deletes. See [open-table-formats.md](data-engineering/open-table-formats.md).
+
+**Translation table**: The output of a discovery call: one row per item, holding the stakeholder statement, the constraint it implies, the architectural decision it forces, and the assumption to document. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
 **Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. See [design-document-and-llm-judge.md](ai/ai-engineering/design-document-and-llm-judge.md).
 
