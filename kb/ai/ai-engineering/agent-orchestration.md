@@ -1,6 +1,6 @@
 # Agent orchestration
 
-This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, agent memory scopes, and Skills for carrying instructions across tasks, including how each runtime loads them.
+This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns and what orchestrator-workers costs in tokens, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, agent memory scopes, and Skills for carrying instructions across tasks, including how each runtime loads them.
 
 ## Sources
 
@@ -136,6 +136,20 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
                 └──── feedback (rejected) ───┘
 ```
 
+### What orchestrator-workers costs
+
+Fanning out buys parallel exploration and pays for it in tokens. Suppose a single agent answers a research question in about 10,000 tokens. The orchestrator-worker version runs a lead plus four subagents, each reading its own slice of sources in its own context, then the lead synthesizes their returns. Anthropic reports that five contexts plus the synthesis pass use about 15 times the tokens, so the same question costs on the order of 150,000.
+
+| | Single agent | Orchestrator-workers |
+|---|---|---|
+| Token cost | Paid once per step | Multiplied by the number of subagents (about 15x in Anthropic's reported case), on both input and output, since each subagent gets its own context and generates its own output |
+| Latency | One sequence of steps | Parallel subagents cut wall-clock time on independent work but add coordination time to plan and compile |
+| Error rate | One set of failure points | More agents mean more failure points, and each subagent needs the same retry and fallback handling as a single agent |
+
+- **Use it only when the task needs parallel exploration:** the multiplier pays off when the work genuinely splits into independent parts, not for tightly coupled work a single agent handles for a fraction of the cost.
+- **Mix models:** use a more capable model as the lead and cheaper models for the subagents, so you don't pay top-tier rates in every parallel context.
+- **Budget it on paper first:** the design document's cost and latency budget is where the multiplier gets checked against the ceiling ([design-document.md](design-document.md)).
+
 ## Wiring paths: who runs the loop
 
 Once you've chosen an agent, there are three ways to wire it, on a spectrum of **how much infrastructure you own**:
@@ -219,7 +233,7 @@ A skill is portable, but "runs everywhere" is something you design for. The same
 - [ai-orchestration-on-aws.md](../../aws/aws-ai-engineering/ai-orchestration-on-aws.md): how AWS implements these patterns, with Step Functions, Lambda and EventBridge running model chains, and example pipelines.
 - [genai-poc.md](genai-poc.md): model-based evaluation in a PoC is the evaluator-optimizer idea applied to choosing a model: one LLM judges another's outputs.
 - [stakeholder-discovery.md](stakeholder-discovery.md): discovery decides which work stays in deterministic code (such as routing by a business rule) and which the model does, the same line this file draws between workflows and agents.
-- [design-document.md](design-document.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores.
+- [design-document.md](design-document.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores. Its cost and latency budget is where the orchestrator-workers token multiplier is checked against the ceiling, and its trust boundary and ZDR scoping are why the human-in-the-loop checkpoints and the Managed Agents hard stop exist.
 - [tool-use.md](tool-use.md): an agent picks tools from their descriptions, so overlapping descriptions send it down the wrong path. Tool use covers the exclusion-sentence fix and MCP servers, which supply an agent's toolset ready-made.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): a subagent handoff gives a subtask its own context window and returns a short summary, keeping a long agent run within budget. It also covers compaction and how to evaluate a memory-enabled agent; the difference between compaction and summarized memory is in the agent memory section above.
 - [claude-api-foundations.md](claude-api-foundations.md): the Messages API wiring path is the raw call patterns covered there (sync, streaming, batch), with your code running the loop around them.

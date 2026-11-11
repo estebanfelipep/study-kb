@@ -34,6 +34,12 @@ Pick one option per row. The rows don't constrain each other.
 
 **Rule of thumb:** pick the smallest model, the simplest reasoning and the simplest prompting that meet your eval, and add capability only where the eval says you need it.
 
+There is no globally correct model, only the right one for a task at a quality standard, so make the trade-off measurable instead of reaching for the most capable model by default:
+
+- **Start with Sonnet.**
+- **Move up to Opus** only when an eval shows Sonnet missing the quality bar.
+- **Move down to Haiku** only when an eval shows the quality drop is acceptable for the task.
+
 ## Tokens, the context window and sampling
 
 | Concept | What to know |
@@ -61,6 +67,8 @@ You send the request and wait for the complete response to come back in one piec
 The response is sent in pieces as the model generates it, and your code reassembles the pieces into the final message. Claude exposes streaming over the same HTTP connection using server-sent events.
 
 - **Use it when:** the response is long or a user is watching. Output appears immediately instead of after a blank-screen wait.
+- **Perceived latency:** streaming returns the first token as soon as it is ready, so a reply that starts in 300 ms feels faster than the same content delivered as one block after two seconds, even with identical total generation time.
+- **Streaming with tool use needs extra handling:** a non-streaming response arrives as one object with `tool_use` blocks directly accessible, but a stream is a sequence of server-sent events and a `tool_use` block accumulates across several delta events before it is complete. Consuming the stream without accounting for that gives partial tool inputs and silent downstream failures.
 
 #### When the stream stops early
 
@@ -256,7 +264,7 @@ Prefilling starts the response for Claude. A schema constrains the **whole** res
 
 - [tool-use.md](tool-use.md): strict tool use validates the arguments of the tools whose schemas and descriptions that file covers writing.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window: compaction, the four strategies for staying in budget, prompt caching and token counting. Its "give a hint to complete" tip, starting the answer for the model, is the prefilling pattern that structured outputs can't be combined with. Its readability modeling is the contrast case: it controls how hard the answer is to read, not its format.
-- [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.
+- [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough, with the levers (model, context size, tool calls, streaming, caching) that budget is tuned with.
 - [genai-poc.md](genai-poc.md): the PoC's model selection and evaluation step is where the cost, latency and capability trade-off between tiers gets decided.
 - [core-concepts.md](../core-concepts.md): the vendor-neutral view of integrating and adapting foundation models, of which calling Claude over its API is one case.
 - [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): the "smallest model that meets your eval" rule is applied there as thresholds that must be met before launch, then hill climbed.

@@ -1,6 +1,6 @@
 # The hill-climb lifecycle
 
-This file covers what an eval is, the span, trace and session an agent leaves behind, and the six-stage development lifecycle for generative and agentic systems in Google's hill-climb framework: it builds the system backward from organizational KPIs, then improves it by hill climbing against measurements.
+This file covers what an eval is, the span, trace and session an agent leaves behind, how tests and traces complement each other, and the six-stage development lifecycle for generative and agentic systems in Google's hill-climb framework: it builds the system backward from organizational KPIs, then improves it by hill climbing against measurements.
 
 ## What an eval is
 
@@ -27,6 +27,19 @@ An **eval** is a check of a generative system's output against defined criteria.
   |  +-------------------+   +----------------+              |
   +----------------------------------------------------------+
 ```
+
+### Tests find the failure, a trace locates it
+
+A test tells you a failure exists but not which step caused it. A trace adds that: it shows which step produced the bad result, which turns a day of investigation into a short fix.
+
+| Test | What it catches |
+|---|---|
+| Unit | One component on its own |
+| Functional | One feature behaving as specified |
+| Integration | The handoff between components |
+| End-to-end | The whole flow, from input to final output |
+
+Match the test to the failure: most silent failures hide at the integration seam, where two components that each pass their own tests hand off to each other.
 
 ## Why measure
 
@@ -154,7 +167,7 @@ The team runs a **post-launch evaluation plan** on the live system:
 - [evaluation-plan.md](evaluation-plan.md): builds on this lifecycle. It adds the KPI-to-system-goal-to-metric translation behind stages 1 and 2, a draft plan with thresholds, a nine-step roadmap for building the evaluation that stages 4 to 6 use, and how to simulate the test data of stages 4 and 5.
 - [rubrics-and-llm-judge.md](rubrics-and-llm-judge.md): how to write the helpfulness and tone rubrics that stage 4 validates with humans and stage 5 refines, and the LLM judge those rubrics are scaled up with.
 - [stakeholder-discovery.md](../stakeholder-discovery.md): the same translation from business words to constraints that stage 1 and 2 do, here ending in measurable metrics and there in design requirements.
-- [design-document.md](../design-document.md): the design document fixes success criteria before the build, and its calibrated LLM judge is the same mechanism as the autorater used here.
+- [design-document.md](../design-document.md): the design document fixes success criteria before the build, and its calibrated LLM judge is the same mechanism as the autorater used here. Its cost and latency budget instruments tokens, latency and error rate per call, and a trace is where those per-step numbers come from.
 - [genai-poc.md](../genai-poc.md): the PoC is a time-boxed validation before launch, with success metrics and three evaluation types. This lifecycle derives its metrics from KPIs and continues past launch with monitoring and a failure loop.
 - [bedrock.md](../../../aws/aws-services/aws-ai/bedrock.md): Bedrock Guardrails are safeguards on model inputs and outputs, and the manual guardrail test set with a 100% pass rate is the launch check for safeguards of this kind. Bedrock's Model Evaluation covers the three evaluation types the stages draw on.
 - [agent-orchestration.md](../agent-orchestration.md): the stage 3 pivot to subagents and a human-in-the-loop step is the workflows-versus-agents decision applied to the refund and return flows.

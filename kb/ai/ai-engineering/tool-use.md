@@ -1,6 +1,6 @@
 # Tool use
 
-This file covers how Claude chooses among tools by their descriptions, what to do when descriptions overlap, and MCP, the standard that supplies ready-made tool definitions from a server: what a server exposes, its transports, how to set one up in Claude Code (transport, scope, config location), how it authenticates, and the context cost of connecting one.
+This file covers how Claude chooses among tools by their descriptions, what to do when descriptions overlap, how a failing tool should report back, and MCP, the standard that supplies ready-made tool definitions from a server: what a server exposes, its transports, how to set one up in Claude Code (transport, scope, config location), how it authenticates, and the context cost of connecting one.
 
 ## Description-based routing
 
@@ -18,6 +18,10 @@ If the descriptions can't be cleanly separated even with exclusion conditions, t
 |---|---|
 | Two descriptions both fit the same request | Add one sentence to each naming when not to call it |
 | Exclusion sentences still don't separate them | Merge them into one tool with a type parameter |
+
+## When a tool fails
+
+When your code runs a tool and it fails, return the result to Claude with `is_error` explicitly set to `true`, never as a silent empty result. With the error returned, the model can try a different approach, ask for clarification or stop. A tool that drops its own error and returns nothing produces a confident but wrong answer downstream, because the model reads the empty result as data. The retriable-vs-terminal sorting of errors is in [design-document.md](design-document.md).
 
 ## Model Context Protocol (MCP)
 
@@ -110,6 +114,7 @@ Two habits make credential rotation cheaper:
 
 ## Related
 
+- [design-document.md](design-document.md): its failure handling sorts errors into retriable and terminal and explains why the `is_error` flag matters; its trust boundary covers tool output as an injection vector and least privilege for the credentials an MCP server holds.
 - [agent-orchestration.md](agent-orchestration.md): an agent is an LLM using tools in a loop and picks them from their descriptions, which is why that file says toolsets must be designed clearly. An MCP server is one way to supply the toolset without writing it.
 - [claude-api-foundations.md](claude-api-foundations.md): Streamable HTTP's optional SSE stream is the same server-sent events mechanism that its streaming call pattern uses. Its strict tool use, one of the structured-outputs forms, validates the arguments Claude passes to the tools defined here.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): connected servers' tool definitions spend context-window budget, which that file's strategies for staying in budget manage.

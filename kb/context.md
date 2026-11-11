@@ -185,6 +185,8 @@ _Avoid:_ customer 360, single customer view
 
 **Interactive session (Glue)**: On-demand interactive access to a remote Spark runtime, from a notebook or IDE. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Jailbreak**: An attempt to get a model to ignore its own safety constraints. Unlike prompt injection, which hijacks an application's instructions. See [design-document.md](ai/ai-engineering/design-document.md).
+
 **Job bookmark**: Glue's record of data a job already processed, so each run handles only new data. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **KPI**: Key performance indicator. An organizational goal measure, such as auto-resolving 30% of return requests within 2 hours, as opposed to a model metric. See [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
@@ -195,7 +197,7 @@ _Avoid:_ customer 360, single customer view
 
 **Lazy evaluation**: Spark transformations only build a plan; nothing runs until an action, such as writing output. See [apache-spark.md](data-engineering/apache-spark.md).
 
-**Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md).
+**Least privilege**: Granting only the permissions a role needs. See [iam.md](aws/aws-services/aws-identity/iam.md). For an AI agent, the control that bounds the damage when it is steered by prompt injection: see [design-document.md](ai/ai-engineering/design-document.md).
 
 **LLM judge**: A second model call that grades an output against a rubric, asked for strengths, weaknesses and reasoning alongside the score so scores don't drift toward a safe middle number. Also called an autorater. See [rubrics-and-llm-judge.md](ai/ai-engineering/evals/rubrics-and-llm-judge.md).
 _Avoid:_ LLM-as-a-judge
@@ -256,6 +258,8 @@ _Avoid:_ parallel processing
 **Prompt chaining**: A workflow pattern where each LLM call processes the previous call's output, in a fixed sequence. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ sequential chaining
 
+**Prompt injection**: Instructions hidden in content an agent reads but did not write (a web page, document, email or tool result) that the model may treat as commands, because it cannot tell them from your own prompt. Bounded by least privilege and hooks. See [design-document.md](ai/ai-engineering/design-document.md).
+
 **Pruning (context)**: Jumping back to an earlier message and continuing from there, removing the conversation that came after. Used after an unproductive path. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
@@ -279,6 +283,8 @@ _Avoid:_ sequential chaining
 **Replication instance**: The managed server that runs DMS tasks, reading from a source endpoint and writing to a target endpoint. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Reranking**: Passing a larger set of search results, such as 30 chunks, to a reranking model that returns only the truly relevant ones. See [core-concepts.md](ai/core-concepts.md).
+
+**Retriable error**: A failure caused by something transient (a rate limit, a dropped connection, momentary overload), so waiting and sending the same request again plausibly works. Handled with exponential backoff, a cap and a retry budget. See [design-document.md](ai/ai-engineering/design-document.md).
 
 **Reverse ETL**: Pushing cleaned data back into operational tools, such as a CRM. See [data-engineer-role.md](data-engineering/data-engineer-role.md).
 
@@ -350,6 +356,8 @@ _Avoid:_ SCD type 2
 
 **TCO**: Total cost of ownership. Inference, infrastructure, development time and ongoing maintenance, compared against the current process. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
 
+**Terminal error**: A failure caused by the request itself (a malformed body, an expired key, a nonexistent model name), so retrying the identical request fails identically. Needs a named fallback, not a retry. See [design-document.md](ai/ai-engineering/design-document.md).
+
 **Thinking block**: The response block that holds Claude's reasoning under extended thinking, placed just ahead of the answer block and carrying a signature. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Time travel**: Querying a table as it was at a past snapshot, a feature of open table formats such as Iceberg. See [open-table-formats.md](data-engineering/open-table-formats.md).
@@ -389,6 +397,8 @@ _Avoid:_ VPN gateway
 
 **Workflow (AI)**: An agentic system where code orchestrates LLMs and tools through predefined steps; the code, not the LLM, is in control. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ model chaining
+
+**ZDR**: Zero data retention. A provider-side commitment not to retain customer data, whose eligibility varies by model and platform and must be confirmed at scoping time for regulated customers. See [design-document.md](ai/ai-engineering/design-document.md).
 
 **Zero-ETL**: Querying or replicating data without building ETL pipelines. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
