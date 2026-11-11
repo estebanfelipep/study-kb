@@ -3,6 +3,22 @@
 - Graphic representation of the relationship between some of these concepts
 	![](images/core-concepts-2026-11-07.png)
 
+## Generative AI
+
+Generative AI produces original content including text, images, audio, video, and code based on patterns learned from training data. Foundation models serve as the underlying technology, providing general intelligence that you can adapt for specific use cases through techniques like fine-tuning, prompt engineering, and retrieval-augmented generation.
+
+## The role: AI engineer/generative AI engineer
+
+- Sources
+	- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881)
+
+| Responsibility | What it involves |
+|---|---|
+| Solution architecture and design | Designing solutions that integrate foundation models with existing systems and data sources: evaluating architectural patterns, selecting models, and planning deployment strategies that meet business requirements and technical constraints |
+| Integration and implementation | Implementing solutions with services like Amazon Bedrock, Amazon SageMaker AI, and supporting infrastructure: configuring APIs, setting up data pipelines, and implementing secure, scalable deployments |
+| Performance optimization | Monitoring and optimizing applications for performance, cost, and accuracy: tuning model parameters, implementing caching strategies, and optimizing resource utilization across the stack |
+| Security and compliance | Verifying that solutions meet security requirements and regulatory compliance standards: access controls, data encryption, and audit logging while maintaining data privacy and governance |
+
 ## Foundation models
  
  Foundation models are **large deep learning neural networks** trained on massive datasets that have changed how you approach machine learning. Rather than develop AI from scratch, you use foundation models as starting points to develop ML models that power new applications more quickly and cost-effectively.

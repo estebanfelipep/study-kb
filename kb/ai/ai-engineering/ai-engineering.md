@@ -1,34 +1,20 @@
-- Resources
-	- [AWS Generative AI Developer Advanced Learning Plan (includes Labs)](https://skillbuilder.aws/learning-plan/BGTH16YCTU/aws-generative-ai-developer-advanced-learning-plan-includes-labs/ZDN46CX881)
-## Generative AI
+# ai-engineering — index
 
-Generative AI produces original content including text, images, audio, video, and code based on patterns learned from training data. Foundation models serve as the underlying technology, providing general intelligence that you can adapt for specific use cases through techniques like fine-tuning, prompt engineering, and retrieval-augmented generation.
+This folder covers building AI-powered systems with Claude: the API, prompts and context, tools, agents, scoping and designing a feature, and evaluating it.
 
-## The role: AI engineer/generative AI engineer 
+## How to read this folder
 
-### Responsibilities
-
-- **Solution architecture and design**
-	- As a generative AI developer, you design comprehensive solutions that integrate foundation models with existing systems and data sources. You evaluate different architectural patterns, select appropriate models, and plan deployment strategies that meet business requirements and technical constraints.
-
-- **Integration and implementation**
-	- You implement generative AI solutions by using AWS services like Amazon Bedrock, Amazon SageMaker AI, and supporting infrastructure services. This includes configuring APIs, setting up data pipelines, and implementing secure, scalable deployments.
-
-- **Performance optimization**
-	- You monitor and optimize generative AI applications for performance, cost, and accuracy. This involves tuning model parameters, implementing caching strategies, and optimizing resource utilization across the solution stack.
-
-- **Security and compliance**
-	- You verify that generative AI solutions meet security requirements and regulatory compliance standards. This includes implementing proper access controls, data encryption, and audit logging while maintaining data privacy and governance.
+- **Before:** [core-concepts.md](../core-concepts.md), for what generative AI is, what the AI engineer role involves, and how foundation models and RAG work.
+- **Order:** the Claude API and prompting first, then tools and agents, then taking a feature from PoC through discovery to a design document, and evals last for measuring it.
+- **After:** [aws-ai-engineering](../../aws/aws-ai-engineering/aws-ai-engineering.md), for how AWS services orchestrate model chains.
 
 ## Files (in reading order)
 
-- [claude-api-foundations.md](claude-api-foundations.md): from Anthropic's Claude course: the four model tiers, model choice vs reasoning mode vs prompting mode, tokens, the context window and sampling, and the sync, streaming, async and Message Batches call patterns. Read when: you need which Claude model or reasoning mode to pick, or how to call the API for a given workload.
+- [claude-api-foundations.md](claude-api-foundations.md): from Anthropic's Claude course: the four model tiers, model choice vs reasoning mode vs prompting mode, tokens, the context window and sampling, the sync, streaming, async and Message Batches call patterns, how to handle a stream that stops early, and the settings that change the response: extended thinking (the thinking block, its cost and the carry-back rule) and structured outputs (their trade-offs and when they still fail to parse). Read when: you need which Claude model or reasoning mode to pick, how to call the API for a given workload, whether to turn thinking on, what structured outputs cost, or why a tool-using request with thinking was rejected.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): how prompt engineering (writing the prompt) differs from context engineering (assembling the context on each turn). Prompt structure and anatomy, system prompts, role prompting, zero-, one- and few-shot, chain-of-thought and prompt tips; the limits of long contexts, compaction strategies and triggers, the four strategies for staying in budget (pruning, compaction, clearing, subagent handoffs), prompt caching, token counting, and evaluating a memory-enabled agent. Read when: you need how to write a prompt that gets better output without changing the model, which strategy fits a session near the context ceiling, or how to cut the cost of a repeated prefix.
-- [structured-outputs.md](structured-outputs.md): the trade-offs of constraining a Claude response to a schema: first-request latency, extra input tokens, refusal and truncation still returning non-matching output, and no combining with prefilling. Read when: you need what structured outputs cost or when they still fail to parse.
-- [extended-thinking.md](extended-thinking.md): extended thinking in the Claude API: the thinking block, what it costs, and the carry-back rule that thinking blocks must return to the API unchanged when tools are used. Read when: you need whether to turn thinking on, or why a tool-using request with thinking was rejected.
 - [tool-use.md](tool-use.md): how Claude picks a tool by its description, the fix when descriptions overlap (an exclusion sentence, or merging into one tool with a type parameter), and MCP: a server supplies ready-made tool definitions over stdio (local) or Streamable HTTP (remote). Read when: Claude calls the wrong tool, you're writing tool descriptions, or you're deciding between hand-written tools and an MCP server.
 - [agent-orchestration.md](agent-orchestration.md): agentic systems: workflows vs agents, the agent loop, and the five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), with use cases. Read when: you need whether a task calls for a workflow or an agent, or which workflow pattern fits.
 - [genai-poc.md](genai-poc.md): building a generative AI proof of concept: scoping, model selection and evaluation, performance testing, and value calculation. Read when: you need how to scope, evaluate or justify a generative AI PoC.
 - [stakeholder-discovery.md](stakeholder-discovery.md): from Anthropic's Claude Certified Architect course: running a discovery call as structured elicitation (listen, translate, write down), turning stated preferences into constraints, the four requirement questions, and the translation table. Read when: you need how to turn a stakeholder's business-language request into requirements, assumptions and design constraints.
 - [design-document.md](design-document.md): from Anthropic's Claude course: the design document (success criteria, failure handling, cost and latency budget, trust boundary). Read when: you need what to write down before building an LLM feature.
-- [evals/](evals/evals.md): evaluating generative and agentic systems: what an eval is, traces and sessions, the hill-climb lifecycle from organizational KPIs, the evaluation plan, rubrics, the LLM judge (autorater) and synthetic test data. Read when: you need how to measure, grade or monitor an AI system, or how to turn a business KPI into metrics.
+- [evals/](evals/evals.md): evaluating generative and agentic systems: what an eval is, traces and sessions, the hill-climb lifecycle from organizational KPIs, the evaluation plan with synthetic test data, and rubrics with the LLM judge (autorater). Read when: you need how to measure, grade or monitor an AI system, or how to turn a business KPI into metrics.

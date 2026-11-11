@@ -1,6 +1,6 @@
 # Claude model family and API foundations
 
-This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, and the four ways to call it: synchronous, streaming (including what to do when a stream stops early), async and batch.
+This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, the four ways to call it (synchronous, streaming including what to do when a stream stops early, async and batch), and the settings that change the response: extended thinking and structured outputs.
 
 ## Sources
 
@@ -29,7 +29,7 @@ Pick one option per row. The rows don't constrain each other.
 | Reasoning mode | Off, on (reason before answering) | Per request |
 | Prompting mode | Zero-shot, one-shot, multi-shot | Per request |
 
-- **Reasoning mode:** whether the model reasons before it answers. It earns its cost on hard, multi-step problems and is wasted on lookups and classification.
+- **Reasoning mode:** whether the model reasons before it answers. It earns its cost on hard, multi-step problems and is wasted on lookups and classification. [Extended thinking](#extended-thinking) is how it is turned on per request.
 - **Prompting mode:** the levers trade against model choice. A more capable model often succeeds zero-shot on a task where a smaller model needs a few examples to match the structure, so adding examples can let a cheaper model do the job. The modes themselves are in [prompt-and-context-engineering.md](prompt-and-context-engineering.md).
 
 **Rule of thumb:** pick the smallest model, the simplest reasoning and the simplest prompting that meet your eval, and add capability only where the eval says you need it.
@@ -118,11 +118,104 @@ Worked examples of picking between synchronous and batch:
                                       no  -> synchronous / async
 ```
 
+## Settings that change the response
+
+Two per-request settings change what comes back, on different axes: thinking adds a reasoning block ahead of the answer, while structured outputs constrain the answer itself.
+
+### Extended thinking
+
+This is the Claude setting that makes the model write out its reasoning before it answers.
+
+Prompting techniques shape what Claude produces. Extended thinking shapes **how much work Claude does before it answers**. With it on, the model "thinks out loud": it writes its step-by-step reasoning first, then gives the final answer. Your job is to decide when that extra work is worth the cost, and to handle the reasoning the API sends back.
+
+It is the API-level form of the reasoning-mode lever above.
+
+#### What comes back: a thinking block
+
+The reasoning returns as its own **thinking block** in the response, positioned just ahead of the block that holds the actual answer.
+
+```
+  response content
+ +------------------------------------------------------+
+ | 1. thinking block   step-by-step reasoning + signature|
+ +------------------------------------------------------+
+ | 2. text block       the final answer                  |
+ +------------------------------------------------------+
+```
+
+#### Cost
+
+Thinking tokens cost the same as output tokens. Running a simple task at high effort therefore pays for accuracy the task doesn't need.
+
+| Task | Thinking worth it? | Why |
+|---|---|---|
+| Hard, multi-step problem | Yes | The extra reasoning is what improves the answer |
+| Lookup or classification | No | The tokens are billed as output but add no accuracy |
+
+#### The carry-back rule: thinking blocks must return unchanged
+
+When extended thinking is on **and** the conversation uses tools, every thinking block received must go back to the API **exactly as it arrived** on the next turn.
+
+Each block carries a **signature** that confirms the reasoning wasn't tampered with. If you edit, summarize or drop the block, the signature no longer matches and the API rejects the request.
+
+```
+  turn N (response)              turn N+1 (your request)
+ +------------------+           +----------------------------+
+ | thinking + sig   |  ------>  | thinking + sig  (unchanged)|
+ | tool_use         |           | tool_use                   |
+ +------------------+           | tool_result                |
+                                +----------------------------+
+
+  edited / summarized / dropped thinking block
+     -> signature mismatch -> request rejected
+```
+
+| What you do with the block | Result |
+|---|---|
+| Send it back exactly as received | Accepted |
+| Edit it | Rejected: signature stops matching |
+| Summarize it | Rejected: signature stops matching |
+| Drop it | Rejected |
+
+### Structured outputs
+
+With structured outputs on, the API constrains the response to a schema. It costs a slower first request, more input tokens, no guarantee of success, and no combining with prefilling. The injected format prompt is billed as input tokens, which the token metering above counts.
+
+#### Trade-offs
+
+| Trade-off | What happens | What to do about it |
+|---|---|---|
+| First request on a new schema is slower | The API compiles the schema into a grammar before it can constrain output, which adds latency to the first call. Compiled grammars are cached for 24 hours from last use | Keep schemas stable. Steady traffic on one schema pays the cost once. A workload that changes schemas constantly pays it repeatedly |
+| Input token count rises | The API adds a system prompt describing the expected format, billed like any other input token | Small per call, but count it when estimating cost at volume |
+| A guaranteed schema is not a guaranteed success | A refusal or a truncation still returns output that doesn't match | Check `stop_reason` instead of assuming every response parses |
+| It doesn't combine with message prefilling | JSON outputs and prefilling the assistant message are incompatible | Pick the one that fits the task |
+
+#### A guaranteed schema is not a guaranteed success
+
+Two cases still return output that doesn't match the schema:
+
+| Case | What happened | `stop_reason` |
+|---|---|---|
+| Refusal | The model declined for safety reasons | `refusal` |
+| Truncation | The response hit the `max_tokens` limit and stopped mid-structure | `max_tokens` |
+
+```
+  response arrives
+        |
+        v
+  stop_reason?
+    refusal     -> handle the refusal, nothing to parse
+    max_tokens  -> output is cut mid-structure, don't parse
+    otherwise   -> parse against the schema
+```
+
+#### Prefilling vs a schema
+
+Prefilling starts the response for Claude. A schema constrains the **whole** response. A single request can't do both, so choose by task: prefill to steer how an answer begins, structured outputs to guarantee its shape.
+
 ## Related
 
-- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window: compaction, the four strategies for staying in budget, prompt caching and token counting.
-- [extended-thinking.md](extended-thinking.md): extended thinking is how the reasoning-mode lever is turned on per request. It adds a thinking block before the answer, billed at output-token rates.
-- [structured-outputs.md](structured-outputs.md): constraining the response to a schema adds input tokens and has its own stop reasons (`refusal`, `max_tokens`) beside the one here.
+- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window: compaction, the four strategies for staying in budget, prompt caching and token counting. Its "give a hint to complete" tip, starting the answer for the model, is the prefilling pattern that structured outputs can't be combined with. Its readability modeling is the contrast case: it controls how hard the answer is to read, not its format.
 - [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.
 - [genai-poc.md](genai-poc.md): the PoC's model selection and evaluation step is where the cost, latency and capability trade-off between tiers gets decided.
 - [core-concepts.md](../core-concepts.md): the vendor-neutral view of integrating and adapting foundation models, of which calling Claude over its API is one case.

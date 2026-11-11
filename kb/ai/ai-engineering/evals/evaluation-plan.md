@@ -1,6 +1,6 @@
 # Evaluation plan
 
-This file covers the evaluation plan, the document that translates organizational KPIs into system goals and measurable metrics, how to build one, a short worked example, and a nine-step roadmap to implement it. 
+This file covers the evaluation plan, the document that translates organizational KPIs into system goals and measurable metrics, how to build one, a short worked example, a nine-step roadmap to implement it, and how to simulate test data for step 8.
 
 It builds on [hill-climb-lifecycle.md](hill-climb-lifecycle.md), which owns the process and the refund chatbot walk-through.
 
@@ -98,13 +98,58 @@ The targeted KPIs and the agent capabilities of the refund chatbot are the outpu
 
 The deterministic metrics come first as cheap, fast early quality gates. Rubrics and autoraters then cover the subjective output those gates can't check.
 
+## Simulating data (step 8)
+
+Step 8 of the roadmap fills gaps in the evaluation datasets with synthetic data. A simulated user conversation with the agent is a session built from one trace per turn, both defined in [hill-climb-lifecycle.md](hill-climb-lifecycle.md). The data simulator itself is built in that lifecycle's Evaluate stage from golden data, and the baseline test in Optimize runs on simulated data.
+
+### Why real online data isn't enough
+
+Online data is essential for a comprehensive evaluation, but capturing real online data alone to fill that need falls short:
+
+- **Privacy and compliance barriers:** there are policies around using real user data.
+- **Cold start scenarios:** a new system has no real data yet.
+- **Absent edge cases:** the real data doesn't cover them.
+- **Safety, security and adversarial testing:** real online data alone doesn't cover these either.
+
+Testing an agent with **synthetic data** fills these gaps.
+
+### Two kinds of data simulation
+
+| Kind | How it works |
+|---|---|
+| Single turn | Prompt a model to generate prompts, then feed them into your system one at a time |
+| User simulation | Direct an AI to impersonate a user, and run it against the actual system or agent you are building |
+
+```
+  single turn: each generated prompt is sent on its own
+
+   generator model --> prompt 1 --> system under test --> response 1
+                   --> prompt 2 --> system under test --> response 2
+
+  user simulation: two agents talk to each other
+
+   simulated user --- message ---> system under test
+                  <--- reply ----
+                  --- message ---> (the real agent being built)
+                  <--- reply ----
+```
+
+The test input is itself an agent: it is given instructions to impersonate a user, then used against the actual agent under evaluation.
+
+### Keeping simulated data trustworthy
+
+In the refund chatbot example, the team:
+
+- builds the data simulator from golden historical data;
+- validates the simulated sessions for realism;
+- has humans partly review the simulated data to ensure quality;
+- keeps monitoring the simulator against manual and automated correctness checks.
+
 ## Related
 
-- [hill-climb-lifecycle.md](hill-climb-lifecycle.md): the source of truth this plan builds on. It owns the six stages, the refund chatbot walk-through, and the pre-launch and post-launch plans. This file adds the KPI-to-metric translation, a draft plan, and the roadmap for building the evaluation.
+- [hill-climb-lifecycle.md](hill-climb-lifecycle.md): the source of truth this plan builds on. It owns the six stages, the refund chatbot walk-through, and the pre-launch and post-launch plans. It also defines the span, trace and session that step 7's trajectories and tool calls are read from. This file adds the KPI-to-metric translation, a draft plan, and the roadmap for building the evaluation.
 - [stakeholder-discovery.md](../stakeholder-discovery.md): a discovery call's translation table turns a stakeholder statement into a constraint and a design decision. This plan does the matching translation from a KPI to a system goal and a metric, so both sit between a stakeholder and the build.
-- [rubric-design.md](rubric-design.md): how to write the rubrics of steps 5 and 6, and when to pick a fixed or an adaptive one.
-- [synthetic-data-for-agent-evaluation.md](synthetic-data-for-agent-evaluation.md): the simulation of step 8, single-turn generation and user simulation.
-- [core-concepts.md](core-concepts.md): the records that step 7's trajectories and tool calls are read from.
+- [rubrics-and-llm-judge.md](rubrics-and-llm-judge.md): how to write the rubrics of steps 5 and 6, when to pick a fixed or an adaptive one, and the LLM judge (autorater) whose calibration is step 6.
 - [design-document.md](../design-document.md): the design document fixes success criteria before the build, which this plan then turns into KPIs, metrics and evaluation tasks.
 - [genai-poc.md](../genai-poc.md): the PoC's "set success metrics" phase and its three evaluation types are the starting point. This plan is how those metrics are derived from KPIs and kept running after the PoC.
 - [bedrock.md](../../../aws/aws-services/aws-ai/bedrock.md): Bedrock's Model Evaluation is the AWS implementation of the three evaluation types in the table above.

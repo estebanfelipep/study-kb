@@ -129,4 +129,4 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
 - [tool-use.md](tool-use.md): an agent picks tools from their descriptions, so overlapping descriptions send it down the wrong path. Tool use covers the exclusion-sentence fix and MCP servers, which supply an agent's toolset ready-made.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): a subagent handoff gives a subtask its own context window and returns a short summary, keeping a long agent run within budget.
 - [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): its refund chatbot example pivots from one prompt to subagents and then to a human-in-the-loop design, the workflows-versus-agents decision made under measurement.
-- [rubric-design.md](evals/rubric-design.md): the evaluator in evaluator-optimizer scores against a rubric, and this file covers how to write one that an autorater applies consistently.
+- [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md): the evaluator in evaluator-optimizer scores against a rubric, and this file covers how to write one that an autorater applies consistently.

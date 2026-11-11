@@ -1,6 +1,32 @@
 # The hill-climb lifecycle
 
-This file covers the six-stage development lifecycle for generative and agentic systems in Google's hill-climb framework: it builds the system backward from organizational KPIs, then improves it by hill climbing against measurements.
+This file covers what an eval is, the span, trace and session an agent leaves behind, and the six-stage development lifecycle for generative and agentic systems in Google's hill-climb framework: it builds the system backward from organizational KPIs, then improves it by hill climbing against measurements.
+
+## What an eval is
+
+An **eval** is a check of a generative system's output against defined criteria. Sampling makes the same prompt return different wording each run, so testing on exact text is unreliable ([claude-api-foundations.md](../claude-api-foundations.md)), and evals replace it. The criteria come from the feature's success criteria ([design-document.md](../design-document.md)) or, at organizational scale, from KPIs ([evaluation-plan.md](evaluation-plan.md)).
+
+[genai-poc.md](../genai-poc.md) names three types by who or what judges the output: human, model-based and metrics-based.
+
+## What an agent leaves behind: span, trace, session
+
+| Term | What it is |
+|---|---|
+| Span | A single timed step, such as a model call or a tool call |
+| Trace | A factual, immutable record of **one agent invocation**, a single turn. It captures the model inputs, the responses and the tool calls, in order. A trace is built from spans |
+| Session | The **entire multi-turn conversation** between a user and the agent. It can contain several traces |
+
+```
+  session (the whole conversation)
+  +----------------------------------------------------------+
+  |  trace 1 (turn 1)        trace 2 (turn 2)     trace 3 ...|
+  |  +-------------------+   +----------------+              |
+  |  | span: model call  |   | span: model    |              |
+  |  | span: tool call   |   | span: tool     |              |
+  |  | span: model call  |   | span: model    |              |
+  |  +-------------------+   +----------------+              |
+  +----------------------------------------------------------+
+```
 
 ## Why measure
 
@@ -75,7 +101,7 @@ This is the redesign [genai-poc.md](../genai-poc.md) points to when it lists tas
 ### 4. Evaluate
 
 - The team gathers **golden** historical data of refunds and returns from the human support agents, to identify edge cases and scenarios to test. The data feeds a **data simulator**, which the team keeps monitoring against manual and automated checks for correctness.
-- The team builds a **rubric** on chatbot helpfulness and validates it with human annotators before scaling its use with **autoraters**. See [rubric-design.md](rubric-design.md).
+- The team builds a **rubric** on chatbot helpfulness and validates it with human annotators before scaling its use with **autoraters**. See [rubrics-and-llm-judge.md](rubrics-and-llm-judge.md).
 - The evaluation turns up **impolite customer behavior and strange requests** that make the chatbot go off the rails. The team goes back to **Design and build** to add guardrails for these cases.
 - The team writes a **formal pre-launch evaluation plan** to check that the organizational KPIs will be met:
 
@@ -125,10 +151,8 @@ The team runs a **post-launch evaluation plan** on the live system:
 
 ## Related
 
-- [evaluation-plan.md](evaluation-plan.md): builds on this lifecycle. It adds the KPI-to-system-goal-to-metric translation behind stages 1 and 2, a draft plan with thresholds, and a nine-step roadmap for building the evaluation that stages 4 to 6 use.
-- [rubric-design.md](rubric-design.md): how to write the helpfulness and tone rubrics that stage 4 validates with humans and stage 5 refines.
-- [synthetic-data-for-agent-evaluation.md](synthetic-data-for-agent-evaluation.md): the data simulator of stage 4 and the simulated sessions of the baseline in stage 5.
-- [core-concepts.md](core-concepts.md): the records of an agent's invocations and conversations that the chat logs and sampled production chats here are made of.
+- [evaluation-plan.md](evaluation-plan.md): builds on this lifecycle. It adds the KPI-to-system-goal-to-metric translation behind stages 1 and 2, a draft plan with thresholds, a nine-step roadmap for building the evaluation that stages 4 to 6 use, and how to simulate the test data of stages 4 and 5.
+- [rubrics-and-llm-judge.md](rubrics-and-llm-judge.md): how to write the helpfulness and tone rubrics that stage 4 validates with humans and stage 5 refines, and the LLM judge those rubrics are scaled up with.
 - [stakeholder-discovery.md](../stakeholder-discovery.md): the same translation from business words to constraints that stage 1 and 2 do, here ending in measurable metrics and there in design requirements.
 - [design-document.md](../design-document.md): the design document fixes success criteria before the build, and its calibrated LLM judge is the same mechanism as the autorater used here.
 - [genai-poc.md](../genai-poc.md): the PoC is a time-boxed validation before launch, with success metrics and three evaluation types. This lifecycle derives its metrics from KPIs and continues past launch with monitoring and a failure loop.

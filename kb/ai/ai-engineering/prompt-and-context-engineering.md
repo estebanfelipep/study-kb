@@ -245,4 +245,4 @@ Validating an agent with memory measures three things:
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's prompt management saves and versions the prompts written this way.
 - [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples. It also says oversized input errors before generation, the failure that token counting gates against.
 - [evaluation-plan.md](evals/evaluation-plan.md): the memory-agent measures above (precision and recall, Recall@K, task success) are capability metrics, which the plan derives from organizational KPIs, alongside rubrics for the subjective parts of a prompt's output.
-- [rubric-design.md](evals/rubric-design.md): how to write the rubric that grades a prompt's open-ended output, since a prompt change can only be judged against a defined good answer.
+- [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md): how to write the rubric that grades a prompt's open-ended output, since a prompt change can only be judged against a defined good answer.
