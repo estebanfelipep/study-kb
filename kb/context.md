@@ -150,6 +150,8 @@ _Avoid:_ feedback loop
 
 **Few-shot prompting**: Including several examples, typically two to five, in a prompt to show the desired format and behavior. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
+**Files API**: Claude's beta API for uploading a file once and referencing its `file_id` in later messages, so repeated images and PDFs add no payload per request. Not available on Bedrock or Vertex AI. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md#three-ways-to-send-an-image).
+
 **Fine-tuning**: Adjusting a model's parameters with your own training data to improve performance for domain-specific tasks. See [core-concepts.md](ai/core-concepts.md).
 
 **FM**: Foundation model. A large deep learning neural network trained on massive datasets, used as the starting point for new applications and adapted to specific needs. See [core-concepts.md](ai/core-concepts.md).
@@ -306,6 +308,8 @@ _Avoid:_ SCD type 2
 
 **Site-to-Site VPN**: An encrypted tunnel over the public internet between an on-premises network and AWS. See [site-to-site-vpn.md](aws/aws-services/aws-networking/site-to-site-vpn.md).
 
+**Skill (Claude)**: A markdown file of repeatable instructions that Claude loads on demand by matching its description to the task, instead of injecting the instructions into every session. Carries instructions, not state. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md#carrying-instructions-across-tasks-skills).
+
 **Source endpoint**: The DMS connection to the data store it migrates from. See [dms.md](aws/aws-services/aws-databases/dms.md).
 
 **Span**: A single timed step in an agent trace, such as a model call or a tool call. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
@@ -325,6 +329,8 @@ _Avoid:_ SCD type 2
 **Streamable HTTP**: The MCP transport for remote servers: POST carries client-to-server messages, and an optional GET-based SSE stream carries server-initiated ones. It replaces the deprecated SSE-only transport. See [tool-use.md](ai/ai-engineering/tool-use.md).
 
 **Streaming (LLM)**: Sending a model's response in pieces as it is generated, over the same HTTP connection using server-sent events, so output appears immediately. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
+**Strict tool use**: The structured-outputs form that validates the arguments Claude passes to your tools against the tool's schema, as JSON outputs constrain the final response. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md#structured-outputs).
 
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
 
@@ -368,6 +374,8 @@ _Avoid:_ VPN gateway
 **Visibility timeout**: How long an SQS message stays hidden from other consumers while one processes it. See [sqs.md](aws/aws-services/aws-application-coordination/sqs.md).
 
 **Visual ETL**: Building an ETL job by drag and drop, without code: sources, transforms, targets. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Visual token**: The unit an image costs on input: `⌈width / 28⌉ × ⌈height / 28⌉` per image, up to a per-image ceiling that differs by model tier. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md#what-an-image-costs).
 
 **Voting**: The parallelization variant that runs the same task several times to get diverse outputs. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 

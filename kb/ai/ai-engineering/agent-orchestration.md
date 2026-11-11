@@ -1,6 +1,6 @@
 # Agent orchestration
 
-This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, and agent memory scopes.
+This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, agent memory scopes, and Skills for carrying instructions across tasks.
 
 ## Sources
 
@@ -40,6 +40,11 @@ Make this decision **before you write the first line**. The two columns are rule
 | Observability with standard tooling is required.          | Non-determinism is acceptable and the agent's possible actions are constrained by its registered toolset. |
 | The inputs are well-constrained to a known set.           | User inputs vary unpredictably in content and structure.                                                  |
 | Every execution of the task follows the same sequence.    | The task requires creative sequencing of the available tools.                                             |
+
+Choosing wrong in either direction only surfaces in production:
+
+- **An agent where a workflow would do** adds context cost and behavior that lives in transcripts.
+- **A workflow where an agent is needed** breaks the first time an input falls outside the path.
 
 ## Agent
 
@@ -149,7 +154,7 @@ Once you've chosen an agent, there are three ways to wire it, on a spectrum of *
 
 ## Human-in-the-loop checkpoints
 
-If a tool can take an **irreversible action in production**, it needs a checkpoint before it runs. Register that constraint during design, when you scope the tool surface, not after the first incident.
+If a tool can take an **irreversible action in production**, it needs a checkpoint before it runs. Register that constraint during design, when you scope the tool surface, before the loop is wired and not after the first write reaches a customer environment.
 
 | Insertion point                  | What triggers the check                                                          | Risk it addresses                                                                      |
 | -------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -159,7 +164,9 @@ If a tool can take an **irreversible action in production**, it needs a checkpoi
 
 ## Agent memory
 
-**Memory scope** decides what state survives once the loop ends. Choose it in the **design phase**: it's cheap then and expensive in a production refactor.
+**Memory scope** decides what state survives once the loop ends. Choose it in the **design phase**: it's cheap then and expensive in a production refactor. Moving from in-context to external storage under production pressure takes about an hour, against about twenty minutes to make the same choice deliberately at design time.
+
+Scope follows the shape of the session, not what is easiest to implement. In-context memory is the simplest to write, which is why it fails earliest: production sessions turn out to be shorter and more numerous than the long continuous sessions used in development.
 
 | Scope                         | What persists                                                         | Cost                                                                                  | Use when                                                                                       | What you lose                                                          |
 | ----------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -183,6 +190,15 @@ Both use an LLM call to condense history, and both are lossy: the agent sees onl
 | Techniques it covers | Summarizing, but also keeping the last N turns and token-based truncation, which don't summarize | Always a summary |
 
 Time-based compaction (after 15 or 30 minutes of inactivity) comes closest to blurring the line, because the summary is made at a session boundary.
+
+### Carrying instructions across tasks: Skills
+
+Carrying repeatable instructions across tasks is a separate problem from carrying state. The pattern for it is a **Skill**: a markdown file Claude loads on demand by matching its description to the task, rather than instructions injected into every session.
+
+| | Memory scope | Skill |
+| --- | --- | --- |
+| What it carries | State: what happened in earlier turns or sessions | Instructions: how to do a repeatable task |
+| When it enters the context | By the scope chosen (every turn, at session start, on retrieval) | Only when Claude matches its description to the task |
 
 ## Related
 

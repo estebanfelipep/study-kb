@@ -1,6 +1,6 @@
 # Claude model family and API foundations
 
-This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, the four ways to call it (synchronous, streaming including what to do when a stream stops early, async and batch), and the settings that change the response: extended thinking and structured outputs.
+This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, the four ways to call it (synchronous, streaming including what to do when a stream stops early, async and batch), multimodal input (three ways to send an image and what it costs), and the settings that change the response: extended thinking and structured outputs.
 
 ## Sources
 
@@ -118,6 +118,36 @@ Worked examples of picking between synchronous and batch:
                                       no  -> synchronous / async
 ```
 
+Calling the synchronous API in a loop over a bulk job is not batching: it pays the synchronous price and gets none of the batch discount. Batch latency is also non-deterministic, so only offline work with no one waiting fits it.
+
+## Multimodal input
+
+Images (and PDFs) go into a message as content blocks. Work out how each input is sent and what it costs before writing the ingestion code.
+
+### Three ways to send an image
+
+| Method | How it works | Overhead | Use it when |
+|---|---|---|---|
+| Base64 | Encode the image bytes as a base64 string and put it directly in the message block | The full payload travels with every request, inflating request size and latency on large images. Sending the same image repeatedly multiplies the cost | A one-off image, where an upload step would add complexity for no payoff |
+| URL reference | Pass a publicly reachable URL in the source block, and Claude fetches the image at request time | No payload in the request, but the URL must be stable, public and reachable at the moment Claude fetches it | The image is already hosted at a stable public URL you control. Not for anything behind auth, signed with a short expiry, or not guaranteed reachable when the request runs |
+| Files API | Upload the file once in a separate call, get a `file_id`, and reference that ID in later messages | A one-time upload, then near-zero payload per request. In beta, and not available on Bedrock or Vertex AI, so check your platform | The same image or PDF appears in several requests, or is large enough that re-sending it would dominate request size. Also when asset management should live apart from inference calls, and for images that stay in a multi-turn conversation, since the `file_id` adds no payload weight as the history grows |
+
+### What an image costs
+
+Each image costs `⌈width / 28⌉ × ⌈height / 28⌉` visual tokens, and the per-image ceiling differs by model tier.
+
+| Image | Calculation | Visual tokens |
+|---|---|---|
+| 280 × 280 thumbnail | 10 × 10 | 100 |
+| 1000 × 800 photo | 36 × 29 | 1,044 |
+| 4000 × 3000 original | 143 × 108 | 15,444, before the model's per-image ceiling applies |
+
+A high-resolution original on the newest models can cost many times what a thumbnail costs in a test set. Run the formula against the **largest input you expect in production**, not the inputs you have on hand. Compare with [token counting](prompt-and-context-engineering.md#prompt-caching-and-token-counting) for checking a whole request.
+
+### Prompting for images
+
+A visual-analysis prompt should name how Claude handles each kind of ambiguity, which a text-only prompt never needs. For example: "If objects overlap, describe each separately and note the overlap."
+
 ## Settings that change the response
 
 Two per-request settings change what comes back, on different axes: thinking adds a reasoning block ahead of the answer, while structured outputs constrain the answer itself.
@@ -181,6 +211,15 @@ Each block carries a **signature** that confirms the reasoning wasn't tampered w
 
 With structured outputs on, the API constrains the response to a schema. It costs a slower first request, more input tokens, no guarantee of success, and no combining with prefilling. The injected format prompt is billed as input tokens, which the token metering above counts.
 
+#### Two forms
+
+| Form | What it constrains |
+|---|---|
+| JSON outputs | The final response, checked against a schema |
+| Strict tool use | The arguments Claude passes to your tools, validated against the tool's schema |
+
+Use them when prompt-level instructions aren't enough because untested inputs still break your parser. Both carry the trade-offs below.
+
 #### Trade-offs
 
 | Trade-off | What happens | What to do about it |
@@ -215,6 +254,7 @@ Prefilling starts the response for Claude. A schema constrains the **whole** res
 
 ## Related
 
+- [tool-use.md](tool-use.md): strict tool use validates the arguments of the tools whose schemas and descriptions that file covers writing.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window: compaction, the four strategies for staying in budget, prompt caching and token counting. Its "give a hint to complete" tip, starting the answer for the model, is the prefilling pattern that structured outputs can't be combined with. Its readability modeling is the contrast case: it controls how hard the answer is to read, not its format.
 - [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.
 - [genai-poc.md](genai-poc.md): the PoC's model selection and evaluation step is where the cost, latency and capability trade-off between tiers gets decided.

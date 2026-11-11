@@ -136,6 +136,17 @@ Asking for the thought process is especially helpful for math problems. For the 
 | Self-evaluate | After an answer, ask how it can be improved. Like ask-before-answer, but done on top of an answer | "How could this answer be improved?" |
 | Invert roles | Give the model a result and ask what prompt could have produced it | Paste a good text and ask for its prompt |
 
+#### Diagnose the failure type first
+
+When a prompt fails, the type of failure says which technique is missing. Rewording the instruction and trying again rarely works, because none of these are phrasing problems.
+
+| Failure                                | Missing technique                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Output in the wrong shape              | An output constraint                                                                                     |
+| Drift across turns                     | A fuller system prompt: it is underspecified                                                             |
+| A hallucinated structure               | Few-shot examples                                                                                        |
+| Untested inputs still break the parser | Move output control into the API with [structured outputs](claude-api-foundations.md#structured-outputs) |
+
 #### Readability modeling
 
 Telling the model how **simple or complex** its answer should be. It differs from structured output, which controls the format (JSON, lists, tables): readability modeling controls how much effort the answer takes to read and understand. It suits communicating with different audiences, or exploring an unfamiliar topic step by step.
@@ -188,7 +199,7 @@ Compaction shrinks a long conversation history to fit the context window, cuttin
 
 ### Four strategies for staying in budget
 
-In development the window rarely fills, because test inputs are small and sessions are short. In production, tool outputs are often three to five times longer than test fixtures and sessions run for more turns, so the window can fill at turn eight rather than turn fifty. The cost of not planning for this is a production outage.
+In development the window rarely fills, because test inputs are small and sessions are short. In production, tool outputs are often three to five times longer than test fixtures and sessions run for more turns, so the window can fill at turn eight rather than turn fifty. The cost of not planning for this is a production outage. Tool outputs spend the budget faster than anything else in the loop, and when tool selection starts degrading after a fixed number of turns, the window is the first place to look, not the tool schema.
 
 | Strategy | What it does | When to apply | What continuity you lose |
 |---|---|---|---|
@@ -243,6 +254,7 @@ Validating an agent with memory measures three things:
 - [genai-poc.md](genai-poc.md): prompts are tuned while testing candidate models in a PoC, so a model is judged with good prompts rather than naive ones.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): the healthcare PoC there used structured prompts and few-shot examples to extract medical conditions more accurately.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's prompt management saves and versions the prompts written this way.
-- [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples. It also says oversized input errors before generation, the failure that token counting gates against.
+- [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples. It also says oversized input errors before generation, the failure that token counting gates against. Its structured outputs are where output control moves when prompt-level fixes can't stop an untested input from breaking the parser, and its image token formula is the same budgeting exercise for multimodal input.
 - [evaluation-plan.md](evals/evaluation-plan.md): the memory-agent measures above (precision and recall, Recall@K, task success) are capability metrics, which the plan derives from organizational KPIs, alongside rubrics for the subjective parts of a prompt's output.
 - [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md): how to write the rubric that grades a prompt's open-ended output, since a prompt change can only be judged against a defined good answer.
+- [tool-use.md](tool-use.md): every connected MCP server's tool definitions spend context-window budget whether or not the tools are used, so connecting servers is a context-budget decision as well as a tooling one.
