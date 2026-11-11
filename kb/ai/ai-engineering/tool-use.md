@@ -1,6 +1,6 @@
 # Tool use
 
-This file covers how Claude chooses among tools by their descriptions, what to do when descriptions overlap, and MCP, the standard that supplies ready-made tool definitions from a server, with its two transports and the context cost of connecting a server.
+This file covers how Claude chooses among tools by their descriptions, what to do when descriptions overlap, and MCP, the standard that supplies ready-made tool definitions from a server: what a server exposes, its transports, how to set one up in Claude Code (transport, scope, config location), how it authenticates, and the context cost of connecting one.
 
 ## Description-based routing
 
@@ -51,6 +51,16 @@ GitHub is the example: it exposes repositories, pull requests, issues, projects 
 
 Only the ownership changes. Claude's selection still depends on the descriptions, so the overlap fixes above apply to a server's tools as much as to your own.
 
+### What a server exposes
+
+An MCP server is a process that exposes three things to any MCP client. When Claude Code connects, it discovers the tools the server provides and can invoke them during a session. The capability is built once, and every MCP client that connects gets it without re-implementing the integration.
+
+| Exposes | What it is | Who decides it enters the context |
+|---|---|---|
+| **Tool** | A capability the model can call | The model, by reading the description |
+| **Resource** | Read-only data the server exposes for the client to fetch and place into context directly | The client, with no tool call by the model |
+| **Prompt** | A pre-written instruction template, so a client can invoke a vetted prompt by name instead of each user writing their own | The user or client, by naming the prompt |
+
 ### Context cost of connecting a server
 
 Each connected server adds its tool definitions to the context window whether or not the tools get used. Connect deliberately and control loading cost. When tool selection starts degrading after a fixed number of turns, look at the window first, not the schema: see [prompt-and-context-engineering.md](prompt-and-context-engineering.md#why-a-long-context-is-a-problem).
@@ -65,7 +75,38 @@ MCP runs over one of two transports. Which one to use depends on where the serve
 | How the application connects | It spawns the server as a subprocess | It connects over the network via HTTP |
 | How messages move | Standard input and output | POST for client-to-server messages, plus an optional GET-based SSE stream for server-initiated messages |
 
-An older SSE-only transport exists but is deprecated. New integrations should use Streamable HTTP.
+- **stdio** is right for a local tool, a personal script or a development server on your own machine. It does not work for a server you want to share across a team or host remotely.
+- **HTTP** is the recommended transport for any server that doesn't run locally: you register its URL and the client connects over the network. Shared team servers and hosted integrations use it.
+
+An older SSE-only transport exists but has been superseded by Streamable HTTP and is no longer recommended for new servers. Treat SSE in existing configuration or documentation as a legacy option.
+
+### Setting up a server in Claude Code
+
+Transport and scope are independent decisions with dependent consequences. Transport follows where the server runs. Scope follows who should have it: **local** scope keeps a server personal, **project** scope shares it with the repo through `.mcp.json`, and **enterprise** scope deploys it organization-wide through managed settings.
+
+| Context | Transport | Scope | Config location | Secrets handling |
+|---|---|---|---|---|
+| Personal local tool (runs on your machine only) | stdio | Local | `~/.claude.json` (per-project entry) | Environment variables only. Never in the config file |
+| Shared team server (all teammates connect to the same service) | HTTP | Project | `.mcp.json` committed to the repo root | OAuth or environment variables. API keys must never be committed to `.mcp.json` |
+| Personal experiment (not ready to share) | stdio or HTTP | Local | Personal Claude settings | Environment variables only |
+| Organization-wide deployment (admin-managed) | HTTP | Enterprise | Managed settings (admin-controlled) | Managed by the administrator. Config locked to prevent override |
+
+The combination must match the deployment intent. A shared team server needs HTTP and project or enterprise scope. A stdio server in `.mcp.json` looks shareable but isn't: teammates' machines don't have the local process it spawns.
+
+### Authentication by service type
+
+Pick the pattern from who the credential identifies.
+
+| Service type | Pattern | How it works |
+|---|---|---|
+| Remote service with user identity | **OAuth** | The server returns a 401 Unauthorized to signal that authentication is required. The client starts a browser-based sign-in flow, and after the user approves access a token is issued and stored. No one copies a secret by hand. Used for cloud services, SaaS tools and any integration where the user's identity is part of authorization. The Linear MCP server uses it. The GitHub server instead authenticates with a personal access token passed as a header |
+| Remote service with service identity | **API key in an environment variable** | The key identifies the service account. It is never committed to a configuration file and lives in the environment where the process runs. A CI pipeline using the Agent SDK has the key injected as a secret by the pipeline runner, not baked into the code |
+| Local service with file system access | **stdio, no network authentication** | The security boundary is the file-system permission model. A denying rule in the settings files is the governance layer |
+
+Two habits make credential rotation cheaper:
+
+- **Scope each credential to the narrowest access its task needs,** so a leaked key reaches only what that integration required.
+- **Keep a record of which services use each credential,** so a rotation doesn't break a consumer you forgot about.
 
 ## Related
 

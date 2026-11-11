@@ -237,6 +237,17 @@ The strategies above manage what enters the context window. Two API features red
                    +--> reused from cache (fraction of the cost)
 ```
 
+Rules that decide whether a cache hit happens:
+
+- **The content must match exactly.** A single changed character before the cache point invalidates the cache and forces a fresh write. That is why the best candidates are the parts that rarely change.
+- **There is a minimum size.** Caching applies only above a token threshold (1,024 tokens for most current models), so a short prompt isn't cached even if a breakpoint is set.
+- **The cache expires.** If the window runs out before the next request, you pay the write cost again for no read benefit.
+
+| Lifetime | How to get it | Suits |
+|---|---|---|
+| 5 minutes from the last read (default) | Nothing to set. Each read resets the clock | A back-and-forth where requests arrive every few minutes |
+| 1 hour | Set a `ttl` of `1h` on the breakpoint (opt-in) | Longer gaps between requests, such as an agent that pauses between steps, where five minutes would expire before the next request |
+
 ### Evaluating a memory-enabled agent
 
 Validating an agent with memory measures three things:

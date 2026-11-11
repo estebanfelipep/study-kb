@@ -144,6 +144,40 @@ Mixing your data in at an earlier stage is why Nova Forge forgets less: the doma
 4. Query processing: Matches user questions to relevant content (see [Searching](#searching) and [Reranking](#reranking))
 5. Response generation: Combines retrieved context with queries
 
+### Two forms: classical RAG and agentic search
+
+Instead of loading every document into the context, the system keeps the material outside the context window, finds the parts most relevant to the current request, and gives the model only those parts. The model answers from that retrieved slice rather than from the whole library. Both forms do this. The difference is **timing**: when the relevant slice is found.
+
+| | Classical RAG | Agentic search |
+|---|---|---|
+| Upfront work | Heavy: split the sources into chunks, convert each to an embedding (numbers that capture its meaning) and store them in a database, all before anyone asks | None: no index, no pre-built database |
+| When the slice is found | At query time, by matching against the index built in advance | At the moment of need: the model works out what it needs, then fetches it |
+| How it finds it | The question is converted to the same kind of numbers, and the chunks with the most similar numbers are returned | The model searches live sources, reads documents on demand and pulls in results as the task unfolds |
+
+```
+  CLASSICAL RAG                       AGENTIC SEARCH
+
+  before any question:                before any question:
+    chunk -> embed -> store             (nothing)
+
+  at question time:                   at question time:
+    embed question                      model decides what it needs
+      -> nearest chunks                   -> searches / reads / fetches
+      -> LLM answers                      -> repeats as the task unfolds
+```
+
+The sections below (the pipeline, chunking, searching and reranking) detail classical RAG.
+
+#### Progressive disclosure in agentic search
+
+Agentic search only stays efficient if the agent can see a high-level overview of what exists before it opens anything. With no tool that gives that overview, the agent may end up loading all the content and fill its context window quickly. Give it tools that disclose content in layers instead:
+
+| Pattern | How it works | Example |
+|---|---|---|
+| Hierarchical retrieval | Index or table of contents, then section summaries, then full details | `list_categories()` -> `get_category_summary()` -> `get_item_details()` |
+| Metadata-first | Return titles, dates and tags before content, so the agent filters before it retrieves full documents | A listing call that returns titles and tags only |
+| Chunked access | Get the first N results, then paginate only if they're not enough | `search(query, limit=5)` -> `get_more_results(offset=5)` if insufficient |
+
 ### The RAG pipeline
 
 ```

@@ -9,6 +9,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 **Agent (AI)**: An LLM that uses tools in a loop, deciding from each result whether to call another tool or stop. It directs its own process. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ agentic AI, autonomous agent
 
+**Agentic search**: A form of RAG with no upfront index: the model works out what it needs at the moment of the request, then searches live sources and reads documents on demand. Needs progressive disclosure to avoid filling the context window. See [core-concepts.md](ai/core-concepts.md#two-forms-classical-rag-and-agentic-search).
+
 **Agentic system**: Any system that combines LLMs and tools: either a workflow or an agent. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 
 **Apache Hudi**: One of the three common open table formats. See [open-table-formats.md](data-engineering/open-table-formats.md).
@@ -41,6 +43,8 @@ _Avoid:_ CoT
 **Chunking**: Splitting large content into smaller pieces, so it is easier to search and doesn't fill the context window. Fixed-size or structural. See [core-concepts.md](ai/core-concepts.md).
 
 **CIA triad**: Confidentiality, integrity and availability, the three goals of data security. See [data-security-and-monitoring.md](data-engineering/data-security-and-monitoring.md).
+
+**Classical RAG**: A form of RAG that does its work upfront: sources are chunked, embedded and stored in a database before any question, and a question is matched against that index. See [core-concepts.md](ai/core-concepts.md#two-forms-classical-rag-and-agentic-search).
 
 **Classifier**: The part of a Glue crawler that infers a data store's format and schema, built in (JSON, CSV, Avro, …) or custom. The first classifier in the list that recognizes the data wins. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
@@ -244,6 +248,8 @@ _Avoid:_ parallel processing
 **PII**: Personally identifiable information. See [macie.md](aws/aws-services/aws-security/macie.md).
 
 **PoC**: Proof of concept. A time-boxed build, typically 2 to 8 weeks, that validates technical feasibility, measures performance and demonstrates business value before full-scale deployment. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
+
+**Progressive disclosure**: Giving an agent a high-level overview of the available content first (an index, titles and tags, a first page of results), so it opens details only when needed instead of loading everything into its context. See [core-concepts.md](ai/core-concepts.md#progressive-disclosure-in-agentic-search).
 
 **Prompt caching**: A Claude API feature that stores the processing of a stable request prefix (a long system prompt, a large tool set, a reference document), so later requests with identical content up to that point pay a fraction of the cost. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 

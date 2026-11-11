@@ -1,6 +1,6 @@
 # Agent orchestration
 
-This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, agent memory scopes, and Skills for carrying instructions across tasks.
+This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, agent memory scopes, and Skills for carrying instructions across tasks, including how each runtime loads them.
 
 ## Sources
 
@@ -199,6 +199,19 @@ Carrying repeatable instructions across tasks is a separate problem from carryin
 | --- | --- | --- |
 | What it carries | State: what happened in earlier turns or sessions | Instructions: how to do a repeatable task |
 | When it enters the context | By the scope chosen (every turn, at session start, on retrieval) | Only when Claude matches its description to the task |
+
+#### Running a skill in different runtimes
+
+A skill is portable, but "runs everywhere" is something you design for. The same `SKILL.md` can run in Claude Code, on the Messages API and through the Agent SDK, but each loads and sandboxes it differently:
+
+| Runtime | How the skill is loaded |
+|---|---|
+| Claude Code | Filesystem discovery |
+| Messages API | Beta headers and a code execution container |
+| Agent SDK | The `settingSources` option (see the wiring paths above) |
+
+- A skill with a clear, narrow description and no local-environment assumptions ports cleanly. One that assumes the terminal it was written in does not.
+- In every runtime, **subagents start clean**: they do not automatically preload skills.
 
 ## Related
 
