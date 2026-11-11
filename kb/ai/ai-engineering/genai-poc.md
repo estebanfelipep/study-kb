@@ -1,6 +1,6 @@
 # Generative AI proof of concept (PoC)
 
-This file covers how to build a generative AI proof of concept: scoping it, selecting and evaluating the model, testing performance, and calculating its business value.
+This file covers how to build a generative AI proof of concept: scoping it, selecting and evaluating the model, testing performance, and calculating its business value, then packaging the finished build as a reusable accelerator.
 
 ## What it is
 
@@ -126,6 +126,30 @@ Demonstrating business value secures PoC approval and justifies full-scale imple
 | Risk reduction | Better compliance, less human error, stronger security, from automated and consistent application of business rules |
 | Strategic value | Competitive advantage, innovation capability and organizational learning, without immediate quantifiable value |
 
+## After the PoC: packaging for reuse
+
+A working build can be packaged so future engagements start from it rather than from a blank repository. That package is an **accelerator**. Packaging is a separation: keep the reusable core, and expose everything customer-specific as parameters with documented defaults. The asset is then configured, not rewritten.
+
+| Keep in the core | Expose as a parameter | Bundle alongside |
+|---|---|---|
+| The reusable logic | The customer-specific parts, each with a documented default | The eval and the audit log |
+
+Package **while the build is fresh.** Knowing why a value was hardcoded is cheapest on the day it was written, and most expensive to rebuild months later, once the person who knew has moved on.
+
+### Moving an asset into shared infrastructure
+
+Match the asset to the channel built for its shape, then clear the review bar. A maintainer accepts what they can verify:
+
+| Requirement | Why |
+|---|---|
+| Focused code | Small enough to review |
+| A runnable example | The reviewer can see it work |
+| A test | The reviewer can check it still works |
+| A statement of assumptions | The reviewer knows what it does not cover |
+| Licensing rights confirmed | Checked before the technical review starts |
+
+A contribution a reviewer cannot verify sits at the back of the queue.
+
 ## Related
 
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): prompts are refined during iterative testing, so each candidate model is judged with good prompts rather than naive ones.
@@ -135,4 +159,4 @@ Demonstrating business value secures PoC approval and justifies full-scale imple
 - [stakeholder-discovery.md](stakeholder-discovery.md): how to elicit the constraints (latency, cost, human review, proof obligations) that scoping and requirements analysis then document and test against.
 - [design-document.md](design-document.md): Anthropic's feature-level counterpart, from a Claude course. Its design document (success criteria, budget, trust boundary, failure handling) maps onto scoping, and [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md) covers its calibrated LLM judge, one way to run model-based evaluation.
 - [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): a lifecycle that continues past the PoC, from organizational KPIs through hill climbing to post-launch monitoring. Its refund chatbot is a case of the "poor fit" rule above: a fully automated design was too risky, so it became human-in-the-loop.
-- [evaluation-plan.md](evals/evaluation-plan.md): turns the "set success metrics" phase into a written plan, from organizational KPI to system goal to metric, and places the three evaluation types in a nine-step roadmap.
+- [evaluation-plan.md](evals/evaluation-plan.md): turns the "set success metrics" phase into a written plan, from organizational KPI to system goal to metric, and places the three evaluation types in a nine-step roadmap. The eval an accelerator bundles is the product of a plan like this one.

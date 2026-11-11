@@ -1,6 +1,6 @@
 # Stakeholder discovery
 
-This file covers how to run a discovery call with a stakeholder: turning what they say in business terms into requirements, assumptions and constraints that a design can follow.
+This file covers how to run a discovery call with a stakeholder: turning what they say in business terms into requirements, assumptions and constraints that a design can follow, including the split between functional and infrastructure requirements.
 
 ## Sources
 
@@ -119,6 +119,41 @@ The **evidence the deployment must be able to produce**, something of value to w
 
 "Seamless" may really mean a latency budget the user should not notice (question 3), a handoff that should not interrupt the flow (question 2), or a failure state that must not expose system internals (question 2 again). Once you discover those answers, you have requirements the team can design for, test and defend.
 
+## Functional and infrastructure requirements
+
+The four questions produce two kinds of requirement. A business problem such as "help support agents answer faster" is neither yet: it is the goal both kinds are derived from.
+
+```
+  Business problem
+  "help support agents answer faster"
+        |
+        +--> FUNCTIONAL requirements       what the system does
+        |      (checkable behavior)
+        |
+        +--> INFRASTRUCTURE requirements   constraints the deployment
+               (non-functional)            must satisfy
+```
+
+| | Functional requirement | Infrastructure requirement |
+|---|---|---|
+| Names | What the system must **do**, in enough detail to check | The non-functional constraints the deployment must satisfy |
+| Stated in the business problem? | No, it is derived from it | Mostly no: you derive it by asking the questions the problem implies |
+| Example | "Classify each ticket into one of four queues; draft a reply citing the relevant policy; never auto-send without human approval" | Latency, scale, residency, identity (below) |
+| Why write it down | A vague goal cannot be designed against or verified. A specific one becomes a line in an eval and a criterion at review | These four most often decide the deployment platform, and are easiest to capture at the start, before a platform is chosen for other reasons |
+
+The discipline for a functional requirement is to write it as a **checkable statement of behavior**. "Help agents answer faster" has no test. "Never auto-send without human approval" does.
+
+The four infrastructure questions:
+
+| Question | What it asks |
+|---|---|
+| Latency | How fast must a response be, measured where the user is? |
+| Scale | How many requests, and at what peak? |
+| Residency | Where must the data be processed, and under which regulation? |
+| Identity | Who acts, under what credentials, and what must be auditable? |
+
+Latency and scale are the latency target and volume forecast of "what the system must cost". Residency and identity are the data-handling and audit evidence of "what the system must prove". [design-document.md](design-document.md) shows how the four then decide the deployment platform.
+
 ## The output: a translation table
 
 Each item found in discovery becomes **one row**. A row holds the stakeholder statement as said, the constraint it implies, the architectural decision that constraint forces, and the assumption to document when the constraint is not yet confirmed. One row per item keeps the reasoning intact from discovery into design, and keeps assumptions in view.
@@ -140,7 +175,7 @@ Each item found in discovery becomes **one row**. A row holds the stakeholder st
 
 ## Related
 
-- [design-document.md](design-document.md): the design document is where discovery's output lands. The cost and latency budget comes from the "must cost" answers, the trust boundary from "must not do", and the translation table is the record that feeds it before anything is built.
+- [design-document.md](design-document.md): the design document is where discovery's output lands. The cost and latency budget comes from the "must cost" answers, the trust boundary from "must not do", and the translation table is the record that feeds it before anything is built. Its deployment-platform decision is driven by the infrastructure requirements (latency, scale, residency, identity) captured here, and its lifecycle table places discovery as the requirements stage.
 - [genai-poc.md](genai-poc.md): the PoC's scoping and requirements analysis (accuracy, latency, cost targets) need the constraints that discovery uncovers. Discovery sets them from the stakeholder's words, the PoC then tests the model against them.
 - [agent-orchestration.md](agent-orchestration.md): the "keep routing in the rule engine, Claude extracts" row is the workflow side of workflows vs agents: a deterministic business rule belongs in code the system controls, not in the model's judgment.
 - [data-discovery.md](../../data-engineering/data-discovery.md): the data-side counterpart. That file finds and understands an organization's data sources. This one elicits the stakeholder's constraints before designing the AI solution.

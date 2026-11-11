@@ -1,6 +1,6 @@
 # Design document
 
-This file covers how to decide what "right" means before building an LLM feature, with a design document: success criteria, failure handling (retriable vs terminal errors, tool errors), a cost and latency budget (what to measure and the levers), and a trust boundary (prompt injection, least privilege, regulated-industry scoping).
+This file covers how to decide what "right" means before building an LLM feature, with a design document: success criteria, failure handling (retriable vs terminal errors, tool errors), a cost and latency budget (what to measure and the levers), and a trust boundary (prompt injection, least privilege, regulated-industry scoping, seams between components). It also covers the other design-stage choice, the deployment platform and pinning the model version, and where the document sits in the lifecycle of a Claude application.
 
 ## Sources
 
@@ -22,6 +22,20 @@ This file covers how to decide what "right" means before building an LLM feature
 ```
 
 The design document sits **before** the build, next to PoC scoping. The judge, in [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md), is one way to run the PoC's evaluation at scale.
+
+## Where it sits in the lifecycle
+
+A Claude application moves through the same lifecycle as any engineered system, with the model work mapped onto it:
+
+| #   | Stage        | What happens                                            | Where the KB covers it                                                                                                                               |
+| --- | ------------ | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Requirements | Capture functional and infrastructure needs             | [stakeholder-discovery.md](stakeholder-discovery.md)                                                                                                 |
+| 2   | Design       | Choose the platform, the model and the trust boundaries | This file                                                                                                                                            |
+| 3   | Build        | Write the agent, tools and prompts                      | [agent-orchestration.md](agent-orchestration.md), [tool-use.md](tool-use.md), [prompt-and-context-engineering.md](prompt-and-context-engineering.md) |
+| 4   | Test         | Evals, unit, integration and end-to-end checks          | [evals.md](evals/evals.md)                                                                                                                           |
+| 5   | Deploy       | Pin the version, gate promotion on the eval             | [Pin what ships](#pin-what-ships) below                                                                                                              |
+| 6   | Operate      | Instrument cost, latency and errors; enforce guardrails | [Cost and latency budget in detail](#cost-and-latency-budget-in-detail), [Security is layered](#security-is-layered)                                 |
+| 7   | Iterate      | Feed production findings back into requirements         | [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md)                                                                                             |
 
 ## The design document
 
@@ -109,6 +123,24 @@ Defending only the prompt, and not the action, leaves the model free to cause da
 
 A production agent acts with an identity, and that identity should carry only the permissions the task requires. Least privilege is a design principle, not a setting, because it is the control that still holds when every other defense fails. No system can rule out a steered model, so what decides how bad an incident is is how much damage a steered agent can do, and least privilege minimizes it.
 
+### Across components
+
+A multi-component app coordinates more than one Claude capability into one workflow. An API request might trigger a Claude Code task, which reaches a customer system through an MCP server. Each component contributes a capability the others lack, and every connection between them is a place where identity, secrets and untrusted input can cross.
+
+```
+  API request --> Claude Code task --> MCP server --> customer system
+              |                    |              |
+           seam 1               seam 2         seam 3
+  (each seam: whose identity? which secrets? whose text?)
+```
+
+- **Map first:** write down which component does what before connecting anything.
+- **A trust boundary is where data or instructions move from one deployment environment to another.** It is exactly where the injection and access controls above apply.
+- **Fetched content is untrusted when it reaches the next component.** What a Claude Code task pulled from the web is data, not instructions, for whatever receives it.
+- **Trust is established explicitly at each boundary.** It does not carry over from the component that sent the data.
+- **Least privilege covers the application as a whole.** Each component runs under its own identity, with only the access its task needs. The app is only as contained as its most privileged seam.
+- **A seam that cannot be secured goes to a human owner,** rather than being shipped.
+
 ### Scoping for a regulated industry
 
 Raise these before the review stalls the project:
@@ -128,14 +160,62 @@ Raise these before the review stalls the project:
 
 No single layer is enough. A defense that depends on one control failing closed is one bug away from an incident, while a layered defense degrades instead of collapsing when one layer is bypassed.
 
+## Deployment platform in detail
+
+The platform is the environment where the Claude workload runs, and the same model can run in several. The choice is rarely about technical merit alone: it is usually shaped by where the customer already has cloud infrastructure, identity management and compliance agreements. The first question is which platform the customer already trusts and operates on.
+
+**Identity and data location are answered by the platform, not your code.** Bedrock uses AWS identity and keeps data inside the customer's AWS boundary. Vertex uses Google Cloud identity and boundary. These are the identity and residency answers from the infrastructure requirements in [stakeholder-discovery.md](stakeholder-discovery.md), which is why capturing them first matters.
+
+### The decision table
+
+| Platform | Identity and data model | Choose it when | How versioning is pinned |
+|---|---|---|---|
+| First-party Claude API | Anthropic identity and terms | No binding cloud or residency constraint, and you want the newest capabilities (it typically gets new features first) | Pin the full model ID and keep the prior snapshot |
+| Claude Platform on AWS | Anthropic identity and terms, accessed through the customer's AWS account. Inference is Anthropic-operated, outside the AWS boundary. Lifecycle follows Anthropic's deprecation schedule | On AWS, but wanting Anthropic model IDs, lifecycle and feature parity with the first-party API | Same model ID format as the Claude API (such as `claude-opus-4-8`). Confirm at publish time |
+| Claude in Amazon Bedrock | Messages API at `/anthropic/v1/messages`, broad feature parity (a features-not-supported list exists, so check feature-specific needs). Data stays inside the customer's configured AWS boundary | On AWS, wanting broad parity with the first-party API, and holding a compliance posture there | Full model ID with the `anthropic.` prefix format. Partner retirement dates differ from Anthropic's schedule. Confirm at publish time |
+| Claude on Amazon Bedrock (legacy) | AWS identity and billing. InvokeModel / Converse APIs with ARN-versioned model identifiers | An existing Bedrock integration on InvokeModel or Converse that has not migrated to the Messages API | ARN-versioned identifiers, per Bedrock's versioning controls |
+| Google Vertex AI | Google Cloud identity, IAM and billing, with regional or global endpoints for residency | On Google Cloud and holding a compliance posture there | Full model ID in Vertex's format, pinned before rollout. Partner retirement dates differ from Anthropic's schedule |
+| Third-party platform | The wrapping product's identity and billing model | The customer already runs the platform that embeds Claude | Per the platform's versioning controls |
+
+Microsoft Foundry is the example of a third-party platform, and it offers Claude in two hosting forms:
+
+| Hosting form | Models | Where inference runs |
+|---|---|---|
+| Hosted on Azure | Claude Opus 4.8, Claude Sonnet 5 and Claude Haiku 4.5 (generally available) | End to end on Azure infrastructure |
+| Hosted on Anthropic | All other Foundry Claude models | Anthropic-operated infrastructure |
+
+Confirm residency and compliance terms with Microsoft before choosing this path for a regulated customer. The first-party API may not offer EU data residency (confirm current regional coverage at platform.claude.com), and EU-only residency typically requires Bedrock or Vertex AI.
+
+### Comparing platforms
+
+A platform choice is defensible only when each dimension is measured:
+
+| Dimension | How it differs | How to measure it | Where each platform wins |
+|---|---|---|---|
+| Latency | A platform in the customer's region shortens the round trip, while the first-party API may reach new features first | From the customer's actual region, against their actual payload | In-region cloud platform on round trip, first-party API on earliest feature access |
+| Compliance | Residency, certifications and audit controls are set by the platform | Against the customer's existing certification and residency requirements, during scoping | The platform the customer has already certified, because it needs no re-certification |
+| Cost | Token price, data egress, platform fees and integration effort all vary | Total cost per call per platform, including egress and integration, not token price alone | The lowest total cost for the actual workload, which is not always the cheapest token |
+
+For a regulated customer, compliance is usually pass-or-fail. Raise it as a constraint during scoping, so it does not reject the build at contract review.
+
+### Pin what ships
+
+Choose the platform from the customer's cloud and compliance posture, then pin the specific model version rather than a moving alias, and keep the prior version available.
+
+| | Alias | Pinned version |
+|---|---|---|
+| Is like | Asking for the current edition of a book | Citing a fixed edition |
+| Upstream model change | Can arrive overnight, with no rollback path | Adopted deliberately, with the prior version still there |
+
+Pinning is the deploy stage's gate: promote a new version only when it passes the eval ([evals.md](evals/evals.md)). Retirement dates on partner platforms differ from Anthropic's, so check the platform's schedule, not only Anthropic's.
+
 ## Related
 
-- [genai-poc.md](genai-poc.md): the AWS-sourced PoC method. Its success metrics (phase 3), requirements analysis, responsible AI controls (phase 4) and model-based evaluation each overlap one part of the design document or the judge, as the diagram above maps. It has no equivalent of failure handling, and it only names model-based evaluation without saying how to calibrate it, which [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md) does.
+- [genai-poc.md](genai-poc.md): the AWS-sourced PoC method. Its success metrics (phase 3), requirements analysis, responsible AI controls (phase 4) and model-based evaluation each overlap one part of the design document or the judge, as the diagram above maps. It has no equivalent of failure handling, and it only names model-based evaluation without saying how to calibrate it, which [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md) does. It also covers what comes after the build: packaging it as a reusable accelerator.
 - [stakeholder-discovery.md](stakeholder-discovery.md): the step before this one. A discovery call's translation table supplies the design document's budget ("must cost"), trust boundary ("must not do") and proof obligations, so the document records confirmed constraints rather than assumptions.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): its least-privilege IAM and security-from-day-one steps are one way to enforce a trust boundary on AWS.
 - [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md): the second model call (the LLM judge) that grades the feature's output against the success criteria written here, calibrated so its scores can be trusted, and how to write the rubric it grades by.
 - [tool-use.md](tool-use.md): the `is_error` rule above applies to the tools that file defines, and a tool's output is one of the prompt-injection vectors listed above when the tool itself fetched from somewhere else.
 - [agent-orchestration.md](agent-orchestration.md): its orchestrator-workers pattern is the 15x token multiplier in the budget, and its human-in-the-loop checkpoints are one way to enforce the trust boundary before an irreversible action.
 - [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): the trace it defines is how you find which step of a failing flow is the expensive, slow or erroring one.
-- [claude-api-foundations.md](claude-api-foundations.md): the sampling it describes (same prompt, different wording each run) is why evals and judges exist, and its tier and reasoning-mode choices are what an eval decides.
-- [evaluation-plan.md](evals/evaluation-plan.md): picks up where the success criteria stop. It turns organizational KPIs into system goals and metrics, then into a roadmap that builds toward calibrated autoraters, where this file stops at the single feature.
+- [claude-api-foundations.md](claude-api-foundations.md): the sampling it describes (same prompt, different wording each run) is why evals and judges exist, and its tier and reasoning-mode choices are what an eval decides. Its Files API, not available on Bedrock or Vertex AI, is a concrete case of why platform choice constrains features.- [evaluation-plan.md](evals/evaluation-plan.md): picks up where the success criteria stop. It turns organizational KPIs into system goals and metrics, then into a roadmap that builds toward calibrated autoraters, where this file stops at the single feature.

@@ -4,6 +4,8 @@ This file holds the vocabulary shared across the subjects in this KB: terms, abb
 
 ## Language
 
+**Accelerator**: A solution packaged so future engagements start from a working foundation: the reusable core kept, the customer-specific parts exposed as parameters with documented defaults, and the eval and audit log bundled with it. See [genai-poc.md](ai/ai-engineering/genai-poc.md#after-the-poc-packaging-for-reuse).
+
 **ACM**: AWS Certificate Manager. Provisions and renews the SSL/TLS certificates behind encryption in transit. See [acm.md](aws/aws-services/aws-apis/acm.md).
 
 **Agent (AI)**: An LLM that uses tools in a loop, deciding from each result whether to call another tool or stop. It directs its own process. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
@@ -164,6 +166,8 @@ _Avoid:_ feedback loop
 
 **Full load**: Copying every row of a database's tables once, usually before CDC takes over. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
+**Functional requirement**: What the system must do, stated as checkable behavior so it becomes an eval line and a review criterion. Derived from the business problem, not the same as it. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md#functional-and-infrastructure-requirements).
+
 **Glue auto scaling**: Adding and removing a Glue job's workers during a run, up to a maximum you set. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Golden data (evaluation)**: Historical examples, such as refunds and returns handled by human support agents, used to find edge cases and to build a data simulator. Not the same as a golden record. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
@@ -180,6 +184,8 @@ _Avoid:_ customer 360, single customer view
 **Hybrid search**: Retrieval that combines several relevance signals, such as keyword (BM25) and semantic search, into one ranking. See [core-concepts.md](ai/core-concepts.md).
 
 **Incremental crawl**: A crawler run that scans only new subfolders and adds only the new partitions. See [glue.md](aws/aws-services/aws-analytics/glue.md).
+
+**Infrastructure requirement**: A non-functional constraint the deployment must satisfy: latency, scale, residency or identity. These most often decide the deployment platform. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md#functional-and-infrastructure-requirements).
 
 **Insert-only CDC**: CDC for append-only data, such as logs, where rows are only added. See [replicating-databases-to-the-lake.md](data-engineering/replicating-databases-to-the-lake.md).
 
@@ -217,6 +223,8 @@ _Avoid:_ LLM-as-a-judge
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
 **Model chaining**: The AWS course's name for workflows: connecting models or services in fixed, predetermined steps. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
+
+**Model pinning**: Deploying a specific model version (a full model ID, or an ARN-versioned identifier on legacy Bedrock) instead of a moving alias, and keeping the prior version available, so an upstream model change is adopted deliberately. See [design-document.md](ai/ai-engineering/design-document.md#pin-what-ships).
 
 **Model-based evaluation**: Using an AI model to evaluate another model's outputs. See [genai-poc.md](ai/ai-engineering/genai-poc.md). A calibrated LLM judge is one way to do it.
 
@@ -376,7 +384,7 @@ _Avoid:_ SCD type 2
 
 **Translation table**: The output of a discovery call: one row per item, holding the stakeholder statement, the constraint it implies, the architectural decision it forces, and the assumption to document. See [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
-**Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. See [design-document.md](ai/ai-engineering/design-document.md).
+**Trust boundary**: The line between inputs someone else can write (untrusted) and what the system is allowed to do, set in the design document as the smallest actions and access the feature needs. In a multi-component app, every seam between components is one. See [design-document.md](ai/ai-engineering/design-document.md).
 
 **User simulation**: Directing an AI to impersonate a user and running it against the real agent under evaluation, to generate multi-turn test data. See [evaluation-plan.md](ai/ai-engineering/evals/evaluation-plan.md).
 
