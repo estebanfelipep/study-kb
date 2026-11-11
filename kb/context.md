@@ -44,6 +44,10 @@ _Avoid:_ CoT
 
 **Classifier**: The part of a Glue crawler that infers a data store's format and schema, built in (JSON, CSV, Avro, …) or custom. The first classifier in the list that recognizes the data wins. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
+**Claude Agent SDK**: Anthropic's library (Python, TypeScript) that runs the agent loop inside your own process and handles context management and tool registration, while your code executes the tools. Always set `settingSources` explicitly. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
+**Claude Managed Agents**: The public-beta Anthropic service where Anthropic runs the agent loop and the sandbox, and your app streams events in and results back. Sessions are stored server-side, so they aren't eligible for Zero Data Retention or a HIPAA BAA. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
 **Cleaned zone**: The data lake zone that holds each source after filtering anomalies, standardizing formats and correcting invalid values, still not combined with other sources. See [data-lake-zones.md](data-engineering/data-lake-zones.md).
 
 **Column statistics**: Per-column minimum, maximum, null count and distinct-value count computed for a Data Catalog table, to optimize queries. See [glue.md](aws/aws-services/aws-analytics/glue.md).
@@ -165,7 +169,7 @@ _Avoid:_ customer 360, single customer view
 
 **Hill climbing**: Improving a generative system step by step against measurable metrics: change the system, re-run the evaluation suite and keep the changes that raise the scores. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md).
 
-**Human-in-the-loop (HITL)**: A design where a human confirms or intervenes before the system's output takes effect, such as a support rep confirming a chatbot's refund before it is issued. See [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md) and [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
+**Human-in-the-loop (HITL)**: A design where a human confirms or intervenes before the system's output takes effect, such as a support rep confirming a chatbot's refund before it is issued. For agents, a checkpoint goes before a destructive tool call, after a planning step, or on unexpected tool output: see [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md), [hill-climb-lifecycle.md](ai/ai-engineering/evals/hill-climb-lifecycle.md) and [stakeholder-discovery.md](ai/ai-engineering/stakeholder-discovery.md).
 
 **Hybrid search**: Retrieval that combines several relevance signals, such as keyword (BM25) and semantic search, into one ranking. See [core-concepts.md](ai/core-concepts.md).
 
@@ -194,9 +198,13 @@ _Avoid:_ LLM-as-a-judge
 
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
+**Memory scope (agent)**: The design choice of what state survives once an agent's loop ends: in-context, external storage, summarized memory or none (stateless). See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
+
 **Message Batches API**: Claude's API for bulk offline work: submit many requests in one call, get an identifier and poll for completion. Takes up to 24 hours, at a lower per-token cost. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **message_stop**: The streaming event that marks a streamed Claude turn as complete. Until it arrives, the accumulated message is provisional and a partial turn is discarded, not saved. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
+**Messages API**: Claude's core API, where your own code runs the agent loop: send the request, read the tool-use blocks, execute the tools and append the results. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 

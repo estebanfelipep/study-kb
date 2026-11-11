@@ -161,7 +161,7 @@ Modern LLMs can handle long contexts, but limits remain, especially for latency-
 
 ### Compaction strategies
 
-Compaction shrinks a long conversation history to fit the context window, cutting cost and latency. It trims the history while trying to keep the most important context.
+Compaction shrinks a long conversation history to fit the context window, cutting cost and latency. It trims the history while trying to keep the most important context. For how it differs from the summarized-memory scope of an agent, see [summarized memory vs compaction](agent-orchestration.md#summarized-memory-vs-compaction).
 
 | Strategy | How it works | Trade-off |
 |---|---|---|
@@ -238,7 +238,7 @@ Validating an agent with memory measures three things:
 
 ## Related
 
-- [agent-orchestration.md](agent-orchestration.md): orchestrator-workers delegates pieces of a task to workers, the same shape as the subagent handoff above, which keeps the main context small.
+- [agent-orchestration.md](agent-orchestration.md): orchestrator-workers delegates pieces of a task to workers, the same shape as the subagent handoff above, which keeps the main context small. Its agent memory section sets summarized memory (a summary carried into the next session) against compaction (shrinking history within one conversation).
 - [core-concepts.md](../core-concepts.md): prompt engineering is the "prompt / context engineering" customization approach listed there, the one that adapts a foundation model without changing its parameters. RAG is one way context gets filled, by retrieving chunks into the window, and compaction is the way it gets trimmed.
 - [genai-poc.md](genai-poc.md): prompts are tuned while testing candidate models in a PoC, so a model is judged with good prompts rather than naive ones.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): the healthcare PoC there used structured prompts and few-shot examples to extract medical conditions more accurately.

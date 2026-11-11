@@ -1,6 +1,6 @@
 # Agent orchestration
 
-This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents, the agent loop, and the five workflow patterns, with when to use each.
+This file covers how LLM calls and tools are combined into agentic systems: workflows vs agents and how to choose, the agent loop, the five workflow patterns, the three paths for wiring an agent (Messages API, Agent SDK, Managed Agents), human-in-the-loop checkpoints, and agent memory scopes.
 
 ## Sources
 
@@ -28,6 +28,18 @@ An **agentic system** is any system that combines LLMs and tools. There are two 
 | AWS course name     | Model chaining                               | Agentic AI                                       |
 
 The number of LLM calls doesn't tell them apart: both make many. What differs is who decides the next step and when to stop.
+
+### Choosing between them
+
+Make this decision **before you write the first line**. The two columns are rules of thumb, read row by row:
+
+| Choose a workflow when…                                   | Choose an agent when…                                                                                     |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| You can enumerate the exact steps in code.                | You can specify the goal and the tools but not the exact path.                                            |
+| Error cost is real and step-level guardrails matter.      | The path through the work can't be enumerated in advance.                                                 |
+| Observability with standard tooling is required.          | Non-determinism is acceptable and the agent's possible actions are constrained by its registered toolset. |
+| The inputs are well-constrained to a known set.           | User inputs vary unpredictably in content and structure.                                                  |
+| Every execution of the task follows the same sequence.    | The task requires creative sequencing of the available tools.                                             |
 
 ## Agent
 
@@ -119,6 +131,59 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
                 └──── feedback (rejected) ───┘
 ```
 
+## Wiring paths: who runs the loop
+
+Once you've chosen an agent, there are three ways to wire it, on a spectrum of **how much infrastructure you own**:
+
+| Attribute            | 1. Messages API                                       | 2. Agent SDK                                                        | 3. Claude Managed Agents (public beta)                                  |
+| -------------------- | ----------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Who runs the loop    | Your code, every iteration                            | The SDK, inside your own process                                    | Anthropic runs the loop and the sandbox                                 |
+| How it runs          | You send the request, read the tool-use blocks, execute the tools and append the results | The SDK iterates and manages context; your code still executes the tools the agent calls | Your app sends user events and streams results back over server-sent events |
+| What you own         | The full loop, tool execution, context management, retries and exit conditions | Tool execution and the surrounding application; the SDK provides loop structure, context management and tool registration | The application layer and the agent definition (model, system prompt, tools, MCP servers, skills), defined once and referenced by ID across sessions |
+| Choose it when       | You need control over each step, have constraints a library can't accommodate, or are learning how the loop works before adding abstraction | You want the loop, context handling and tool scaffolding that power Claude Code, running in your own environment in Python or TypeScript | You need long-running execution (minutes or hours), a managed sandbox, or no loop, sandbox or tool-execution layer to build |
+| Check before committing | The maintenance cost is yours: everything the SDK gives free (context management, parallel tool handling) becomes code you write and test | `settingSources` controls whether filesystem features such as CLAUDE.md and skills load: always set it explicitly | Sessions are stored server-side, so they aren't currently eligible for Zero Data Retention or a HIPAA BAA |
+
+- **Agent SDK `settingSources`:** don't rely on the default. Set it to the sources you intend: `["user", "project", "local"]` matches the Claude Code CLI, and `[]` runs fully isolated with only what you pass programmatically. Confirm the current default against the Agent SDK reference at build time.
+- **Managed Agents is a beta:** every endpoint needs the `managed-agents-2026-04-01` beta header, and behavior may change between releases, so build with a migration plan. It is also available on Claude Platform on AWS with some feature differences; verify capability parity for your deployment surface first.
+- **A hard stop:** if the workload carries PHI or falls under a ZDR requirement, Managed Agents is ruled out however well it fits operationally, because its sessions are stateful and stored server-side.
+
+## Human-in-the-loop checkpoints
+
+If a tool can take an **irreversible action in production**, it needs a checkpoint before it runs. Register that constraint during design, when you scope the tool surface, not after the first incident.
+
+| Insertion point                  | What triggers the check                                                          | Risk it addresses                                                                      |
+| -------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Before a destructive tool call   | The agent is about to execute a write, delete or send                            | **High:** irreversible actions where a wrong call can't be undone                      |
+| After a planning step            | The agent has generated a plan and is about to start executing it                | **Medium:** a wrong plan that produces the wrong outcome even if every step executes   |
+| On unexpected output             | A tool result has an error flag, is empty, or is outside expected bounds         | **Variable:** failure modes that retry logic alone won't resolve                       |
+
+## Agent memory
+
+**Memory scope** decides what state survives once the loop ends. Choose it in the **design phase**: it's cheap then and expensive in a production refactor.
+
+| Scope                         | What persists                                                         | Cost                                                                                  | Use when                                                                                       | What you lose                                                          |
+| ----------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| In-context memory             | State lives in the active conversation and survives turns in a session | No retrieval overhead; token cost grows with the conversation                         | Short sessions where all the state fits in the context window and nothing carries across restarts | Everything when the session ends: a clear command or new session wipes it |
+| External storage              | State is written to a database and read back at session start or on demand | Retrieval latency on every call, plus the engineering work of read and write logic | State that must survive across sessions, move between users or be shared by several agent instances | Nothing on persistence; the cost is latency and implementation complexity |
+| Summarized memory             | A condensed version of prior conversation is injected at the start of the next session | Lower token cost per session than replaying full history                     | Long-running conversational agents whose full history would outgrow the context budget         | Any detail the summarizer didn't keep: the agent sees only what the summarization prompt preserved |
+| No persistent memory (stateless) | Nothing; each session is independent                               | No overhead, nothing to store or retrieve                                             | Task agents that finish and close out, or pipelines where every session is independent by design | All prior context: a follow-up that depends on an earlier session can't reach it |
+
+- An agent that helps the same user across several days must carry state between sessions.
+- An agent that receives one job, completes it and closes it out has no prior session to recall, so it runs stateless.
+
+### Summarized memory vs compaction
+
+Both use an LLM call to condense history, and both are lossy: the agent sees only what the summary kept. Summarized memory is the same technique as [recursive summarization](prompt-and-context-engineering.md#compaction-strategies), used at a different point:
+
+| | Compaction | Summarized memory |
+| --- | --- | --- |
+| Problem it solves | The window is filling, so the conversation risks the context ceiling, cost and latency | A long-running agent's full history would outgrow the context budget over its life |
+| Where the summary is used | In the same conversation, placed in front of the recent turns | Injected at the start of the next session |
+| What triggers it | Size (count-based), inactivity (time-based) or a concluded task (event-based) | A session ending or restarting |
+| Techniques it covers | Summarizing, but also keeping the last N turns and token-based truncation, which don't summarize | Always a summary |
+
+Time-based compaction (after 15 or 30 minutes of inactivity) comes closest to blurring the line, because the summary is made at a session boundary.
+
 ## Related
 
 - [core-concepts.md](../core-concepts.md): the LLMs these systems orchestrate are foundation models, and RAG's query rewriter is one step such a system can run before retrieval.
@@ -127,6 +192,7 @@ A workflow is a **list of predetermined steps, written in code**. The LLM isn't 
 - [stakeholder-discovery.md](stakeholder-discovery.md): discovery decides which work stays in deterministic code (such as routing by a business rule) and which the model does, the same line this file draws between workflows and agents.
 - [design-document.md](design-document.md): an LLM judge is the evaluator-optimizer's evaluator used to grade output, with advice on calibrating its scores.
 - [tool-use.md](tool-use.md): an agent picks tools from their descriptions, so overlapping descriptions send it down the wrong path. Tool use covers the exclusion-sentence fix and MCP servers, which supply an agent's toolset ready-made.
-- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): a subagent handoff gives a subtask its own context window and returns a short summary, keeping a long agent run within budget.
+- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): a subagent handoff gives a subtask its own context window and returns a short summary, keeping a long agent run within budget. It also covers compaction and how to evaluate a memory-enabled agent; the difference between compaction and summarized memory is in the agent memory section above.
+- [claude-api-foundations.md](claude-api-foundations.md): the Messages API wiring path is the raw call patterns covered there (sync, streaming, batch), with your code running the loop around them.
 - [hill-climb-lifecycle.md](evals/hill-climb-lifecycle.md): its refund chatbot example pivots from one prompt to subagents and then to a human-in-the-loop design, the workflows-versus-agents decision made under measurement.
 - [rubrics-and-llm-judge.md](evals/rubrics-and-llm-judge.md): the evaluator in evaluator-optimizer scores against a rubric, and this file covers how to write one that an autorater applies consistently.
