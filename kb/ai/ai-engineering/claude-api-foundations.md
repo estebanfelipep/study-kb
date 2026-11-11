@@ -1,6 +1,6 @@
 # Claude model family and API foundations
 
-This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, and the four ways to call it: synchronous, streaming, async and batch.
+This file covers the Claude model tiers, how to choose a model and a reasoning mode, how the API meters tokens and the context window, and the four ways to call it: synchronous, streaming (including what to do when a stream stops early), async and batch.
 
 ## Sources
 
@@ -62,6 +62,29 @@ The response is sent in pieces as the model generates it, and your code reassemb
 
 - **Use it when:** the response is long or a user is watching. Output appears immediately instead of after a blank-screen wait.
 
+#### When the stream stops early
+
+Your code holds a half-built message until the last piece arrives, so three rules keep that state from corrupting the conversation.
+
+| Rule | What to do |
+|---|---|
+| Track completion on purpose | A turn is usable only once `message_stop` has arrived. Until then, treat what you've accumulated as provisional |
+| On an interrupted stream, discard the partial turn | Don't save it to history. Retry the request. Committing a half-built turn is exactly what breaks the following request |
+| Check `stop_reason` from `message_delta` before continuing a loop | `tool_use` means your assembled tool calls are ready to run. Any other value means you're on a different path, not the tool path |
+
+```
+  stream arrives
+        |
+        v
+  message_stop received?
+    no  -> interrupted: discard the partial turn, retry the request
+    yes -> read stop_reason (from message_delta)
+             tool_use -> run the assembled tool calls, continue the loop
+             other    -> not the tool path
+```
+
+For short responses, or backend jobs where no one is waiting on the output, a non-streamed call is simpler and removes the partial-state risk entirely.
+
 ### Async
 
 Non-blocking async/await calls that don't tie up the application thread. The request still returns in real time, but the application can handle other work while it waits.
@@ -97,7 +120,7 @@ Worked examples of picking between synchronous and batch:
 
 ## Related
 
-- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window.
+- [prompt-and-context-engineering.md](prompt-and-context-engineering.md): defines zero-, one- and few-shot prompting, the prompting-mode lever here, and covers keeping a conversation within the context window: compaction, the four strategies for staying in budget, prompt caching and token counting.
 - [extended-thinking.md](extended-thinking.md): extended thinking is how the reasoning-mode lever is turned on per request. It adds a thinking block before the answer, billed at output-token rates.
 - [structured-outputs.md](structured-outputs.md): constraining the response to a schema adds input tokens and has its own stop reasons (`refusal`, `max_tokens`) beside the one here.
 - [design-document.md](design-document.md): the eval and cost-and-latency-budget practice that tells you which model and reasoning mode are enough.

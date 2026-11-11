@@ -190,9 +190,13 @@ _Avoid:_ customer 360, single customer view
 **LLM judge**: A second model call that grades an output against a rubric, asked for strengths, weaknesses and reasoning alongside the score so scores don't drift toward a safe middle number. Also called an autorater. See [llm-judge.md](ai/ai-engineering/evals/llm-judge.md).
 _Avoid:_ LLM-as-a-judge
 
+**MCP**: Model Context Protocol. A standard in which a server supplies ready-made tool definitions to an application, so you don't write and maintain each schema and execution function yourself. Runs over stdio (local) or Streamable HTTP (remote). See [tool-use.md](ai/ai-engineering/tool-use.md).
+
 **MDM**: Master data management. The ongoing practice of keeping one trusted version of core entities, such as customers or products, across systems. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
 **Message Batches API**: Claude's API for bulk offline work: submit many requests in one call, get an identifier and poll for completion. Takes up to 24 hours, at a lower per-token cost. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
+**message_stop**: The streaming event that marks a streamed Claude turn as complete. Until it arrives, the accumulated message is provisional and a partial turn is discarded, not saved. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Micro-batch**: Ingesting data in small, frequent batches, between batch and streaming. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
 
@@ -231,8 +235,12 @@ _Avoid:_ parallel processing
 
 **PoC**: Proof of concept. A time-boxed build, typically 2 to 8 weeks, that validates technical feasibility, measures performance and demonstrates business value before full-scale deployment. See [genai-poc.md](ai/ai-engineering/genai-poc.md).
 
+**Prompt caching**: A Claude API feature that stores the processing of a stable request prefix (a long system prompt, a large tool set, a reference document), so later requests with identical content up to that point pay a fraction of the cost. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
+
 **Prompt chaining**: A workflow pattern where each LLM call processes the previous call's output, in a fixed sequence. See [agent-orchestration.md](ai/ai-engineering/agent-orchestration.md).
 _Avoid:_ sequential chaining
+
+**Pruning (context)**: Jumping back to an earlier message and continuing from there, removing the conversation that came after. Used after an unproductive path. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Pub/sub**: Publish/subscribe. Publishers send to a topic, and every subscriber gets a copy. See [orchestration-and-automation.md](data-engineering/orchestration-and-automation.md).
 
@@ -300,15 +308,21 @@ _Avoid:_ SCD type 2
 
 **State machine**: A Step Functions workflow made of states such as task, choice, parallel, wait and map. See [step-functions.md](aws/aws-services/aws-application-coordination/step-functions.md).
 
+**stdio (MCP)**: The MCP transport for local servers: the application spawns the server as a subprocess and talks to it over standard input and output. See [tool-use.md](ai/ai-engineering/tool-use.md).
+
 **Storage descriptor**: The part of a Data Catalog table that defines its physical storage: format, S3 location, SerDe and schema. See [glue.md](aws/aws-services/aws-analytics/glue.md).
 
 **Stream**: A continuous, ordered sequence of small records, appended as events happen and kept for a retention period. See [batch-and-streaming.md](data-engineering/batch-and-streaming.md).
+
+**Streamable HTTP**: The MCP transport for remote servers: POST carries client-to-server messages, and an optional GET-based SSE stream carries server-initiated ones. It replaces the deprecated SSE-only transport. See [tool-use.md](ai/ai-engineering/tool-use.md).
 
 **Streaming (LLM)**: Sending a model's response in pieces as it is generated, over the same HTTP connection using server-sent events, so output appears immediately. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
 
 **Structured / semi-structured / unstructured data**: Data in fixed tables, data with flexible structure (JSON, logs), and data with no data model (documents, images, audio, video). See [data-discovery.md](data-engineering/data-discovery.md).
 
 **Structured outputs**: A Claude API mode that constrains the response to a schema. It adds first-request latency and input tokens, can still return non-matching output on a refusal or truncation, and can't be combined with prefilling. See [structured-outputs.md](ai/ai-engineering/structured-outputs.md).
+
+**Subagent handoff**: Spawning a subagent in its own isolated context window with only the task description it needs, and getting back a summary. Keeps exploration out of the main context. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Survivorship**: The rules that decide which source wins for each field when records are merged into a golden record. See [unified-customer-data.md](data-engineering/unified-customer-data.md).
 
@@ -323,6 +337,8 @@ _Avoid:_ SCD type 2
 **Time-series similarity**: Retrieval that matches sensor readings to past readings with a similar shape, such as vibration patterns that preceded a failure. See [ai-orchestration-on-aws.md](aws/aws-ai-engineering/ai-orchestration-on-aws.md).
 
 **Token**: The unit an LLM reads and writes, and what the API meters for input, output and cost. The context window is measured in tokens. See [claude-api-foundations.md](ai/ai-engineering/claude-api-foundations.md).
+
+**Token counting**: The Claude API's `count_tokens` endpoint, which returns a request's token count without running inference, to check a context budget or gate oversized requests. See [prompt-and-context-engineering.md](ai/ai-engineering/prompt-and-context-engineering.md).
 
 **Tokenization**: Replacing a sensitive value with a random token, with the real value kept in a separate, secured store, so authorized systems can reverse it. Unlike masking, which can't be reversed. See [troubleshooting-data-lakes.md](data-engineering/troubleshooting-data-lakes.md).
 

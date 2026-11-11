@@ -36,6 +36,6 @@ Prefilling starts the response for Claude. A schema constrains the **whole** res
 
 ## Related
 
-- [claude-api-foundations.md](claude-api-foundations.md): the injected format prompt is billed as input tokens, and tokens are what the API meters. It also covers a different stop reason, `model_context_window_exceeded`, for hitting the context ceiling mid-generation.
+- [claude-api-foundations.md](claude-api-foundations.md): the injected format prompt is billed as input tokens, and tokens are what the API meters. It also covers a different stop reason, `model_context_window_exceeded`, for hitting the context ceiling mid-generation, and how a streamed response reads `stop_reason` from `message_delta` to choose a path.
 - [prompt-and-context-engineering.md](prompt-and-context-engineering.md): its "give a hint to complete" tip, starting the answer for the model, is the prefilling pattern that structured outputs can't be combined with. Its readability modeling is the contrast case: it controls how hard the answer is to read, not its format.
 - [extended-thinking.md](extended-thinking.md): the other per-request setting that changes the response. Thinking adds a reasoning block before the answer, while structured outputs constrain the answer itself.

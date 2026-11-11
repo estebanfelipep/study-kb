@@ -1,6 +1,6 @@
 # Prompt and context engineering
 
-This file covers the two ways of shaping what an LLM sees: prompt engineering, which writes the instructions, and context engineering, which assembles everything else the model reads on each turn.
+This file covers the two ways of shaping what an LLM sees: prompt engineering, which writes the instructions, and context engineering, which assembles everything else the model reads on each turn and keeps it within the window and the budget.
 
 ## Sources
 
@@ -186,6 +186,46 @@ Compaction shrinks a long conversation history to fit the context window, cuttin
 | Time-based | The user has been inactive for a set time, such as 15 or 30 minutes | A background job runs, triggered by inactivity rather than size |
 | Event-based | The agent detects that a task, sub-goal or topic has concluded | The agent decides when |
 
+### Four strategies for staying in budget
+
+In development the window rarely fills, because test inputs are small and sessions are short. In production, tool outputs are often three to five times longer than test fixtures and sessions run for more turns, so the window can fill at turn eight rather than turn fifty. The cost of not planning for this is a production outage.
+
+| Strategy | What it does | When to apply | What continuity you lose |
+|---|---|---|---|
+| **Pruning** | Jumps back to an earlier message and continues from there, removing the conversation that came after | After Claude has gone down an unproductive path or accumulated debugging back-and-forth that won't help the next task | The work done after the rewind point is gone. If Claude learned something useful in that stretch, it has to relearn it |
+| **Compaction** (`/compact` in Claude Code; server-side compaction in the API, a beta strategy the platform performs for you, with manual summarization as the client-side alternative) | Summarizes the history into a condensed version that preserves the key information Claude has learned. The summary costs fewer tokens than the original turns. The compaction strategies above are the do-it-yourself forms | When the session is approaching the context ceiling but you want to keep working on the same feature with the knowledge Claude has built up | Details can be lost in the summarization. Anything not captured in the summary isn't available to Claude going forward |
+| **Clearing** (`/clear` in Claude Code; a new session in the API) | Starts a new conversation with empty context. Nothing from the previous session carries forward | When the next task is completely different from the current one, and previous context would only introduce bias or confusion | All session context is gone. Anything Claude needs across sessions has to live somewhere persistent, like a CLAUDE.md file |
+| **Subagent handoff** | Spawns a subagent in its own isolated context window with only the task description and system prompt it needs. The subagent does the work and returns a summary | When a subtask is self-contained enough to delegate, especially exploration work where the journey clutters the main context but the answer is short | Visibility into how the subagent reached its conclusion. The intermediate steps are discarded with the subagent's context |
+
+```
+  What changed since the last useful point?
+    went down a dead end   -> pruning   (rewind, drop what followed)
+    same task, window full -> compaction (summarize, keep working)
+    unrelated next task    -> clearing  (empty context)
+    self-contained subtask -> subagent handoff (isolated window,
+                                                short answer back)
+```
+
+Each strategy trades continuity for room. Pruning drops a stretch of work, compaction drops detail, clearing drops everything, and a subagent handoff drops the path to the answer.
+
+### Prompt caching and token counting
+
+The strategies above manage what enters the context window. Two API features reduce what you pay for what is already there.
+
+| Feature | What it does | Use it for |
+|---|---|---|
+| **Prompt caching** | Stores the processing work done on a stable prefix of the request. The first request writes the prefix to the cache, and later requests that send identical content up to that point pay a fraction of the original cost | Parts of the request that rarely change across turns: a long system prompt, a large tool definition set, a reference document you query repeatedly |
+| **Token counting** | The `count_tokens` endpoint takes the same request body as a messages call and returns the token count **without running inference** | Development: verify your context budget holds against real tool outputs, not just test fixtures. Production: gate requests that would exceed the window before they error |
+
+```
+  request 1:  [ stable prefix ][ new turn ]
+                   |
+                   +--> written to cache (full cost)
+  request 2:  [ stable prefix ][ new turn ]
+                   |
+                   +--> reused from cache (fraction of the cost)
+```
+
 ### Evaluating a memory-enabled agent
 
 Validating an agent with memory measures three things:
@@ -198,10 +238,11 @@ Validating an agent with memory measures three things:
 
 ## Related
 
+- [agent-orchestration.md](agent-orchestration.md): orchestrator-workers delegates pieces of a task to workers, the same shape as the subagent handoff above, which keeps the main context small.
 - [core-concepts.md](../core-concepts.md): prompt engineering is the "prompt / context engineering" customization approach listed there, the one that adapts a foundation model without changing its parameters. RAG is one way context gets filled, by retrieving chunks into the window, and compaction is the way it gets trimmed.
 - [genai-poc.md](genai-poc.md): prompts are tuned while testing candidate models in a PoC, so a model is judged with good prompts rather than naive ones.
 - [bedrock-poc.md](../../aws/aws-ai-engineering/bedrock-poc.md): the healthcare PoC there used structured prompts and few-shot examples to extract medical conditions more accurately.
 - [bedrock.md](../../aws/aws-services/aws-ai/bedrock.md): Bedrock's prompt management saves and versions the prompts written this way.
-- [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples.
+- [claude-api-foundations.md](claude-api-foundations.md): prompting mode is one of three composable levers there; a more capable model can succeed zero-shot where a cheaper one needs few-shot examples. It also says oversized input errors before generation, the failure that token counting gates against.
 - [evaluation-plan.md](evals/evaluation-plan.md): the memory-agent measures above (precision and recall, Recall@K, task success) are capability metrics, which the plan derives from organizational KPIs, alongside rubrics for the subjective parts of a prompt's output.
 - [rubric-design.md](evals/rubric-design.md): how to write the rubric that grades a prompt's open-ended output, since a prompt change can only be judged against a defined good answer.

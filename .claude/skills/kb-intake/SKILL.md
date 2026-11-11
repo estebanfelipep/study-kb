@@ -11,7 +11,11 @@ Paths to KB content in this skill (`index.md`, `context.md`, `links.md`, and sub
 
 Work through intake in order:
 
-1. **Orient.** Read `kb/index.md` to see the subjects, then follow the indexes down to the folder the information most likely belongs to. Don't read the whole KB; the indexes tell you which files exist and what each covers.
+1. **Map the topics to what exists.** This comes first, before deciding where anything goes.
+   - **List the topics.** Read what the user shared and name the distinct topics in it. Judge a topic by what someone would study together, not by the user's headings or bullets: several headings that all serve one subject are one topic.
+   - **Find each topic's home.** Read `kb/index.md` to see the subjects, then follow the indexes down, reading each entry's "Read when". Grep `kb/` for the topic's key terms too, since a file can cover a topic its title doesn't name. Don't read the whole KB.
+   - **Write the mapping before touching a file:** each topic maps to an existing file it extends, or to no home. Show it to the user when it isn't obvious.
+   - **If everything relates to one topic, it lands in one place:** a section of an existing file. It never becomes one file per heading, and a new topic is not a reason for a new file.
 
 2. **Route to a folder.** Split mixed information along these lines rather than filing it all in one place.
    - **A subject:** information goes in its top-level subject folder, as listed in the Subjects section of `kb/index.md`. If the folder doesn't exist, create it with its index (`<subject>/<subject>.md`) and add it to the Subjects section of `kb/index.md`.
@@ -24,7 +28,12 @@ Work through intake in order:
 
    Folder names must be unique across the KB, because each folder's index is named after it. Prefix a subfolder with its parent when the bare name could collide (`aws-data-engineering/`).
 
-3. **Route to a file.** Every topic gets its own file. If an existing file is about exactly this topic, add to it. Otherwise create a new kebab-case file named for the subject (`batch-vs-streaming.md`, `glue.md`, not `notes-oct.md`), even if the topic only came up briefly. Don't fold a distinct topic into a broader file, and never create a file with no content. Keep a topic's subtopics, such as the stages of one process, as sections in that topic's file, so a self-contained topic reads on one page. Only when a file grows too big to read in one sitting, promote it to a folder named after the topic. Split its content into topic files inside that folder, make the folder index (`<topic>/<topic>.md`) the reading guide to them, and update every link to the old file.
+3. **Route to a file: extend first.** Use the mapping from step 1.
+   - **Extend. The goal is as few files as possible.** Add a section to the existing file whose scope covers the topic or a close neighbor of it, even when the fit is loose. Test: would someone studying that file's subject expect to find this there? Stretch a file's scope before adding a file. After extending, refresh the file's one-line statement and its index entry so they still describe the file.
+   - **Never create a file on your own initiative.** A new file needs the user's say-so. When no existing file can reasonably hold the topic, say which file is the closest fit and why it isn't enough, propose the new file's name, and wait for the user's go. One file covers the whole cluster of related topics that share the gap, never one per topic. Name it in kebab-case after the subject (`batch-vs-streaming.md`, not `notes-oct.md`), and never create a file with no content.
+   - **Keep a topic's subtopics, such as the stages of one process, as sections in that topic's file,** so a self-contained topic reads on one page. Related topics share a file the same way.
+   - **Exception: an AWS service.** Each service gets its own file the first time it comes up, even with a line or two, as step 2 says.
+   - **Promote a file to a folder only when it grows too big to read in one sitting.** Split its content into topic files inside the folder, make the folder index (`<topic>/<topic>.md`) the reading guide to them, and update every link to the old file.
 
 4. **Sanity-check what's checkable.** If a claim looks wrong or outdated against what you know of the official documentation (a service limit, a default, a feature that was renamed), say so and ask before saving it. Don't silently correct it. If the user asks you to verify against official docs, cite what you checked.
 
@@ -52,6 +61,7 @@ Work through intake in order:
 Intake is done when all of these are true:
 
 - The information sits in exactly one place, with pointers elsewhere at most.
+- Every topic was mapped against the existing files first. No file was created without the user's go, and related topics share a file.
 - Vendor-neutral concepts and vendor-specific facts are in their own folders, linked.
 - External resources it came with are linked in the file's Sources section and in `links.md`.
 - No conflict is left unresolved.

@@ -4,7 +4,7 @@ Inside `kb/`, knowledge is filed in one folder per subject (`aws/`, `data-engine
 
 Because the KB is also studied by a person, each index is a reading guide too: what to read before the folder, why its files are in the order they're listed, and where to go next. Questions that span folders, such as a concept in `data-engineering/` and its AWS service in `aws/`, are bridged by each file's Related links and by the indexes' Before and After lines, not by the root.
 
-Every topic gets its own file as soon as it comes up, even a small one. Small files keep each topic findable by name and each graph node meaningful. A topic's subtopics stay as sections in its file, so a self-contained topic reads on one page. Only when a file grows too big to read in one sitting does it become a folder named after the topic, and the folder index guides the reader through the split-out files.
+The KB keeps as few files as possible. Topics don't each get a file: new information extends the file whose scope it fits, and a new file is created only when the user says so, one file for a whole cluster of related topics rather than one per heading. A topic's subtopics stay as sections in its file, so a self-contained topic reads on one page. Only when a file grows too big to read in one sitting does it become a folder named after the topic, and the folder index guides the reader through the split-out files.
 
 The cost is one or two extra index reads before reaching a file, and no single entry for a subject that spans folders. In exchange the root stays short and never goes stale when deeper files move.
 
@@ -14,6 +14,6 @@ The cost is one or two extra index reads before reaching a file, and no single e
 - **Folders by certification exam domain.** Rejected: one service (Glue, for example) shows up in several domains, so its facts would scatter. Service files with a domain map in the certification's folder give domain-first study without duplication.
 - **One flat folder, with the README as the index.** Rejected: once the KB spans several subjects, choosing a file from one long list gets slow and error-prone.
 - **An `index.md` in every folder.** Rejected: every index gets the same name. In search results, editor tabs, and Obsidian's graph they can't be told apart without opening them. The top of `kb/` keeps `index.md` because it is the one place navigation starts, so its name stays unique.
-- **Broad files, split only once they're slow to search.** Rejected: a topic mentioned briefly gets buried in a broader file, where its name can't be found and the reader can't see it as its own subject.
+- **One file per topic, however small.** Rejected: related notes scatter across many tiny files, so studying one subject means opening several to read what fits on one page. A topic is easier to navigate as a section of the file it belongs to, and the index's "Read when" line names it there.
 - **Indexes as plain alphabetical lists.** Rejected: they tell a reader what exists but not where to start or how the pieces build on each other.
 - **Folder indexes that list their whole subtree.** Rejected: they duplicate the child indexes and go stale. Each folder index lists only its own folder.
